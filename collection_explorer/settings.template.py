@@ -80,7 +80,14 @@ DATABASES = {"default": {"ENGINE": "django.db.backends.mysql",
               "USER": "USERNAME",
               "PASSWORD": "IMAGE_PASSWORD",
               "HOST": "HOST_NAME",
-              "PORT": "3306"
+              "PORT": "3310"
+             },
+             "Botany": {"ENGINE": "django.db.backends.mysql",
+             "NAME": "casbotany",
+             "USER": "USERNAME",
+             "PASSWORD": "PASSWORD",
+             "HOST": "HOSTNAME",
+             "PORT": "3306",
              }
 }
 # DATABASES = {
