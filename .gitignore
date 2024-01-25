@@ -1,3 +1,5 @@
 **/settings.py
-**/test_api.py
-
+test_api.py
+*.pyc
+*.xml
+*.iml
