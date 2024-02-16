@@ -13,6 +13,8 @@ from django.utils import timezone
 from .middleware import *
 from django.db import connections
 from rest_framework import permissions
+import requests
+
 
 # @api_view(['POST'])
 # def create_user(request):
@@ -130,3 +132,89 @@ def get_collections_data(request):
 
     except ConnectionError as e:
         return Response({'error': f'Database error: {str(e)}'}, status=500)
+
+
+
+@api_view(['GET'])
+def get_datasets(request):
+    gbif_endpoint = f'https://api.gbif.org/v1/dataset/search'
+    params = {'publishing_org': '66522820-055c-11d8-b84e-b8a03c50a862'}
+    response = requests.get(gbif_endpoint, params=params)
+
+    if response.status_code == 200:
+        datasets = response.json().get('results', [])
+        # Extract publications from datasets if available.
+        # This part depends on how GBIF links publications to datasets.
+        # You might need to fetch each dataset's metadata individually to find publication info.
+        publications = extract_publications(datasets)
+
+
+@api_view(['GET'])
+def get_datasets(request, dataset_id):
+    gbif_endpoint = f'https://api.gbif.org/v1/dataset/search'
+    params = {'publishing_org': '66522820-055c-11d8-b84e-b8a03c50a862'}
+    response = requests.get(gbif_endpoint, params=params)
+
+    if response.status_code == 200:
+        datasets = response.json().get('results', [])
+
+        # publications = extract_publications(datasets)
+        return Response({'publications': datasets})
+    else:
+        return Response({'error': 'Failed to fetch data from GBIF'}, status=response.status_code)
+
+
+@api_view(['GET'])
+def get_publications(request, pub_key, dataset_key):
+    search_url = f"https://www.gbif.org/resource/search?contentType=literature&publishingOrganizationKey=66522820-055c-11d8-b84e-b8a03c50a862"
+
+    gbif_api_url = 'https://api.gbif.org/v1/literature/search'
+    params = {'publishingOrganizationKey': pub_key,
+              'gbifDatasetKey' : dataset_key,
+              'limit': 10}  # Adjust limit as needed
+
+    # CALAS Organizational Key: 66522820-055c-11d8-b84e-b8a03c50a862
+    # Botany Dataset Key: f934f8e2-32ca-46a7-b2f8-b032a4740454
+    try:
+        response = requests.get(gbif_api_url, params=params)
+        response.raise_for_status()  # Raises HTTPError for bad responses
+    except requests.exceptions.HTTPError as http_err:
+        # Handle HTTP errors from GBIF
+        return Response({'error': f'HTTP error from GBIF: {http_err}'}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+    except requests.exceptions.RequestException as e:
+        # Handle other request issues, such as network errors
+        return Response({'error': f'Request error: {e}'}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+
+    datasets = response.json().get('results', [])
+    publications = extract_literature(datasets)
+
+    return Response({'publications': publications})
+
+
+def extract_literature(json_response):
+
+    extracted_details = []
+
+    for publication in json_response:
+
+        title = publication.get('title', 'No title available')
+        authors = [f"{author['firstName']} {author['lastName']}" for author in publication.get('authors', [])]
+        discovered = publication.get('discovered', 'No discovery date available')
+        added = publication.get('added', 'No added date available')
+        published = publication.get('published', 'No published date available')
+
+        publication_details = {
+            'title': title,
+            'authors': authors,
+            'discovered': discovered,
+            'added': added,
+            'published': published
+        }
+
+        extracted_details.append(publication_details)
+
+    return extracted_details
+
+
+
+
