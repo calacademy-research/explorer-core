@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f055b98a-fcc9-430d-825a-f46fe8432fab" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/explorer-core-mdel_working/__init__.py" afterDir="false" />
+    <list default="true" id="f055b98a-fcc9-430d-825a-f46fe8432fab" name="Changes" comment="gbif  dataset and publications views">
       <change afterPath="$PROJECT_DIR$/explorer-core-mdel_working/collection_explorer/collections_api/notes" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/collBotany_api.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/collBotany_api.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/explorer-core-mdel_working/collection_explorer/collections_api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/explorer-core-mdel_working/collection_explorer/collections_api/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/explorer-core-mdel_working/collection_explorer/collections_api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/explorer-core-mdel_working/collection_explorer/collections_api/views.py" afterDir="false" />
@@ -42,6 +39,12 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="SYNC" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "chriaa"
+  }
+}]]></component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -103,11 +106,35 @@
       <updated>1706659372994</updated>
       <workItem from="1706659374980" duration="922000" />
       <workItem from="1706660310035" duration="99000" />
-      <workItem from="1706660423045" duration="24792000" />
+      <workItem from="1706660423045" duration="28042000" />
     </task>
+    <task id="LOCAL-00001" summary="gbif  dataset and publications views">
+      <option name="closed" value="true" />
+      <created>1708127137372</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1708127137372</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="gbif  dataset and publications views" />
+    <option name="LAST_COMMIT_MESSAGE" value="gbif  dataset and publications views" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/explorer-core-mdel_working/collection_explorer/collections_api/views.py</url>
+          <line>105</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
