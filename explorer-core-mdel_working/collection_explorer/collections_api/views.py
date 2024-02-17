@@ -137,26 +137,20 @@ def get_collections_data(request):
 
 @api_view(['GET'])
 def get_datasets(request):
+
+    pub_key = request.GET.get("pub_key", None)
+
+    if not pub_key:
+        return Response({'error': 'Parameter "pub_key" is required'}, status=400)
+
     gbif_endpoint = f'https://api.gbif.org/v1/dataset/search'
-    params = {'publishing_org': '66522820-055c-11d8-b84e-b8a03c50a862'}
+
+    params = {'publishing_org': pub_key}
     response = requests.get(gbif_endpoint, params=params)
 
     if response.status_code == 200:
         datasets = response.json().get('results', [])
-        # Extract publications from datasets if available.
-        # This part depends on how GBIF links publications to datasets.
-        # You might need to fetch each dataset's metadata individually to find publication info.
-        publications = extract_publications(datasets)
 
-
-@api_view(['GET'])
-def get_datasets(request, dataset_id):
-    gbif_endpoint = f'https://api.gbif.org/v1/dataset/search'
-    params = {'publishing_org': '66522820-055c-11d8-b84e-b8a03c50a862'}
-    response = requests.get(gbif_endpoint, params=params)
-
-    if response.status_code == 200:
-        datasets = response.json().get('results', [])
 
         # publications = extract_publications(datasets)
         return Response({'publications': datasets})
@@ -165,16 +159,21 @@ def get_datasets(request, dataset_id):
 
 
 @api_view(['GET'])
-def get_publications(request, pub_key, dataset_key):
-    search_url = f"https://www.gbif.org/resource/search?contentType=literature&publishingOrganizationKey=66522820-055c-11d8-b84e-b8a03c50a862"
+def get_publications(request):
+    pub_key = request.GET.get("pub_key", None)
+    dataset_key = request.GET.get("dataset_key", None)
+
+    if not pub_key:
+        return Response({'error': 'Parameter "pub_key" is required'}, status=400)
+    if not dataset_key:
+        return Response({'error': 'Parameter "dataset_key" is required'}, status=400)
+
 
     gbif_api_url = 'https://api.gbif.org/v1/literature/search'
     params = {'publishingOrganizationKey': pub_key,
               'gbifDatasetKey' : dataset_key,
-              'limit': 10}  # Adjust limit as needed
+              'limit': 20}  # Adjust limit as needed
 
-    # CALAS Organizational Key: 66522820-055c-11d8-b84e-b8a03c50a862
-    # Botany Dataset Key: f934f8e2-32ca-46a7-b2f8-b032a4740454
     try:
         response = requests.get(gbif_api_url, params=params)
         response.raise_for_status()  # Raises HTTPError for bad responses
