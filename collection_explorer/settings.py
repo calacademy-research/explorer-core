@@ -25,8 +25,7 @@ SECRET_KEY = "django-insecure-_$glag1v^pd7j45)$49%)48ad*s(lwmr4zi)1ur3okz!%@o&=!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -78,19 +77,27 @@ WSGI_APPLICATION = "collection_explorer.wsgi.application"
 
 DATABASES = {"default": {"ENGINE": "django.db.backends.mysql",
               "NAME": "images",
-              "USER": "christina",
-              "PASSWORD": "clostridium",
+              "USER": "",
+              "PASSWORD": "",
               "HOST": "0.0.0.0",
               "PORT": "3308"
              },
              "Botany": {"ENGINE": "django.db.backends.mysql",
              "NAME": "casbotany",
-             "USER": "christina",
-             "PASSWORD": "clostridium",
+             "USER": "",
+             "PASSWORD": "m",
              "HOST": "0.0.0.0",
              "PORT": "3306",
              }
 }
+
+
+# AUTH_USER_MODEL = 'collections_api.UserProfile'
+#
+# AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',
+#                            ]
+
+
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.sqlite3",

@@ -13,7 +13,9 @@ from django.utils import timezone
 from .middleware import *
 from django.db import connections
 from rest_framework import permissions
+
 import requests
+
 
 
 # @api_view(['POST'])
@@ -134,7 +136,6 @@ def get_collections_data(request):
         return Response({'error': f'Database error: {str(e)}'}, status=500)
 
 
-
 @api_view(['GET'])
 def get_datasets(request):
 
@@ -220,6 +221,5 @@ def extract_literature(json_response):
 
 
 # Add image collections as an endpoint
-
 
 
