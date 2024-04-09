@@ -1,0 +1,7 @@
+collection_explorer/collection_explorer2/settings.py
+test_api.py
+*.pyc
+*.xml
+*.iml
+.idea/
+venv/
