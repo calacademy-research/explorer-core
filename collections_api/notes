@@ -1,0 +1,44 @@
+bed
+array[string]
+(query)
+The full name of the lithostratigraphic bed from which the material entity was collected.
+
+Parameter may be repeated.
+
+Example : Harlem coal
+
+catalogNumber
+array[string]
+(query)
+An identifier of any form assigned by the source within a physical collection or digital dataset for the record which may not be unique, but should be fairly unique in combination with the institution and collection code.
+
+Parameter may be repeated.
+
+Example : K001275042
+
+classKey
+array[integer]
+(query)
+Class classification key.
+
+Parameter may be repeated.
+
+Example : 212
+
+collectionCode
+array[string]
+(query)
+An identifier of any form assigned by the source to identify the physical collection or digital dataset uniquely within the context of an institution.
+
+Parameter may be repeated.
+
+Example : F
+
+collectionKey
+array[string]
+(query)
+A key (UUID) for a collection registered in the Global Registry of Scientific Collections.
+
+Parameter may be repeated.
+
+Example : dceb8d52-094c-4c2c-8960-75e0097c6861
