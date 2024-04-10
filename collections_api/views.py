@@ -8,14 +8,39 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from rest_framework import status
 from .serializers import *
+from .serializers_test import *
 from django.conf import settings
 from django.utils import timezone
 from .middleware import *
 from django.db import connections
 from rest_framework import permissions
 
-import requests
+from django.http import HttpResponse
+from django.http import JsonResponse
 
+import requests
+import json
+
+
+##added by jz
+@api_view(['GET'])
+def hello_CAS(request):
+    return HttpResponse("Hello, CAS!")
+
+@api_view(['GET'])
+def db_coordinates(request):
+    values = Geography.objects.filter(commonname='New Zealand')
+    ##data = Geography.objects.commonname.raw("SELECT FullName FROM botanydb.geography WHERE CommonName = 'New Zealand'")[0]
+    ##cnx = mysql.connector.connect(database='geography')
+    ##cursor_geo = cnx.cursor()
+    #cursor = connection.cursor()
+    ##cursor_geo.execute('SELECT FullName FROM botanydb.geography')
+    ##values = cursor_geo.fetchall()
+    serializer = GeographySerializer(values, many=True)
+    data = serializer.data
+    return JsonResponse(json.dumps(data), safe=False)
+    #return HttpResponse(data)
+##
 
 
 # @api_view(['POST'])
@@ -221,5 +246,4 @@ def extract_literature(json_response):
 
 
 # Add image collections as an endpoint
-
 

@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Permission, Group
 
+
 class Images(models.Model):
     original_filename = models.CharField(max_length=2000, blank=True, null=True)
     url = models.CharField(max_length=500, blank=True, null=True)

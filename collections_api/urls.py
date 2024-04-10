@@ -11,4 +11,8 @@ urlpatterns = [
     # path('register/', views.create_user),
     # path('login/', views.user_authentication)
 
+    ##added by jz
+    path('hello/', views.hello_CAS, name='hello_CAS'),
+    path('coordinates/', views.db_coordinates, name="db_coordinates")
+
 ]
