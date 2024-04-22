@@ -5,10 +5,7 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    ##original line:
-    ##os.environ.setdefault("DJANGO_SETTINGS_MODULE", "explorer-core.settings")
-    #changed to explorer-core.setting_test for botanydb - jz
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "explorer-core.settings_test")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "collection_explorer.settings")
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
