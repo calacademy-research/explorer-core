@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,12 +26,47 @@ SECRET_KEY = "django-insecure-_$glag1v^pd7j45)$49%)48ad*s(lwmr4zi)1ur3okz!%@o&=!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['0.0.0.0']
+
+# API Authentication
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        #'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+# CORS_ORIGIN_WHITELIST = [
+#     'http://your-frontend-domain.com',
+#     'https://your-frontend-domain.com',
+# ]
+
+
+CORS_ALLOW_METHODS = [
+    'GET',
+    'OPTIONS'
+]
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    "django_extensions",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -38,11 +74,15 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "collections_app_api",
+    "corsheaders",
     "rest_framework",
+    "rest_framework.authtoken"
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -56,7 +96,7 @@ ROOT_URLCONF = "explorer-core.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, 'templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -76,20 +116,28 @@ WSGI_APPLICATION = "explorer-core.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {"default": {"ENGINE": "django.db.backends.mysql",
-              "NAME": "images",
-              "USER": "USERNAME",
-              "PASSWORD": "IMAGE_PASSWORD",
-              "HOST": "HOST_NAME",
-              "PORT": "3310"
-             },
-             "Botany": {"ENGINE": "django.db.backends.mysql",
-             "NAME": "casbotany",
-             "USER": "USERNAME",
-             "PASSWORD": "PASSWORD",
-             "HOST": "HOSTNAME",
-             "PORT": "3306",
-             }
+              "NAME": "botanydb",
+              "USER": "django-test",
+              "PASSWORD": "djangobot@CAS",
+              "HOST": "0.0.0.0",
+              "PORT": "3306"
+             }# ,
+             # "Botany": {"ENGINE": "django.db.backends.mysql",
+             # "NAME": "casbotany",
+             # "USER": "",
+             # "PASSWORD": "m",
+             # "HOST": "0.0.0.0",
+             # "PORT": "3306",
+             # }
 }
+
+
+# AUTH_USER_MODEL = 'collections_app_api.UserProfile'
+#
+# AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',
+#                            ]
+
+
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.sqlite3",
@@ -127,6 +175,8 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 
 USE_TZ = True
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 
 # Static files (CSS, JavaScript, Images)

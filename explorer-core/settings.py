@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,12 +26,13 @@ SECRET_KEY = "django-insecure-_$glag1v^pd7j45)$49%)48ad*s(lwmr4zi)1ur3okz!%@o&=!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    "django_extensions",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -76,20 +78,28 @@ WSGI_APPLICATION = "explorer-core.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {"default": {"ENGINE": "django.db.backends.mysql",
-              "NAME": "images",
-              "USER": "USERNAME",
-              "PASSWORD": "IMAGE_PASSWORD",
-              "HOST": "HOST_NAME",
-              "PORT": "3310"
-             },
-             "Botany": {"ENGINE": "django.db.backends.mysql",
-             "NAME": "casbotany",
-             "USER": "USERNAME",
-             "PASSWORD": "PASSWORD",
-             "HOST": "HOSTNAME",
-             "PORT": "3306",
-             }
+              "NAME": "botanydb",
+              "USER": "django-test",
+              "PASSWORD": "djangobot@CAS",
+              "HOST": "0.0.0.0",
+              "PORT": "3306"
+             }#,
+             # "Botany": {"ENGINE": "django.db.backends.mysql",
+             # "NAME": "casbotany",
+             # "USER": "",
+             # "PASSWORD": "m",
+             # "HOST": "0.0.0.0",
+             # "PORT": "3306",
+             # }
 }
+
+
+# AUTH_USER_MODEL = 'collections_app_api.UserProfile'
+#
+# AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',
+#                            ]
+
+
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.sqlite3",
