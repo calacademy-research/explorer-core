@@ -149,6 +149,7 @@ def db_collectiongeo(request):
     eventid = ""
     collectingstart = ""
     collection_list = []
+    collection_dict = {}
     collectingEvent = Collectingevent.objects.all()[:1000]
     for event in collectingEvent:
         #print(event.collectingeventid)
@@ -156,6 +157,7 @@ def db_collectiongeo(request):
         #print(event.startdate)
         collectingstart = event.startdate
         locality_item = event.localityid
+        remarks = event.remarks
         # locality_str = str(localityid)
         # print(locality_str)
         #print(localityid.values('localityid'))
@@ -180,14 +182,55 @@ def db_collectiongeo(request):
                 geoid = geo['geographyid']
                 geoname = geo['fullname']
         #print(collectingstart)
-        if collectingstart!=None:
-            collection_list.append([eventid, collectingstart.strftime('%m/%d/%Y'), localityid, geographyid, lat, long, geoname])
-        else:
-            print(eventid)
-            print(collectingstart)
-            print(localityid)
-            print(geoname)
-            collection_list.append([eventid, 'Unknown', localityid, geographyid, int(0), int(0), geoname])
+            if lat!=None:
+                if collectingstart!=None:
+                    #collection_list.append([eventid, collectingstart.strftime('%m/%d/%Y'), localityid, geographyid, lat, long, geoname])
+                    # collection_dict[eventid]={
+                    #     'LocalityID': localityid,
+                    #     'Start': collectingstart.strftime('%m/%d/%Y'),
+                    #     'Latitude': str(lat),
+                    #     'Longitude': str(long),
+                    #     'Remarks': remarks
+                    # }
+                    dict = {
+                        'LocalityID': localityid,
+                        'Start': collectingstart.strftime('%m/%d/%Y'),
+                        'Latitude': str(lat),
+                        'Longitude': str(long),
+                        'Remarks': remarks,
+                        'Geoname': geoname
+                    }
+                    collection_list.append(dict)
+                else:
+                    # collection_dict[eventid] = {
+                    #     'LocalityID': localityid,
+                    #     'Start': 'Unknown',
+                    #     'Latitude': str(lat),
+                    #     'Longitude': str(long),
+                    #     'Remarks': remarks
+                    # }
+                    dict = {
+                        'LocalityID': localityid,
+                        'Start': 'Unknown',
+                        'Latitude': str(lat),
+                        'Longitude': str(long),
+                        'Remarks': remarks,
+                        'Geoname': geoname
+                    }
+                    collection_list.append(dict)
+            # else:
+            #     print(eventid)
+            #     print(collectingstart)
+            #     print(localityid)
+            #     print(geoname)
+            #     collection_list.append([eventid, 'Unknown', localityid, geographyid, int(0), int(0), geoname])
+            #     collection_dict[eventid] = {
+            #         'LocalityID': locality_item,
+            #         'Start': "Unknown",
+            #         'Latitude': lat,
+            #         'Longitude': long,
+            #         'Remarks': remarks
+            #     }
                 # print(geoid)
                 # print(geoname)
     # geography = Geography.objects.all()
@@ -208,9 +251,10 @@ def db_collectiongeo(request):
     #             print(geoID.geographyid)
     #             print(geoID.fullname)
     end = timeit.timeit()
-    print(collection_list)
+    # print(collection_dict)
+    coordinates_json = json.dumps(collection_list)
     print("Finished in " + str(start-end) + " seconds.")
-    return HttpResponse("yippie!")
+    return JsonResponse(coordinates_json, safe=False)
 
 
 @api_view(['GET'])
