@@ -1,4 +1,6 @@
 collection_explorer/collection_explorer2/settings.py
+collection_explorer/settings.py
+collections_api/notes
 test_api.py
 *.pyc
 *.xml

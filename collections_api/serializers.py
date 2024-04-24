@@ -1,11 +1,17 @@
 from rest_framework import serializers
-from .models import Images
+from .models import Images, Collectingtrip
+
 
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Images
         fields = '__all__'
 
+
+class CollectingTripSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Collectingtrip
+        fields = ['collectingtripid', 'timestampcreated', 'disciplineid']
 # class UserRegistrationSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = UserProfile

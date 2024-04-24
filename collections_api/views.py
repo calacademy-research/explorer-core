@@ -1,5 +1,6 @@
 
-from .models import Images
+from .models import Images, Collectingtrip
+
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
@@ -8,13 +9,13 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from rest_framework import status
 from .serializers import *
-from .serializers_test import *
+# from .serializers_test import *
 from django.conf import settings
 from django.utils import timezone
 from .middleware import *
 from django.db import connections
 from rest_framework import permissions
-
+from django.db.models import Count
 from django.http import HttpResponse
 from django.http import JsonResponse
 
@@ -33,13 +34,13 @@ def db_coordinates(request):
     ##data = Geography.objects.commonname.raw("SELECT FullName FROM botanydb.geography WHERE CommonName = 'New Zealand'")[0]
     ##cnx = mysql.connector.connect(database='geography')
     ##cursor_geo = cnx.cursor()
-    #cursor = connection.cursor()
+    # cursor = connection.cursor()
     ##cursor_geo.execute('SELECT FullName FROM botanydb.geography')
     ##values = cursor_geo.fetchall()
     serializer = GeographySerializer(values, many=True)
     data = serializer.data
     return JsonResponse(json.dumps(data), safe=False)
-    #return HttpResponse(data)
+    # return HttpResponse(data)
 ##
 
 
@@ -183,7 +184,8 @@ def get_datasets(request):
     else:
         return Response({'error': 'Failed to fetch data from GBIF'}, status=response.status_code)
 
-#Grab all publications for a given
+
+# Grab all publications for a given
 @api_view(['GET'])
 def get_publications(request):
     pub_key = request.GET.get("pub_key", None)
@@ -245,5 +247,18 @@ def extract_literature(json_response):
 
 
 
-# Add image collections as an endpoint
+@api_view(['GET'])
+def get_expeditions(request):
 
+    if request.method == 'GET':
+        trips = Collectingtrip.objects.using('Botany').all()[:10]
+        serializer = CollectingTripSerializer(trips, many=True)
+        return Response(serializer.data
+)
+
+@api_view(['GET'])
+def expeditions_per_discipline(request):
+    if request.method == 'GET':
+        # Group and count expeditions by 'disciplineid'
+        data = Collectingtrip.objects.using('Botany').values('disciplineid').annotate(total=Count('disciplineid')).order_by('disciplineid')
+        return Response(data)

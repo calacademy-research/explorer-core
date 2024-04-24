@@ -37,3 +37,13 @@ class Images(models.Model):
 #         using = 'default'
 
 
+class Collectingtrip(models.Model):
+    collectingtripid = models.AutoField(db_column='CollectingTripID', primary_key=True)  # Field name made lowercase.
+    timestampcreated = models.DateTimeField(db_column='TimestampCreated')  # Field name made lowercase.
+    enddate = models.DateField(db_column='EndDate', blank=True, null=True)  # Field name made lowercase.
+    #disciplineid = models.ForeignKey('Discipline', models.DO_NOTHING, db_column='DisciplineID')  # Field name made lowercase.
+    disciplineid = models.IntegerField(db_column='DisciplineID')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'collectingtrip'

@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-_$glag1v^pd7j45)$49%)48ad*s(lwmr4zi)1ur3okz!%@o&=!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0']
+ALLOWED_HOSTS = ['0.0.0.0','127.0.0.1']
 
 
 # Application definition
@@ -76,21 +76,26 @@ WSGI_APPLICATION = "collection_explorer.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {"default": {"ENGINE": "django.db.backends.mysql",
-              "NAME": "botanydb",
-              "USER": "django-test",
-              "PASSWORD": "djangobot@CAS",
-              "HOST": "0.0.0.0",
-              "PORT": "3306"
-             }#,
-             # "Botany": {"ENGINE": "django.db.backends.mysql",
-             # "NAME": "casbotany",
-             # "USER": "",
-             # "PASSWORD": "m",
-             # "HOST": "0.0.0.0",
-             # "PORT": "3306",
-             # }
+DATABASES = {
+            "default":
+             {"ENGINE": "django.db.backends.mysql",
+                  "NAME": "images",
+                  "USER": "christina",
+                  "PASSWORD": "clostridium",
+                  "HOST": "0.0.0.0",
+                  "PORT": "3308"
+         },
+         "Botany":
+                 {"ENGINE": "django.db.backends.mysql",
+                     "NAME": "casbotany",
+                     "USER": "christina",
+                     "PASSWORD": "clostridium",
+                     "HOST": "192.168.97.65",
+                     "PORT": "3306",
+             }
 }
+
+
 
 
 # AUTH_USER_MODEL = 'collections_api.UserProfile'
@@ -146,4 +151,4 @@ STATIC_URL = "static/"
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+#DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

@@ -8,7 +8,7 @@ def main():
     ##original line:
     ##os.environ.setdefault("DJANGO_SETTINGS_MODULE", "collection_explorer.settings")
     #changed to collection_explorer.setting_test for botanydb - jz
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "collection_explorer.settings_test")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "collection_explorer.settings")
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
