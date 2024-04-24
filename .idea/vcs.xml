@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/explorer-core-mdel_working" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/explorer-core-mdel_working/collection_explorer" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/explorer-core-mdel_working/collection_explorer/explorer-core" vcs="Git" />
+  </component>
+</project>
