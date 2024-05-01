@@ -38,6 +38,11 @@ class CollectionObjsViewSet(viewsets.ModelViewSet):
     serializer_class = CollectionObjectSerializer
     queryset = Collectionobject.objects.all()
 
+def db_check(request):
+    custom_info = request.cluster_info
+    return HttpResponse(custom_info)
+
+
 ##added by jz
 @api_view(['GET'])
 def hello_CAS(request):
@@ -85,7 +90,7 @@ def db_collectionimages(request):
         agent_by_collection = Agent.objects.filter(agentid=createdagentid).values('agentid', 'firstname', 'lastname', 'initials')
         for agent_info in agent_by_collection:
             #agentname_created = agent_info['initials']
-            agentname_created = agent_info['firstname'][0] + ". "  + agent_info['lastname']
+            agentname_created = agent_info['firstname'][0] + ". " + agent_info['lastname']
 
         object_by_collection_att = Collectionobject.objects.filter(collectionobjectid=collectionobjectid).values('collectionobjectid', 'catalogeddate', 'text1', 'collectingeventid')
 

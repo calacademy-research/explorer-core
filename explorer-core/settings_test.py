@@ -62,6 +62,7 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
 ]
 
+#WSGI_APPLICATION = "explorer-core.wsgi.application"
 
 # Application definition
 
@@ -89,6 +90,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "collections_app_api.middleware_test.CheckDBMiddleware",
+    #"explorer-core.middleware.CheckDBMiddleware"
 ]
 
 ROOT_URLCONF = "explorer-core.urls"
@@ -109,26 +112,41 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "explorer-core.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {"default": {"ENGINE": "django.db.backends.mysql",
-              "NAME": "botanydb",
-              "USER": "django-test",
-              "PASSWORD": "djangobot@CAS",
-              "HOST": "0.0.0.0",
-              "PORT": "3306"
-             }# ,
-             # "Botany": {"ENGINE": "django.db.backends.mysql",
-             # "NAME": "casbotany",
-             # "USER": "",
-             # "PASSWORD": "m",
-             # "HOST": "0.0.0.0",
-             # "PORT": "3306",
-             # }
+DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.mysql",
+                "NAME": "botanydb",
+                "USER": "django-test",
+                "PASSWORD": "djangobot@CAS",
+                "HOST": "0.0.0.0",
+                "PORT": "3306"
+             },
+             'clusterdb': {
+                 'ENGINE': 'django.db.backends.mysql',
+                 'NAME': 'clusterdb',
+                 'USER': 'zhu',
+                 'PASSWORD': 'clustertester9000',
+                 'HOST': '0.0.0.0',
+                 'PORT': '3307',
+             },
+             "casbotany": {
+                 "ENGINE": "django.db.backends.mysql",
+                 "NAME": "casbotany",
+                 "USER": "root",
+                 "PASSWORD": "clostridium",
+                 "HOST": "192.168.97.35",
+                 "PORT": "3306",
+                 'OPTIONS': {
+                    'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                    'charset': 'utf8mb4',
+                    'collation': 'utf8mb4_unicode_ci',
+                    },
+             }
 }
 
 

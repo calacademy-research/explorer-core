@@ -24,6 +24,7 @@ urlpatterns = [
 
     ##added by jz
     path('hello/', views.hello_CAS, name='hello_CAS'),
+    path('cluster/', views.db_check, name='cluster_test'),
     path('coordinates/', views.db_coordinates, name="db_coordinates"),
     path('collection_objects/', views.db_collectionobjects, name="collections_graph_year"),
     path('collection/', views.db_collection, name="collection_time"),
