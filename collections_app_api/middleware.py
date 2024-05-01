@@ -5,6 +5,30 @@ from django.conf import settings
 from rest_framework.response import Response
 from django.utils.decorators import wraps
 
+class CheckDBMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        # Check if info exists in the first database
+        with connections['default'].cursor() as cursor:
+            cursor.execute("SELECT * FROM botanydb.collectingtrip;")
+            result = cursor.fetchone()
+
+        if result is None:
+            # Fetch info from the second database
+            with connections['clusterdb'].cursor() as cursor:
+                cursor.execute("SHOW TABLES;")
+
+                #cursor.execute("SELECT * FROM clusterdb WHERE condition;")
+                result = cursor.fetchone()
+                print(type(result))
+
+        # Store the result in request for use in views
+        request.clutser_info = result
+
+        response = self.get_response(request)
+        return response
 
 
 
