@@ -1,8 +1,0 @@
-nodejs
-vue
-npm
-@vue/cli
-axios
-vue-router
-plotly.js
-leaflet.js
