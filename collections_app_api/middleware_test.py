@@ -8,18 +8,16 @@ class CheckDBMiddleware:
     def __call__(self, request):
         # Check if info exists in the first database
         with connections['default'].cursor() as cursor:
-<<<<<<< HEAD
             cursor.execute("SELECT * FROM botanydb.collectingtrip;")
             result = cursor.fetchone()
             print("botanydb.collectingtrip results: ", result)
-=======
+
             # cursor.execute("SELECT * FROM botanydb.collectingtrip;")
             # result = cursor.fetchone()
             # print("botanydb.collectingtrip results: ", result)
             cursor.execute("SELECT * FROM botanydb.collectionobject;")
             result = cursor.fetchone()
             print("botanydb.collectionobject results: ", result)
->>>>>>> 6c477b8c (added explorer_front and ThreeJS rendering code)
 
         if result is None:
             # Fetch info from the second database
