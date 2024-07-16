@@ -29,6 +29,9 @@ urlpatterns = [
     path('collection_objects/', views.db_collectionobjects, name="collections_graph_year"),
     path('collection/', views.db_collection, name="collection_time"),
     path('collection_map/', views.db_collectiongeo, name='collections_map'),
-    path('collection_images/', views.db_collectionimages, name='collection_images')
+    path('collection_images/', views.db_collectionimages, name='collection_images'),
+
+    path('idig/', views.iDigBioFetch, name='iDigBioFetch'),
+    path('raw/', views.view_rawData, name='view_rawData'),
     #path('api/', include(collectionobj_router.urls))
 ]
