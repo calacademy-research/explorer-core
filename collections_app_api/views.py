@@ -46,6 +46,121 @@ def db_check(request):
 
 
 ##added by jz
+
+def rawData():
+    # headers = ['id', 'modified', 'license', 'institutionID', 'collectionID', 'institutionCode', 'collectionCode',
+    # 'basisOfRecord', 'occurrenceID', 'catalogNumber', 'recordNumber', 'recordedBy', 'sex', 'lifeStage',
+    # 'preparations', 'associatedSequences', 'occurrenceRemarks', 'year	month', 'day', 'verbatimEventDate', 'habitat',
+    # 'higherGeography', 'continent', 'waterBody', 'islandGroup', 'island', 'country', 'stateProvince', 'county',
+    # 'locality', 'verbatimLocality', 'minimumElevationInMeters', 'maximumElevationInMeters', 'verbatimElevation',
+    # 'decimalLatitude', 'decimalLongitude', 'geodeticDatum', 'coordinateUncertaintyInMeters', 'verbatimCoordinateSystem',
+    # 'georeferenceSources', 'georeferenceRemarks', 'typeStatus', 'identifiedBy', 'dateIdentified', 'scientificName',
+    # 'higherClassification', 'kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'specificEpithet', 'infraspecificEpithet']
+    headers = ['id', 'modified', 'license', 'institutionID', 'collectionID', 'institutionCode', 'collectionCode', 'basisOfRecord', 'occurrenceID', 'catalogNumber', 'recordNumber', 'recordedBy', 'sex', 'lifeStage', 'preparations', 'associatedSequences', 'occurrenceRemarks', 'year	month', 'day', 'verbatimEventDate', 'habitat', 'higherGeography', 'continent', 'waterBody', 'islandGroup', 'island', 'country', 'stateProvince', 'county', 'locality', 'verbatimLocality', 'minimumElevationInMeters', 'maximumElevationInMeters', 'verbatimElevation', 'decimalLatitude', 'decimalLongitude', 'geodeticDatum', 'coordinateUncertaintyInMeters', 'verbatimCoordinateSystem','georeferenceSources', 'georeferenceRemarks', 'typeStatus', 'identifiedBy', 'dateIdentified', 'scientificName', 'higherClassification', 'kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'specificEpithet', 'infraspecificEpithet']
+    # 54 columns
+    #print(len(headers))
+
+    # Construct the file path
+    txt_path = os.path.join(settings.BASE_DIR, 'collections_app_api', 'data', 'herp_occurrence.txt')
+
+    # Read the TXT file into a DataFrame with tabs as the separator
+    df = pd.read_csv(txt_path, delimiter='\t', low_memory=False)
+
+    # Convert the DataFrame to a dictionary
+    data_dict = df.to_dict(orient='list')
+
+    return data_dict
+
+def view_rawData(request):
+    data_dict = rawData()
+    #print(data_dict.keys())
+
+    # dict_keys(['id', 'modified', 'license', 'institutionID', 'collectionID', 'institutionCode', 'collectionCode',
+    #            'basisOfRecord', 'occurrenceID', 'catalogNumber', 'recordNumber', 'recordedBy', 'sex', 'lifeStage',
+    #            'preparations', 'associatedSequences', 'occurrenceRemarks', 'year', 'month', 'day', 'verbatimEventDate',
+    #            'habitat', 'higherGeography', 'continent', 'waterBody', 'islandGroup', 'island', 'country',
+    #            'stateProvince', 'county', 'locality', 'verbatimLocality', 'minimumElevationInMeters',
+    #            'maximumElevationInMeters', 'verbatimElevation', 'decimalLatitude', 'decimalLongitude', 'geodeticDatum',
+    #            'coordinateUncertaintyInMeters', 'verbatimCoordinateSystem', 'georeferenceSources',
+    #            'georeferenceRemarks', 'typeStatus', 'identifiedBy', 'dateIdentified', 'scientificName',
+    #            'higherClassification', 'kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'specificEpithet',
+    #            'infraspecificEpithet'])
+
+    # print(len(data_dict)) = 55
+
+    #print(len(data_dict['id'])) = 320148
+
+    return JsonResponse(data_dict)
+
+
+def iDigBioFetch(request):
+    idigURL = "https://search.idigbio.org/v2/search/records/"
+
+    rq = {'institutioncode': 'Cas',
+          'collectionCode': 'Herp'
+          }
+    #rq_encoded = urllib.parse.urlencode(rq)
+    #print(rq_encoded)
+    #rq_encoded = "?rq=%7B%22institutioncode%22%3A+%22Cas%22%7D"
+    rq_encoded = "?rq=%7B%22institutioncode%22%3A+%22Cas%22,%22collectioncode%22%3A+%22Herp%22,%22stateprovince%22%3A+%22Galapagos+Prov.%22%7D"
+    #print(idigURL+rq_encoded)
+    reqresponse = requests.get(idigURL + rq_encoded + "&limit=5000")
+    response = reqresponse.json().get('items', [])
+    #print(type(response))
+    #print(len(response))
+    # print(response[0].keys())
+    # print(response[0]["data"]["dwc:stateProvince"])
+    galapa_list = []
+    for every_item in response:
+        #print(every_item["data"]["dwc:stateProvince"])
+        if "dwc:stateProvince" in every_item["data"].keys():
+            if "Galapagos" in every_item["data"]["dwc:stateProvince"]:
+                galapa_list.append(every_item)
+            if 'urn:catalog:CAS:HERP:8120' in every_item['data']['dwc:occurrenceID']:
+                # print(every_item)
+                # print('====================================')
+                # print('\n')
+
+                # print(every_item.keys()) =
+                ## dict_keys(['uuid', 'type', 'etag', 'data', 'indexTerms'])
+
+                # print(every_item['data'].keys()) =
+                ## dict_keys(['dwc:specificEpithet', 'dwc:kingdom', 'dwc:recordedBy',
+                ### 'dwc:georeferenceSources', 'dwc:order', 'dwc:islandGroup',
+                ### 'dwc:occurrenceID', 'id', 'dwc:stateProvince', 'dwc:collectionID',
+                ### 'dwc:institutionCode', 'dwc:country', 'dwc:collectionCode',
+                ### 'dwc:higherClassification', 'dwc:decimalLatitude', 'dwc:occurrenceRemarks',
+                ### 'dwc:waterBody', 'dwc:basisOfRecord', 'dwc:genus', 'dwc:preparations',
+                ### 'dwc:sex', 'dcterms:license', 'dwc:phylum', 'dwc:locality', 'dwc:institutionID',
+                ### 'dwc:island', 'dwc:geodeticDatum', 'dwc:class', 'dwc:catalogNumber', 'dwc:higherGeography',
+                ### 'dwc:month', 'dwc:decimalLongitude', 'dwc:verbatimLocality', 'dwc:verbatimEventDate',
+                ### 'dwc:family', 'dcterms:modified', 'dwc:scientificName', 'dwc:day', 'dwc:year'])
+
+                #print(every_item['indexTerms'].keys()) =
+                # dict_keys(['geopoint', 'family', 'recordset', 'dqs', 'stateprovince', 'phylum', 'waterbody', 'catalognumber',
+                #      'startdayofyear', 'specificepithet', 'continent', 'datemodified', 'uuid', 'countrycode',
+                #      'basisofrecord', 'collector', 'institutioncode', 'verbatimlocality', 'datecollected', 'etag',
+                #      'hasMedia', 'hasImage', 'kingdom', 'highertaxon', 'collectionid', 'scientificname', 'indexData',
+                #      'class', 'occurrenceid', 'institutionid', 'country', 'locality', 'collectioncode', 'flags',
+                #      'verbatimeventdate', 'recordids', 'genus', 'order'])
+
+                print(every_item['data'])
+                print('------------------------------------')
+                print(every_item['indexTerms'])
+
+    # print(len(galapa_list))
+    # print(galapa_list[0])
+    # print(galapa_list[0].keys())
+    #
+    # print('\n')
+    # print(galapa_list[0]['data'])
+    # print(galapa_list[0]['data'].keys())
+    # print('\n')
+
+    return JsonResponse(json.dumps(galapa_list), safe=False)
+
+
+
 @api_view(['GET'])
 def hello_CAS(request):
     return HttpResponse("Hello, CAS!")
