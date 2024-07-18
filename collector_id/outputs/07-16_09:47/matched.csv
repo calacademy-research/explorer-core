@@ -1,0 +1,215 @@
+agent_id,full_name,target_name,best_match_source_field,orcid_id,match_confidence
+79100,Gustafson,Sage Gustafson,full_name,0000-0003-4757-1145,78
+79100,Gustafson,K. Ben Gustafson,other_names_0,0000-0003-3530-0372,72
+79100,Gustafson,L. Gustafson,other_names_0,0000-0003-2760-1044,86
+79100,Gustafson,Gary Gustafson,full_name,0000-0001-9442-7758,78
+79100,Gustafson,Hilary Gustafson,other_names_1,0000-0003-3978-8088,72
+79100,Gustafson,Julia Gustafson,full_name,0000-0002-2603-081X,75
+15449,Persson,Persson M,other_names_1,0000-0001-6506-0256,88
+15449,Persson,Sybil Persson,other_names_0,0000-0002-4143-7925,70
+15449,Persson,Jonas Persson,full_name,0000-0001-9143-3730,70
+49412,Ahmad Damanhuri,Damanhuri Damanhuri,full_name,0009-0007-1365-9890,71
+49412,Ahmad Damanhuri,Adam Damanhuri,full_name,0000-0001-8494-7987,83
+49412,Ahmad Damanhuri,Damanhuri Damanhuri,full_name,0000-0003-0971-3157,71
+18741,Adriaan van Royen,Adriaan van der Weel,full_name,0000-0002-8170-1903,70
+18741,Adriaan van Royen,Florien van Royen,full_name,0000-0002-6785-214X,76
+18741,Adriaan van Royen,Adriaan van Veldhuizen,full_name,0000-0001-9363-7227,72
+9398,Abb Jean Pierre Armand David,Jean-Pierre David,full_name,0000-0001-8979-0229,71
+49103,Alan Craig Beverly,Alan Craig,full_name,0000-0001-5860-9124,71
+49103,Alan Craig Beverly,Alan Craig,full_name,0000-0001-5962-3884,71
+29107,Alexander Zippelius,Bernd Zippelius,full_name,0009-0002-3551-7061,76
+29107,Alexander Zippelius,Annette Zippelius,full_name,0009-0009-7709-6868,72
+29107,Alexander Zippelius,Alexander López,other_names_0,0000-0002-1517-6987,71
+45167,Alexis Jordan,Alexis Arcaya Jordan,full_name,0000-0003-3619-0785,79
+45167,Alexis Jordan,Alexis Jordan,full_name,0000-0002-0404-2131,100
+68082,Alena Vinnikova,Tatiana Vinnikova,full_name,0000-0001-5865-1023,75
+68082,Alena Vinnikova,Irina Vinnikova,full_name,0000-0003-1445-3484,80
+68082,Alena Vinnikova,Valentyna Vinnikova,full_name,0000-0001-9085-3100,82
+87625,Alberto Salas,Alberto Redondo-Salas,full_name,0000-0002-0150-7060,76
+87625,Alberto Salas,Alberto Salas Vázquez,full_name,0000-0002-7830-6451,76
+50737,Alvin H Trundy,Alvin Tran,full_name,0000-0003-4882-7106,75
+84277,Alonso Ortiz,Eva Alonso Ortiz,full_name,0000-0001-6590-7234,86
+55097,Amy Elizabeth Spencer,Elizabeth Spencer,other_names_1,0000-0003-1463-1826,89
+55097,Amy Elizabeth Spencer,Elizabeth Brooke Spencer,full_name,0000-0003-4447-3427,76
+9063,Anezka Uhrova,Anezka Kazikova,full_name,0000-0001-5053-843X,71
+9063,Anezka Uhrova,Anezka Semradova,full_name,0009-0005-6248-8990,76
+9063,Anezka Uhrova,Anezka Klustova,credit_names,0000-0003-0317-0753,71
+9063,Anezka Uhrova,Anezka Michalkova,full_name,0009-0004-3951-6781,73
+55254,Ann Robinson,Ann Robinson,full_name,0000-0002-8555-7515,100
+55254,Ann Robinson,Betty Ann Robinson,full_name,0000-0002-3339-9113,80
+55254,Ann Robinson,Stacy-ann Robinson,full_name,0000-0003-3163-8771,73
+55254,Ann Robinson,Jody-Ann Robinson,full_name,0009-0001-3124-0934,83
+55254,Ann Robinson,Ann Robinson,full_name,0000-0001-9323-6108,100
+21480,Andr Siregar,Dodi Siregar,full_name,0009-0002-0667-1465,75
+21480,Andr Siregar,Jhon Siregar,other_names_0,0000-0002-8100-1237,75
+17122,Anton Rant,Jenni Rant,full_name,0009-0006-5880-3406,70
+17846,Anselme Riedl,Anselme Perrier,full_name,0000-0001-7915-1968,71
+17846,Anselme Riedl,Anselme Cormier,full_name,0000-0001-8420-6492,71
+52738,Antonio Gennari,Arianna Gennari,full_name,0000-0003-0009-744X,73
+88099,Armando Soto,Ismael Armando Soto,full_name,0009-0000-4173-8333,77
+82871,B  Johnson,AB Johnson,other_names_0,0000-0001-6272-1506,90
+82871,B  Johnson,Tyler Johnson,full_name,0000-0002-6431-942X,70
+82871,B  Johnson,S. D. Johnson,other_names_2,0000-0001-9472-842X,78
+82871,B  Johnson,Kevin Johnson,full_name,0000-0001-7990-3250,70
+85526,B  Crozier,Carl Crozier,full_name,0009-0007-0561-0368,73
+85526,B  Crozier,Aina Crozier,full_name,0000-0001-8559-4714,73
+85526,B  Crozier,ML Crozier,credit_names,0009-0005-7322-8078,80
+85526,B  Crozier,Molly Crozier,full_name,0000-0001-8405-6623,70
+52228,Azzedine Kahouaji,azzedine touazi,full_name,0000-0003-0786-0014,75
+35119,Aurelia Crisan,Ofelia Crisan,full_name,0000-0003-0936-6175,81
+35119,Aurelia Crisan,Andreea Crisan,full_name,0000-0003-1346-7171,79
+88126,B  L  Phillips,L Taylor Phillips,full_name,0000-0003-4655-6904,71
+99542,Barbara Bitney,Barbara Baert,full_name,0000-0002-8694-2335,74
+8784,Benjamin Hayes Smith,Benjamin Hayes,full_name,0009-0003-3954-9703,82
+8784,Benjamin Hayes Smith,Benjamin Hayes,full_name,0000-0002-1444-2059,82
+8784,Benjamin Hayes Smith,Benjamin Hayes Cook,full_name,0009-0007-8400-3258,77
+38206,Bernardo Navarro,Emerson Navarro,full_name,0000-0003-4518-423X,71
+99113,Billy Snow,Billy Sichone,other_names_0,0000-0002-1534-5103,70
+99113,Billy Snow,Billy Kwok,credit_names,0000-0003-0374-1413,70
+67731,Bronislaw Honigberg,Bronislaw Gepner,full_name,0000-0001-9030-8962,74
+81564,Bethany Porter,Bethany Patterson,full_name,0000-0003-1945-5286,77
+82377,C  C Perry,K Perry,other_names_0,0000-0001-6238-8221,71
+82647,C  Schilling,Jan Schilling,full_name,0000-0002-8038-7473,80
+82647,C  Schilling,Christian Schilling,full_name,0000-0002-2824-8548,71
+82647,C  Schilling,Marcel Schilling,full_name,0000-0002-3453-7792,71
+82647,C  Schilling,Luc R. C. Schilling,full_name,0000-0003-3834-4434,71
+82647,C  Schilling,Jakob Schilling,full_name,0000-0003-1611-4048,74
+88191,C  Matt Guilliams,Mark Guilliams,full_name,0009-0007-0233-2622,77
+56913,Carl Mahurin,Janele Mahurin,full_name,0000-0002-0854-9992,77
+56913,Carl Mahurin,Heather Mahurin,full_name,0000-0001-8772-5562,74
+20064,Carl W Schmidt,Carl Schmidt,full_name,0000-0003-1264-8659,92
+20064,Carl W Schmidt,Carl Schmidt,full_name,0000-0001-6126-8789,92
+39276,Catherine Seibert,Katharina Seibert,full_name,0000-0002-3944-8932,82
+39276,Catherine Seibert,Mathias Seibert,full_name,0000-0003-1795-5279,75
+92729,Charles H Uhl,Johannes H. Uhl,credit_names,0000-0002-4861-5915,71
+67278,Charlotte Breitfeld,Elise Breitfeld,full_name,0000-0001-9941-5748,71
+94066,Chenyang Liao,Chenyang Zhang,full_name,0009-0001-7909-0875,74
+94066,Chenyang Liao,Chenyang Zhang,full_name,0009-0009-6851-7181,74
+94066,Chenyang Liao,Chenyang Zhang,full_name,0009-0003-1116-4895,74
+94066,Chenyang Liao,Chenyang Jiao,full_name,0009-0000-2622-0771,92
+94066,Chenyang Liao,Chenyang Huang,full_name,0000-0003-2811-6008,74
+23083,Charles B Storey,James Storey,full_name,0000-0001-9995-7109,71
+33759,Const Burduja,Nina Burduja,full_name,0009-0000-3084-2821,72
+37943,Czeslaw Mielcarski,Czeslaw Skierbiszewski,full_name,0000-0002-4718-4607,70
+11216,Cotton Mather,John Mather,full_name,0000-0002-6460-0078,75
+81242,D  Cleaveland,Desmond Cleaveland,full_name,0009-0000-2606-4393,77
+81242,D  Cleaveland,Malcolm Cleaveland,full_name,0000-0002-3500-4349,71
+81242,D  Cleaveland,John Cleaveland,full_name,0009-0002-0409-5572,79
+81242,D  Cleaveland,Rachel Cleaveland,full_name,0000-0002-6306-9502,73
+81242,D  Cleaveland,Casey Cleaveland,full_name,0000-0003-0495-455X,76
+81242,D  Cleaveland,Matthew Cleaveland,full_name,0000-0003-3671-5297,71
+88629,D  Paterson,Paterson R R,other_names_0,0000-0001-5749-6586,70
+88629,D  Paterson,Laura Paterson,full_name,0009-0006-5976-7099,72
+91309,David Jamieson,David Jamieson,full_name,0000-0003-1584-4129,100
+91309,David Jamieson,David Jamieson,full_name,0000-0001-8022-0107,100
+91309,David Jamieson,David Jamieson,other_names_1,0000-0001-8260-5211,100
+91309,David Jamieson,David Jamieson,full_name,0000-0002-1823-8792,100
+39695,Dariusz L Szlachetko,Kamil Szlachetko,full_name,0000-0003-1906-2677,72
+39695,Dariusz L Szlachetko,Katarzyna Szlachetko,full_name,0000-0003-4667-3756,70
+18381,Daniel Rolander,Daniel Barnes,full_name,0000-0003-3576-4687,71
+99822,Dale Cotter,Paul Cotter,full_name,0000-0002-5465-9068,82
+99822,Dale Cotter,Aoife Cotter,full_name,0000-0001-5415-3801,70
+99822,Dale Cotter,Mary Cotter,full_name,0000-0003-4930-4390,73
+99822,Dale Cotter,Matthew Cotter,full_name,0000-0003-0906-1400,72
+99822,Dale Cotter,Jane Cotter,full_name,0000-0002-1372-8282,82
+96360,David M Wood,David M. Wood,other_names_0,0000-0003-1851-5400,96
+53185,David Andrew Norton,Andrew Norton,full_name,0000-0001-7619-8269,81
+53185,David Andrew Norton,Andrew Norton,full_name,0000-0001-8297-6100,81
+53185,David Andrew Norton,Andrew Norton,full_name,0000-0002-8181-6583,81
+53185,David Andrew Norton,Andrew Norton,full_name,0000-0001-9532-4611,81
+53185,David Andrew Norton,Andrew Norton,full_name,0000-0002-2330-9735,81
+53185,David Andrew Norton,Andrew Norton,full_name,0000-0002-6472-7730,81
+48396,de Loose,Kim Loose,full_name,0000-0001-6899-7757,71
+37078,Dezso Kovats,Dezso Horvath,full_name,0000-0003-3852-6879,80
+37078,Dezso Kovats,Dezso Horvath,full_name,0000-0003-0091-477X,80
+94226,Donald J Pinkava,Donald J Ramsay,credit_names,0000-0002-5570-0800,71
+49108,Dorothea Bleek,Dorothea Pfeiffer,full_name,0000-0003-3893-2308,71
+49108,Dorothea Bleek,Dorothea Lemke,full_name,0000-0002-2605-6665,79
+36126,Douwe Th de Graaf,Coen de Graaf,full_name,0000-0001-8114-6658,73
+5607,Delzie Demaree,Devyn Demaree,full_name,0000-0002-5036-0245,74
+5607,Delzie Demaree,Stephanie Demaree,full_name,0000-0001-9082-9469,71
+82143,E  Sawyer,Ben Sawyer,full_name,0000-0002-3009-6707,74
+82143,E  Sawyer,Mary Sawyer,full_name,0000-0003-0482-5352,70
+82563,E  N  Johnston,B N Johnston,other_names_2,0000-0001-5297-0330,85
+86894,Edward Greene,David Greene,full_name,0000-0002-7667-5376,72
+21833,Edwin Burnell Smith,Edwin Smith,full_name,0000-0002-6002-1853,73
+21833,Edwin Burnell Smith,Edwin Smith,full_name,0000-0002-6648-6301,73
+6403,Edgar Alexander Mearns,Edgar Alexander Gonzalez Cruz,full_name,0000-0001-6552-7880,71
+51356,Eric Rodriguez Rodriguez,Eric Rodriguez,other_names_0,0000-0003-4563-4376,74
+51356,Eric Rodriguez Rodriguez,Eric Eduardo Rodriguez,full_name,0009-0000-8011-3440,74
+48826,Emil Hausser,Michael Hausser,full_name,0000-0002-2673-8957,74
+48826,Emil Hausser,Robin Hausser,full_name,0009-0004-9937-4623,72
+49054,Estelle Bayliss,Kate Bayliss,other_names_0,0000-0003-3052-9629,74
+49054,Estelle Bayliss,Helen Bayliss,full_name,0000-0003-1185-9622,79
+49054,Estelle Bayliss,Jill Bayliss,full_name,0000-0002-7995-5584,74
+81814,F  Prado,"F. B., Prado",credit_names,0000-0002-1334-1424,80
+85252,F  Hawksworth,James Hawksworth,full_name,0000-0001-6268-7395,76
+85252,F  Hawksworth,Lisa Hawksworth,full_name,0000-0003-1537-3670,79
+85252,F  Hawksworth,Jeremy Hawksworth,full_name,0009-0000-4320-1652,73
+85252,F  Hawksworth,Stuart Hawksworth,full_name,0000-0002-6099-1681,73
+85252,F  Hawksworth,Shane Hawksworth,full_name,0000-0002-3934-2783,76
+85252,F  Hawksworth,Chris Hawksworth,full_name,0000-0003-0011-473X,76
+84932,F  G  Hawksworth,Lisa Hawksworth,full_name,0000-0003-1537-3670,71
+70699,F G Elisei,Elisei,other_names_0,0000-0002-1074-0817,75
+69079,Francesco Saverio Sorda,Francesco Saverio Oliverio,full_name,0009-0003-9479-6176,78
+69079,Francesco Saverio Sorda,Francesco Saverio Nucci,full_name,0000-0001-7330-4601,78
+69079,Francesco Saverio Sorda,Francesco Saverio Tarantini,full_name,0000-0003-0112-776X,80
+69079,Francesco Saverio Sorda,Francesco Saverio CAPALDO,full_name,0000-0003-1193-2121,75
+69079,Francesco Saverio Sorda,Francesco Saverio Dioguardi,full_name,0000-0003-0445-3106,84
+50774,Francisco Carvalho e Silva,Fabiana De Carvalho da Silva,full_name,0000-0002-2250-1856,70
+33372,Franz Bredemeyer,Jochen Bredemeyer,full_name,0000-0001-6306-2557,73
+33372,Franz Bredemeyer,Graham Bredemeyer,full_name,0000-0001-6690-0245,79
+33372,Franz Bredemeyer,Ken Bredemeyer,full_name,0009-0004-4282-2202,80
+7211,Frank Ludlow,Emma Ludlow,full_name,0000-0002-0889-4331,70
+46353,Frederick Charles Kolbe,Frederick Charles Smales,full_name,0009-0009-2299-2964,85
+46353,Frederick Charles Kolbe,Frederick Charles Roskoden,full_name,0000-0002-6002-400X,82
+38976,Fred M Roberts,Frederick Roberts,full_name,0000-0003-1094-7102,77
+70468,Franco Togliani,Franco Manzi,full_name,0000-0001-6493-9277,74
+83875,G  Boerger,Nolan Boerger,full_name,0009-0008-3511-2041,70
+83875,G  Boerger,Björn Boerger,full_name,0000-0001-5134-8531,70
+83875,G  Boerger,Tom Boerger,full_name,0009-0003-6030-8197,76
+29818,Futoshi Miyamoto,Futoshi Eto,full_name,0000-0001-5030-1598,74
+47689,Friedrich Leithe,Friedrich Neu,other_names_0,0000-0001-8010-2864,76
+72062,Georg Wolfgang Knorr,Georg Wolfgang Winkler,full_name,0000-0003-2677-7267,81
+55242,George Robertson,George Robertson,full_name,0000-0001-7211-0063,100
+55242,George Robertson,George Robertson,full_name,0000-0002-8204-8045,100
+55242,George Robertson,Stephen Robertson,full_name,0000-0002-3591-2494,73
+55242,George Robertson,Tara Robertson,full_name,0000-0002-8972-1423,73
+38078,Gareth MorganJones,Gareth Barnes,full_name,0000-0002-9657-4820,71
+38078,Gareth MorganJones,Gareth Morris,full_name,0009-0007-4408-6511,71
+3713,GW Ramsey,Adam Ramsey,full_name,0000-0003-2464-6036,70
+3713,GW Ramsey,Pete Ramsey,other_names_0,0000-0002-3767-9155,70
+50313,George W Douglas,George Douglas,full_name,0000-0003-4397-4190,93
+84635,H  Akiyama,Eiji Akiyama,full_name,0000-0001-6916-3703,73
+84635,H  Akiyama,Kohki Akiyama,full_name,0000-0002-9171-9058,70
+84635,H  Akiyama,Toru Akiyama,full_name,0000-0002-2800-2011,73
+6464,Gnther Tessmann,Oliver Tessmann,full_name,0000-0003-0297-9884,73
+6464,Gnther Tessmann,Anna Tessmann,full_name,0000-0001-7357-3510,71
+82983,H  Quibell,Adam Quibell,full_name,0009-0006-2745-9462,73
+82983,H  Quibell,Ruth Quibell,full_name,0000-0002-1480-5278,73
+82983,H  Quibell,Toby Quibell,full_name,0009-0005-7744-4093,73
+93471,H A McAllister,Ben McAllister,full_name,0000-0003-1774-1705,79
+93471,H A McAllister,Tim A. McAllister,full_name,0000-0002-8266-6513,84
+93471,H A McAllister,Sarah McAllister,full_name,0000-0002-0989-2354,73
+93471,H A McAllister,Liam McAllister,full_name,0000-0001-5830-5577,76
+13058,Heather Neale,Dave Neale,full_name,0000-0002-2863-1969,70
+96124,Henry J Ramsey,Chenere Ramsey,full_name,0000-0002-4179-6098,71
+96124,Henry J Ramsey,Jon J. Ramsey,credit_names,0000-0003-1927-5365,74
+89369,Holly Wanamaker,Kelly Wanamaker,full_name,0000-0001-6174-8619,87
+89369,Holly Wanamaker,Jason Wanamaker,full_name,0000-0003-2087-711X,73
+89369,Holly Wanamaker,Mason Wanamaker,full_name,0000-0003-4589-6202,73
+18854,Hiplito Ruiz Lopez,Pablo Ruiz Lopez,full_name,0000-0003-0183-9134,76
+18854,Hiplito Ruiz Lopez,Julia Ruiz López,other_names_1,0000-0002-5972-9504,71
+22273,Hermes Moreira Souza,Hermes Fernandes de Souza,full_name,0009-0008-8956-0667,71
+22273,Hermes Moreira Souza,Eliane Moreira de Souza,full_name,0000-0002-6592-6723,70
+22273,Hermes Moreira Souza,Murilo Moreira de Souza,full_name,0000-0001-9563-2075,70
+43468,Howard K Henry,Howard Henry,full_name,0000-0002-0634-0984,92
+35285,Hsn Demiriz,Levent Demiriz,full_name,0000-0002-7889-6885,72
+35285,Hsn Demiriz,serkan demiriz,full_name,0000-0002-4662-6020,72
+35285,Hsn Demiriz,Gulhan Demiriz,full_name,0000-0001-6274-2438,72
+15451,Ingemar Persson,Ingemar Petermann,full_name,0000-0001-5966-0204,75
+15451,Ingemar Persson,Jan Ingemar Ohlsson,full_name,0000-0003-1933-111X,71
+15451,Ingemar Persson,Ingemar Bengtsson,full_name,0000-0002-4203-3180,81
+5246,Ivan Murray Johnston,Murray Andrew Johnston,other_names_0,0000-0002-0166-6985,71
+5246,Ivan Murray Johnston,Murray Johnston,full_name,0000-0001-9529-8660,86
+54497,Igor V Kirukhin,Igor V Kurochkin,full_name,0000-0002-6231-9004,77
