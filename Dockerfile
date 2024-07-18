@@ -1,16 +1,7 @@
-# Use an official Python runtime as a parent image
-FROM python:3.10
-
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
-# Set the working directory
-WORKDIR /collection_explorer
-
-# Install dependencies
-COPY requirements.txt /collection_explorer/
-RUN pip install -r requirements.txt
-
-# Copy the project code into the container
-COPY . /collection_explorer/
+FROM python:3.12.9-slim
+WORKDIR /app
+COPY . /app
+RUN pip install --no-cache-dir -r /app/src/requirements.txt
+EXPOSE 80
+ENV NAME World
+CMD ["python", "src/main.py"]
