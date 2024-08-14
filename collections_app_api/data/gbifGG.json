@@ -1,0 +1,261 @@
+[{
+            "key": 543671633,
+            "datasetKey": "cece4fc2-1fec-4bb5-a335-7252548e3f0b",
+            "publishingOrgKey": "66522820-055c-11d8-b84e-b8a03c50a862",
+            "networkKeys": [
+                "99d66b6c-9087-452f-a9d4-f15f2c2d0e7e"
+            ],
+            "installationKey": "a43950ae-eb88-4ef4-bfff-43bcf12885ad",
+            "hostingOrganizationKey": "66522820-055c-11d8-b84e-b8a03c50a862",
+            "publishingCountry": "US",
+            "protocol": "EML",
+            "lastCrawled": "2024-08-05T00:01:47.358+00:00",
+            "lastParsed": "2024-08-05T00:09:02.730+00:00",
+            "crawlId": 399,
+            "extensions": {
+                "http://rs.gbif.org/terms/1.0/Multimedia": [
+                    {
+                        "http://purl.org/dc/terms/type": "StillImage",
+                        "http://purl.org/dc/terms/format": "image/jpeg",
+                        "http://purl.org/dc/terms/license": "https://creativecommons.org/share-your-work/public-domain/cc0/",
+                        "http://purl.org/dc/terms/description": "catalog page",
+                        "http://purl.org/dc/terms/identifier": "http://www.archive.org/stream/catalogueofdepar02unse#page/n149/mode/2up",
+                        "http://purl.org/dc/terms/references": "http://researcharchive.calacademy.org/research/herpetology/catalog/index.asp?xAction=Search&RecStyle=Full&OrderBy=Museum%2C+CatNo&Sex=%5Bany%5D&Museum=CAS&Class=%5Bany%5D&Ordersub=%5Bany%5D&Stage=%5Bany%5D&PageStyle=Multiple&PageSize=20&Pres=%5Bany%5D&CatNo=8141&Page=1"
+                    }
+                ]
+            },
+            "basisOfRecord": "PRESERVED_SPECIMEN",
+            "occurrenceStatus": "PRESENT",
+            "sex": "FEMALE",
+            "lifeStage": "Adult",
+            "taxonKey": 10857641,
+            "kingdomKey": 1,
+            "phylumKey": 44,
+            "classKey": 11418114,
+            "familyKey": 9618,
+            "genusKey": 5220265,
+            "speciesKey": 10857641,
+            "acceptedTaxonKey": 10857641,
+            "scientificName": "Chelonoidis vandenburghi (Desola, 1930)",
+            "acceptedScientificName": "Chelonoidis vandenburghi (Desola, 1930)",
+            "kingdom": "Animalia",
+            "phylum": "Chordata",
+            "family": "Testudinidae",
+            "genus": "Chelonoidis",
+            "species": "Chelonoidis vandenburghi",
+            "genericName": "Chelonoidis",
+            "specificEpithet": "vandenburghi",
+            "taxonRank": "SPECIES",
+            "taxonomicStatus": "ACCEPTED",
+            "iucnRedListCategory": "VU",
+            "dateIdentified": "1930-09-30T00:00:00",
+            "decimalLatitude": -0.456944,
+            "decimalLongitude": -91.050833,
+            "elevation": 609.6,
+            "continent": "SOUTH_AMERICA",
+            "stateProvince": "Galapagos Prov.",
+            "gadm": {
+                "level0": {
+                    "gid": "ECU",
+                    "name": "Ecuador"
+                },
+                "level1": {
+                    "gid": "ECU.9_1",
+                    "name": "Galápagos"
+                },
+                "level2": {
+                    "gid": "ECU.9.1_1",
+                    "name": "Isabela"
+                },
+                "level3": {
+                    "gid": "ECU.9.1.2_1",
+                    "name": "Tomas De Berlanga (Santo Tomas)"
+                }
+            },
+            "waterBody": "South Pacific Ocean",
+            "higherGeography": "South Pacific Ocean; Ecuador; Galapagos Prov.; Galapagos Ids.; Isabela Id.",
+            "year": 1906,
+            "month": 8,
+            "day": 11,
+            "eventDate": "1906-08-11",
+            "startDayOfYear": 223,
+            "endDayOfYear": 223,
+            "typeStatus": "HOLOTYPE",
+            "issues": [
+                "COORDINATE_ROUNDED",
+                "CONTINENT_DERIVED_FROM_COORDINATES"
+            ],
+            "modified": "2024-01-04T14:21:00.000+00:00",
+            "lastInterpreted": "2024-08-05T00:09:02.730+00:00",
+            "license": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+            "isSequenced": false,
+            "identifiers": [
+                {
+                    "identifier": "urn:catalog:CAS:HERP:8141"
+                }
+            ],
+            "media": [
+                {
+                    "type": "StillImage",
+                    "format": "image/jpeg",
+                    "references": "http://researcharchive.calacademy.org/research/herpetology/catalog/index.asp?xAction=Search&RecStyle=Full&OrderBy=Museum%2C+CatNo&Sex=%5Bany%5D&Museum=CAS&Class=%5Bany%5D&Ordersub=%5Bany%5D&Stage=%5Bany%5D&PageStyle=Multiple&PageSize=20&Pres=%5Bany%5D&CatNo=8141&Page=1",
+                    "description": "catalog page",
+                    "license": "http://creativecommons.org/publicdomain/zero/1.0/",
+                    "identifier": "http://www.archive.org/stream/catalogueofdepar02unse#page/n149/mode/2up"
+                }
+            ],
+            "facts": [],
+            "relations": [],
+            "institutionKey": "d2a27206-87ab-47ea-b5fc-d2e57054b688",
+            "collectionKey": "ba09c323-3cf8-4e82-900f-23f2bdb46f17",
+            "isInCluster": false,
+            "recordedBy": "R.H. Beck",
+            "identifiedBy": "R. DeSola",
+            "preparations": "Dry",
+            "geodeticDatum": "WGS84",
+            "class": "Testudines",
+            "countryCode": "EC",
+            "recordedByIDs": [],
+            "identifiedByIDs": [],
+            "gbifRegion": "LATIN_AMERICA",
+            "country": "Ecuador",
+            "publishedByGbifRegion": "NORTH_AMERICA",
+            "recordNumber": "3861",
+            "identifier": "urn:catalog:CAS:HERP:8141",
+            "institutionID": "http://grbio.org/institution/california-academy-sciences",
+            "verbatimEventDate": "11 Aug 1906",
+            "islandGroup": "Galapagos Ids.",
+            "island": "Isabela Id.",
+            "locality": "Cowley Mt",
+            "verbatimLocality": "Cowley Mt. Albemarle Isl. Galapagos Archipelago",
+            "collectionCode": "HERP",
+            "gbifID": "543671633",
+            "occurrenceID": "urn:catalog:CAS:HERP:8141",
+            "catalogNumber": "8141",
+            "institutionCode": "CAS",
+            "occurrenceRemarks": "Holotype of Testudo vandenburghi DeSola, 1930.  Skull separate.  Slevin's notes give elevation as 'about 2000 ft.'",
+            "verbatimElevation": "ca 2000 ft",
+            "higherClassification": "Animalia; Chordata; Reptilia; Testudines; Testudinidae",
+            "collectionID": "http://grscicoll.org/institutional-collection/herpetology-0",
+            "georeferenceSources": "Google Earth, 2013."
+        },
+        {
+            "key": 543447984,
+            "datasetKey": "cece4fc2-1fec-4bb5-a335-7252548e3f0b",
+            "publishingOrgKey": "66522820-055c-11d8-b84e-b8a03c50a862",
+            "networkKeys": [
+                "99d66b6c-9087-452f-a9d4-f15f2c2d0e7e"
+            ],
+            "installationKey": "a43950ae-eb88-4ef4-bfff-43bcf12885ad",
+            "hostingOrganizationKey": "66522820-055c-11d8-b84e-b8a03c50a862",
+            "publishingCountry": "US",
+            "protocol": "EML",
+            "lastCrawled": "2024-08-05T00:01:47.358+00:00",
+            "lastParsed": "2024-08-05T00:09:13.640+00:00",
+            "crawlId": 399,
+            "extensions": {
+                "http://rs.gbif.org/terms/1.0/Multimedia": [
+                    {
+                        "http://purl.org/dc/terms/type": "StillImage",
+                        "http://purl.org/dc/terms/format": "image/jpeg",
+                        "http://purl.org/dc/terms/license": "https://creativecommons.org/share-your-work/public-domain/cc0/",
+                        "http://purl.org/dc/terms/description": "catalog page",
+                        "http://purl.org/dc/terms/identifier": "http://www.archive.org/stream/catalogueofdepar02unse#page/n313/mode/2up",
+                        "http://purl.org/dc/terms/references": "http://researcharchive.calacademy.org/research/herpetology/catalog/index.asp?xAction=Search&RecStyle=Full&OrderBy=Museum%2C+CatNo&Sex=%5Bany%5D&Museum=CAS&Class=%5Bany%5D&Ordersub=%5Bany%5D&Stage=%5Bany%5D&PageStyle=Multiple&PageSize=20&Pres=%5Bany%5D&CatNo=10615&Page=1"
+                    }
+                ]
+            },
+            "basisOfRecord": "PRESERVED_SPECIMEN",
+            "occurrenceStatus": "PRESENT",
+            "taxonKey": 9483298,
+            "kingdomKey": 1,
+            "phylumKey": 44,
+            "classKey": 11592253,
+            "familyKey": 6935,
+            "genusKey": 2459538,
+            "speciesKey": 5224602,
+            "acceptedTaxonKey": 9483298,
+            "scientificName": "Amblyrhynchus cristatus jeffreysi Miralles & Macleod",
+            "acceptedScientificName": "Amblyrhynchus cristatus jeffreysi Miralles & Macleod",
+            "kingdom": "Animalia",
+            "phylum": "Chordata",
+            "family": "Iguanidae",
+            "genus": "Amblyrhynchus",
+            "species": "Amblyrhynchus cristatus",
+            "genericName": "Amblyrhynchus",
+            "specificEpithet": "cristatus",
+            "infraspecificEpithet": "jeffreysi",
+            "taxonRank": "SUBSPECIES",
+            "taxonomicStatus": "ACCEPTED",
+            "iucnRedListCategory": "EN",
+            "dateIdentified": "2017-05-10T00:00:00",
+            "decimalLatitude": -0.400444,
+            "decimalLongitude": -90.706028,
+            "continent": "SOUTH_AMERICA",
+            "stateProvince": "Galapagos Prov.",
+            "gadm": {},
+            "waterBody": "South Pacific Ocean",
+            "higherGeography": "South Pacific Ocean; Ecuador; Galapagos Prov.; Galapagos Ids.; Rabida Id.",
+            "year": 1905,
+            "month": 12,
+            "day": 21,
+            "eventDate": "1905-12-21",
+            "startDayOfYear": 355,
+            "endDayOfYear": 355,
+            "issues": [
+                "COORDINATE_ROUNDED",
+                "CONTINENT_DERIVED_FROM_COORDINATES"
+            ],
+            "modified": "2024-01-04T14:21:00.000+00:00",
+            "lastInterpreted": "2024-08-05T00:09:13.640+00:00",
+            "license": "http://creativecommons.org/publicdomain/zero/1.0/legalcode",
+            "isSequenced": false,
+            "identifiers": [
+                {
+                    "identifier": "urn:catalog:CAS:HERP:10615"
+                }
+            ],
+            "media": [
+                {
+                    "type": "StillImage",
+                    "format": "image/jpeg",
+                    "references": "http://researcharchive.calacademy.org/research/herpetology/catalog/index.asp?xAction=Search&RecStyle=Full&OrderBy=Museum%2C+CatNo&Sex=%5Bany%5D&Museum=CAS&Class=%5Bany%5D&Ordersub=%5Bany%5D&Stage=%5Bany%5D&PageStyle=Multiple&PageSize=20&Pres=%5Bany%5D&CatNo=10615&Page=1",
+                    "description": "catalog page",
+                    "license": "http://creativecommons.org/publicdomain/zero/1.0/",
+                    "identifier": "http://www.archive.org/stream/catalogueofdepar02unse#page/n313/mode/2up"
+                }
+            ],
+            "facts": [],
+            "relations": [],
+            "institutionKey": "d2a27206-87ab-47ea-b5fc-d2e57054b688",
+            "collectionKey": "ba09c323-3cf8-4e82-900f-23f2bdb46f17",
+            "isInCluster": false,
+            "recordedBy": "E.S. King",
+            "identifiedBy": "A. Miralles et al.",
+            "preparations": "Alcohol",
+            "geodeticDatum": "WGS84",
+            "class": "Squamata",
+            "countryCode": "EC",
+            "recordedByIDs": [],
+            "identifiedByIDs": [],
+            "gbifRegion": "LATIN_AMERICA",
+            "country": "Ecuador",
+            "publishedByGbifRegion": "NORTH_AMERICA",
+            "recordNumber": "2214",
+            "identifier": "urn:catalog:CAS:HERP:10615",
+            "institutionID": "http://grbio.org/institution/california-academy-sciences",
+            "verbatimEventDate": "21 Dec 1905",
+            "islandGroup": "Galapagos Ids.",
+            "island": "Rabida Id.",
+            "verbatimLocality": "Jervis Island, Galapagos Archipelago.",
+            "collectionCode": "HERP",
+            "gbifID": "543447984",
+            "occurrenceID": "urn:catalog:CAS:HERP:10615",
+            "catalogNumber": "10615",
+            "institutionCode": "CAS",
+            "higherClassification": "Animalia; Chordata; Reptilia; Sauria; Iguanidae",
+            "collectionID": "http://grscicoll.org/institutional-collection/herpetology-0",
+            "georeferenceSources": "Google Earth, 2013."
+        },
+  {"key":583474648,"datasetKey":"4f29b6ab-20c0-4479-8795-4915bedcebd1","publishingOrgKey":"66522820-055c-11d8-b84e-b8a03c50a862","networkKeys":["99d66b6c-9087-452f-a9d4-f15f2c2d0e7e"],"installationKey":"a43950ae-eb88-4ef4-bfff-43bcf12885ad","hostingOrganizationKey":"66522820-055c-11d8-b84e-b8a03c50a862","publishingCountry":"US","protocol":"EML","lastCrawled":"2024-08-12T22:57:18.875+00:00","lastParsed":"2024-08-12T22:58:12.541+00:00","crawlId":672,"extensions":{},"basisOfRecord":"PRESERVED_SPECIMEN","occurrenceStatus":"PRESENT","sex":"MALE","taxonKey":6176241,"kingdomKey":1,"phylumKey":44,"classKey":212,"orderKey":1450,"familyKey":9348,"genusKey":8373955,"speciesKey":2497295,"acceptedTaxonKey":6176241,"scientificName":"Asio flammeus galapagoensis (Gould, 1837)","acceptedScientificName":"Asio flammeus galapagoensis (Gould, 1837)","kingdom":"Animalia","phylum":"Chordata","order":"Strigiformes","family":"Strigidae","genus":"Asio","species":"Asio flammeus","genericName":"Asio","specificEpithet":"flammeus","infraspecificEpithet":"galapagoensis","taxonRank":"SUBSPECIES","taxonomicStatus":"ACCEPTED","continent":"SOUTH_AMERICA","stateProvince":"Galapagos Islands","gadm":{},"higherGeography":"South America, Ecuador, Galapagos Islands, Isabela Island","year":1906,"month":8,"day":10,"eventDate":"1906-08-10","startDayOfYear":222,"endDayOfYear":222,"issues":[],"modified":"2024-03-27T11:55:18.000+00:00","lastInterpreted":"2024-08-12T22:58:12.541+00:00","license":"http://creativecommons.org/publicdomain/zero/1.0/legalcode","isSequenced":false,"identifiers":[{"identifier":"urn:catalog:CAS:ORN:2920"}],"media":[],"facts":[],"relations":[],"institutionKey":"d2a27206-87ab-47ea-b5fc-d2e57054b688","collectionKey":"9525d06a-2187-4c50-b34e-2783b8bdff8c","isInCluster":false,"recordedBy":"J. S. Hunter","preparations":"Feather; Skin Study; toepad","class":"Aves","countryCode":"EC","recordedByIDs":[],"identifiedByIDs":[],"gbifRegion":"LATIN_AMERICA","country":"Ecuador","publishedByGbifRegion":"NORTH_AMERICA","identifier":"urn:catalog:CAS:ORN:2920","institutionID":"http://grscicoll.org/institution/california-academy-sciences","nomenclaturalCode":"ICZN","verbatimEventDate":"10 August 1906","locality":"Isabela Island; Cowley Bay","county":"Isabela Island","language":"en","collectionCode":"ORN","gbifID":"583474648","occurrenceID":"urn:catalog:CAS:ORN:2920","type":"Physical Object","catalogNumber":"2920","institutionCode":"CAS","higherClassification":"Aves,Strigiformes,Strigidae","collectionID":"https://www.gbif.org/grscicoll/collection/9525d06a-2187-4c50-b34e-2783b8bdff8c"}
+ ]
