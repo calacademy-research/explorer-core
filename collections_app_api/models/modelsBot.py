@@ -2922,15 +2922,15 @@ class DjangoContentType(models.Model):
         db_table = 'django_content_type'
         unique_together = (('app_label', 'model'),)
 
-
-class DjangoMigrations(models.Model):
-    app = models.CharField(max_length=255)
-    name = models.CharField(max_length=255)
-    applied = models.DateTimeField()
-
-    class Meta:
-        managed = False
-        db_table = 'django_migrations'
+# 
+# class DjangoMigrations(models.Model):
+#     app = models.CharField(max_length=255)
+#     name = models.CharField(max_length=255)
+#     applied = models.DateTimeField()
+# 
+#     class Meta:
+#         managed = False
+#         db_table = 'django_migrations'
 
 
 class DjangoSession(models.Model):
@@ -5342,7 +5342,7 @@ class ProjectColobj(models.Model):
         unique_together = (('projectid', 'collectionobjectid'),)
 
 
-class Recordset(models.Model):
+class BotRecordset(models.Model):
     recordsetid = models.AutoField(db_column='RecordSetID', primary_key=True)  # Field name made lowercase.
     timestampcreated = models.DateTimeField(db_column='TimestampCreated')  # Field name made lowercase.
     timestampmodified = models.DateTimeField(db_column='TimestampModified', blank=True, null=True)  # Field name made lowercase.
@@ -5369,7 +5369,7 @@ class Recordset(models.Model):
 class Recordsetitem(models.Model):
     recordsetitemid = models.AutoField(db_column='RecordSetItemID', primary_key=True)  # Field name made lowercase.
     recordid = models.IntegerField(db_column='RecordId')  # Field name made lowercase.
-    recordsetid = models.ForeignKey(Recordset, models.DO_NOTHING, db_column='RecordSetID')  # Field name made lowercase.
+    recordsetid = models.ForeignKey(BotRecordset, models.DO_NOTHING, db_column='RecordSetID')  # Field name made lowercase.
     ordernumber = models.IntegerField(db_column='OrderNumber', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:

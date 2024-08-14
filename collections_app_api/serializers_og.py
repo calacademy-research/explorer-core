@@ -1,18 +1,10 @@
 from rest_framework import serializers
-from .models_test import *
+from .models_og import Images
 
-class GeographySerializer(serializers.ModelSerializer):
+class ImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Geography
-        #fields = '__all__'
-        fields = ['abbrev', 'centroidlat', 'centroidlon', 'commonname']
-
-
-class CollectionObjectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Collectionobject
-        #fields = '__all__'
-        fields = ['timestampcreated']
+        model = Images
+        fields = '__all__'
 
 # class UserRegistrationSerializer(serializers.ModelSerializer):
 #     class Meta:
@@ -28,4 +20,3 @@ class CollectionObjectSerializer(serializers.ModelSerializer):
 # class UserLoginSerializer(serializers.Serializer):
 #     username = serializers.CharField()
 #     password = serializers.CharField(write_only=True)
-
