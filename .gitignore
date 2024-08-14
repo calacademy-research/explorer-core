@@ -4,7 +4,7 @@ test_api.py
 *.xml
 *.iml
 .idea/
-venv/
+.venv/
 collections_app_api/data/
 collections_app_api/migrations/
 collections_app_api/models/modelsTest.py
