@@ -27,13 +27,24 @@ SECRET_KEY = "django-insecure-_$glag1v^pd7j45)$49%)48ad*s(lwmr4zi)1ur3okz!%@o&=!
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['0.0.0.0']
+ALLOWED_HOSTS = ['0.0.0.0',
+                 #personal phone IP
+                 '10.1.13.39']
 
 # API Authentication
 REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-        #'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
 }
 
@@ -118,7 +129,24 @@ TEMPLATES = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
+            # must have default database, will look into removing/setting up dummy default db
             "default": {
+                 'ENGINE': 'django.db.backends.mysql',
+                 'NAME': 'collectionsdb',
+                 'USER': 'django',
+                 'PASSWORD': 'django@CAS!000',
+                 'HOST': '127.0.0.1',
+                 'PORT': '3308',
+             },
+            "collections":  {
+                 'ENGINE': 'django.db.backends.mysql',
+                 'NAME': 'collectionsdb',
+                 'USER': 'django',
+                 'PASSWORD': 'django@CAS!000',
+                 'HOST': '127.0.0.1',
+                 'PORT': '3308',
+             },
+            "botany": {
                 "ENGINE": "django.db.backends.mysql",
                 "NAME": "botanydb",
                 "USER": "django-test",
@@ -126,14 +154,14 @@ DATABASES = {
                 "HOST": "0.0.0.0",
                 "PORT": "3306"
              },
-             'clusterdb': {
-                 'ENGINE': 'django.db.backends.mysql',
-                 'NAME': 'clusterdb',
-                 'USER': 'zhu',
-                 'PASSWORD': 'clustertester9000',
-                 'HOST': '0.0.0.0',
-                 'PORT': '3307',
-             },
+             # 'clusterdb': {
+             #     'ENGINE': 'django.db.backends.mysql',
+             #     'NAME': 'clusterdb',
+             #     'USER': 'zhu',
+             #     'PASSWORD': 'clustertester9000',
+             #     'HOST': '0.0.0.0',
+             #     'PORT': '3307',
+             # },
              "casbotany": {
                  "ENGINE": "django.db.backends.mysql",
                  "NAME": "casbotany",
@@ -148,6 +176,8 @@ DATABASES = {
                     },
              }
 }
+
+DATABASE_ROUTERS = ['collections_app_api.routers.CollectionsDatabaseRouter']
 
 
 # AUTH_USER_MODEL = 'collections_app_api.UserProfile'

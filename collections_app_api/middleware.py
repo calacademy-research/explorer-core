@@ -11,6 +11,7 @@ class CheckDBMiddleware:
 
     def __call__(self, request):
         # Check if info exists in the first database
+
         with connections['default'].cursor() as cursor:
             cursor.execute("SELECT * FROM botanydb.collectingtrip;")
             result = cursor.fetchone()
@@ -23,6 +24,7 @@ class CheckDBMiddleware:
                 #cursor.execute("SELECT * FROM clusterdb WHERE condition;")
                 result = cursor.fetchone()
                 print(type(result))
+
 
         # Store the result in request for use in views
         request.clutser_info = result

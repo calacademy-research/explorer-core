@@ -5,3 +5,8 @@ test_api.py
 *.iml
 .idea/
 venv/
+collections_app_api/data/
+collections_app_api/migrations/
+collections_app_api/models/modelsTest.py
+collections_app_api/models/modelsCollections_pre.py
+
