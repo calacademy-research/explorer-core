@@ -50,7 +50,7 @@ services:
       - mysql_data:/var/lib/mysql
       - ./my.cnf:/etc/mysql/my.cnf
       #- /home/zhu/dumps/Dump20240827_new:/docker-entrypoint-initdb.d
-      - ./collections_app_api/sql_dump/:/docker-entrypoint-initdb.d
+      - ./collections_app_api/sql_dump:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
     networks:
