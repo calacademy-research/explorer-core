@@ -11,6 +11,7 @@ collections_app_api/models/modelsTest.py
 collections_app_api/models/modelsCollections_pre.py
 staticfiles/*
 .env
-nginx/ssl/*
+#nginx/ssl/*
 nginx/nginx.conf_new
 nginx/logs/*
+!nginx/logs/.gitkeep
