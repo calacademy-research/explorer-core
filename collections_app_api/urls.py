@@ -1,9 +1,9 @@
 from django.urls import path, include
 from django.conf import settings
 from . import views
-from .views import *
-from rest_framework import routers
-
+from rest_framework.routers import DefaultRouter
+from .views import CASrecordsetList, CASoccurrencesList, CASrecordsetGroupList, CASrecordsetSpeciesList, \
+    CASrecordsetSpeciesDetail
 
 # collectionobj_router = routers.SimpleRouter()
 # collectionobj_router.register(
@@ -12,32 +12,25 @@ from rest_framework import routers
 #     basename='collections'
 # )
 
+# router = DefaultRouter()
+#
+# router.register(r'recordsetAPI', CASrecordsetList)
+# router.register(r'occurrencesAPI', CASoccurrencesList)
+# router.register(r'groupAPI', CASrecordsetGroupList)
+# router.register(r'speciesAPI', CASrecordsetSpeciesList)
 
 urlpatterns = [
-    # path('get_image', views.get_image),
-    # path('list_images', views.list_images),
-    # path('get_collections_data', views.get_collections_data),
-    # path('get_publications', views.get_publications, name='get_publications'),
-    # path('get_datasets', views.get_datasets, name='get_datasets'),
-    # path('register/', views.create_user),
-    # path('login/', views.user_authentication)
-
-    ##added by jz
-    # path('api/hello/', views.hello_CAS, name='hello_CAS'),
-    # path('cluster/', views.db_check, name='cluster_test'),
-    # path('coordinates/', views.db_coordinates, name="db_coordinates"),
-    # path('collection_objects/', views.db_collectionobjects, name="collections_graph_year"),
-    # path('collection/', views.db_collection, name="collection_time"),
-    # path('collection_map/', views.db_collectiongeo, name='collections_map'),
-    # path('collection_images/', views.db_collectionimages, name='collection_images'),
-
-    path('idig/', views.iDigBioFetch, name='iDigBioFetch'),
-    path('raw/', views.view_rawData, name='view_rawData'),
-    path('api/pygbif/', pygbifTester.as_view(), name='pygbif'),
-    path('api/recordset/', CASrecordsetList.as_view(), name='recordset-list'),
-    path('api/occurrences/', CASoccurrencesList.as_view(), name='occurrences-list'),
-    path('api/recordset/<str:recordset_code>/occurrence/', CASrecordsetGroupList.as_view(), name='recordset-groups-list'),
-    path('api/recordset/<str:recordset_code>/species/<str:speciesName_filter>', CASrecordsetSpeciesList.as_view(), name="species-detail"),
+    # path('', include(router.urls)),
+   #path('login/', LoginView.as_view(), name='api-login'),
+    #path ('logout/'. )
+    # path('idig/', views.iDigBioFetch, name='iDigBioFetch'),
+    # path('raw/', views.view_rawData, name='view_rawData'),
+    #path('pygbif/', pygbifTester.as_view(), name='pygbif'),
+    path('recordset/', CASrecordsetList.as_view(), name='recordset-list'),
+    path('occurrences/', CASoccurrencesList.as_view(), name='occurrences-list'),
+    path('recordset/<str:recordset_code>/occurrences/', CASrecordsetGroupList.as_view(), name='recordset-groups-list'),
+    path('recordset/<str:recordset_code>/species/', CASrecordsetSpeciesList.as_view(), name="species-list"),
+    path('recordset/<str:recordset_code>/species/<str:speciesName_filter>', CASrecordsetSpeciesDetail.as_view(), name="species-detail"),
     ##path('api/recordset/<str:recordsetID>/occurrence/<str:filter>/', CASrecordsetOccurrence.as_view(), name='recordset-occurrence'),
     ##path('api/recordset/<str:recordsetID>/occurrence/<str:filter>/media/', CASrecordsetOccurrenceMedia.as_view(), name='recordset-occurrence-media'),
 

@@ -2,13 +2,22 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+import dotenv
 
 def main():
     """Run administrative tasks."""
     ##original line:
     ##os.environ.setdefault("DJANGO_SETTINGS_MODULE", "explorer-core.settings")
     #changed to explorer-core.setting_test for botanydb - jz
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "explorer-core.settings_test")
+    #os.environ.setdefault("DJANGO_SETTINGS_MODULE", "explorer-core.settings_test")
+
+    # dotenv settings
+    dotenv.load_dotenv(
+        os.path.join(os.path.dirname(__file__), '.env')
+    )
+
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'explorer-core.settings_test')
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

@@ -89,7 +89,7 @@ class AuthtokenToken(models.Model):
 
 class CollectionsAppApiCollectionsrecordset(models.Model):
     recordset_id = models.CharField(primary_key=True, max_length=235)
-    recordsetname = models.CharField(db_column='recordsetName', max_length=255)  # Field name made lowercase.
+    recordsetName = models.CharField(db_column='recordsetName', max_length=255)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -164,7 +164,7 @@ class CollectionsAppApiOccurrence(models.Model):
     higher_classification = models.TextField(blank=True, null=True)
     georeference_sources = models.TextField(blank=True, null=True)
     publishing_org = models.CharField(max_length=235)
-    recordsetname_id = models.CharField(db_column='recordsetName_id', max_length=235)  # Field name made lowercase.
+    recordsetName_id = models.CharField(db_column='recordsetName_id', max_length=235)  # Field name made lowercase.
     taxon_id = models.IntegerField()
 
     class Meta:
