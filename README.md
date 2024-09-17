@@ -16,3 +16,6 @@ Things to modify before build:
 
 nginx.conf
 - change server_name variable value to your IP address
+
+collections_app_api/static/
+- create a static folder in "collections_app_api" add the static files of the 3D scans 
