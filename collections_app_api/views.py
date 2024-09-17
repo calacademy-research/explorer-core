@@ -1,9 +1,16 @@
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status, generics
+from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
+
 
 from django.conf import settings
 from django.http import JsonResponse
+from django.core.cache import cache
+from django.shortcuts import render
+from django.db import connection
+from django.contrib.auth import authenticate, login
 
 import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -23,21 +30,40 @@ import urllib.parse
 from pygbif import species as species
 from pygbif import occurrences as occ
 from pygbif import registry
+import logging
 
+logger = logging.getLogger(__name__)
 
 ### api/recordset/
-class CASrecordsetList(generics.ListCreateAPIView):
-#class CASrecordsetList(APIView):
-    #def get(self, request, *args, **kwargs):
-    queryset = Recordset.objects.all()
-    serializer_class = RecordsetSerializer
+#class CASrecordsetList(generics.ListCreateAPIView):
+class CASrecordsetList(APIView):
+    # permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
+    # logger.info(permission_classes)
+    # print(permission_classes)
+    def get(self, request, *args, **kwargs):
+        # data = cache.get('my_key')
+        # if not data:
+        #     data = Recordset.objects.values()
+        #     cache.set('my_key', data, timeout=60 * 15)  # Cache for 15 minutes
+        # return render(request, 'template.html', {'data': data})
 
-       # return Response(queryset, status=status.HTTP_200_OK)
+        try:
+            recordset_list = Recordset.objects.values()
+            serializer = RecordsetSerializer(recordset_list, many=True)
+            #return Response(queryset, status=status.HTTP_200_OK)
+            return Response(serializer.data)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class CASoccurrencesList(APIView):
+    permission_classes = [AllowAny]
     def get(self, request, *args, **kwargs):
         occurrences_list = Occurrence.objects.values()
-        return Response(occurrences_list, status=status.HTTP_200_OK)
+        #return Response(occurrences_list, status=status.HTTP_200_OK)
+        serializer = OccurrenceSerializer(occurrences_list, many=True)
+        #return Response(queryset, status=status.HTTP_200_OK)
+        return Response(serializer.data)
 
 ### api/recordset/Galapagateway/occurrences/HERP8141
 # class CASrecordsetOccurrence(generics.ListCreateAPIView):
@@ -49,41 +75,93 @@ class CASoccurrencesList(APIView):
 ### api/recordset/Galapagateway/occurrence?taxon=
 #class CASrecordsetGroupList(generics.ListCreateAPIView):
 class CASrecordsetGroupList(APIView):
+    permission_classes = [AllowAny]
     def get(self, request, recordset_code, *args, **kwargs):
         if recordset_code.isalpha():
             taxon_key = request.GET.get('taxon', '')
 
-            if recordset_code.lower() == ("gg" or "galapagateway"):
+            if recordset_code.lower() in ["gg", "galapagateway"]:
                 if len(taxon_key) == 0:
-                    recordset_group = GG.objects.values('occurrence_id', 'taxon_id')
+                    logger.info("hi")
+                    # recordset_group = GG.objects.values('occurrence_id', 'taxon_id')
+                    recordset_group = GG.objects.values()
+                    serialized_data = GalapagatewaySerializer(recordset_group, many=True)
                 else:
-                    recordset_group = GG.objects.filter(taxon_id=taxon_key).values('occurrence_id', 'taxon_id')
+                    # recordset_group = GG.objects.filter(taxon_id=taxon_key).values('occurrence_id', 'taxon_id')
+                    recordset_group = GG.objects.filter(taxon_id=taxon_key).values()
+                    logger.info("Here")
+                    serialized_data = GalapagatewaySerializer(recordset_group, many=True)
                 #print(recordset_group)
-                #serializer_class = GalapagatewaySerializer(recordset_group, many=True)
-                return Response(recordset_group, status=status.HTTP_200_OK)
-
+                #return Response(recordset_group, status=status.HTTP_200_OK)
+                return Response(serialized_data.data, status=status.HTTP_200_OK)
             elif recordset_code.lower() == "HERP" or recordset_code.lower() ==  "orn":
                 if len(taxon_key) == 0:
-                    recordset_occurrences = Occurrence.objects.filter(collection_code=recordset_code).values('occurrence_id', 'taxon_id')
+                    logger.info("occ")
+                    # recordset_occurrences = Occurrence.objects.filter(collection_code=recordset_code).values('occurrence_id', 'taxon_id')
+                    recordset_occurrences = Occurrence.objects.filter(collection_code=recordset_code).values()
                 else:
+                    logger.info("occurrrr")
+                    # recordset_occurrences = Occurrence.objects.filter(collection_code=recordset_code,
+                    #                                             taxon_id=taxon_key).values('occurrence_id', 'taxon_id')
                     recordset_occurrences = Occurrence.objects.filter(collection_code=recordset_code,
-                                                                taxon_id=taxon_key).values('occurrence_id', 'taxon_id')
-                # serializer_class = OccurrenceSerializer(recordset_group, many=True)
-                # return Response(serializer_class.data, status=status.HTTP_200_OK)
-                return Response(recordset_occurrences, status=status.HTTP_200_OK)
-
+                                                                      taxon_id=taxon_key).values()
+                serializer_occ = OccurrenceSerializer(recordset_occurrences, many=True)
+                return Response(serializer_occ.data, status=status.HTTP_200_OK)
+                #return Response(recordset_occurrences, status=status.HTTP_200_OK)
             else:
                 return Response(f"404: No occurrences in the {recordset_code} collection found with search criteria.", status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response("404: Invalid recordset ID filter", status=status.HTTP_400_BAD_REQUEST)
 
-### api/recordset/GG/species/beckii
+
 class CASrecordsetSpeciesList(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, recordset_code, *args, **kwargs):
+
+        if recordset_code.isalpha():
+                if recordset_code.lower() in ["gg","galapagateway"]:
+                    species_group = GG.objects.values()
+                    serialized_data = [
+                        {"occurrence_id": r.occurrence_id,
+                         "scientific_name": r.scientific_name,
+                         "taxon": r.taxon_id}
+                        for r in species_group]
+                    # serialized_data = SpeciesSerializer(species_group, many=True)
+
+                    return Response(serialized_data, status=status.HTTP_200_OK)
+
+                elif recordset_code.lower() in ["herp", "orn"]:
+                    recordsets = Occurrence.objects.filter(collection_code=recordset_code)#.values()
+                    #recordset_occurrences = recordset_group.values('occurrence_id')
+                    # serializer_class = OccurrenceSerializer(recordset_group, many=True)
+                    # return Response(serializer_class.data, status=status.HTTP_200_OK)
+                    # Serialize the data if needed (assuming you have a serializer)
+                    #print(recordsets)
+
+                    serialized_data = [
+                        {"recordset_code": r.collection_code,
+                         "occurrence_id": r.occurrence_id,
+                         "scientific_name": r.scientific_name,
+                         "taxon": r.taxon_id}
+                        for r in recordsets]
+                    # serialized_data = recordsets
+
+                    return Response(serialized_data, status=status.HTTP_200_OK)
+
+                else:
+                    return Response(f"404: No occurrences in the {recordset_code} collection to display, for now.", status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response("404: Invalid recordset ID filter", status=status.HTTP_400_BAD_REQUEST)
+
+
+### api/recordset/GG/species/beckii
+class CASrecordsetSpeciesDetail(APIView):
+    permission_classes = [AllowAny]
     def get(self, request, recordset_code, speciesName_filter, *args, **kwargs):
 
         if recordset_code.isalpha():
             if speciesName_filter.isalpha():
-                if recordset_code.lower() == ("gg" or "galapagateway"):
+                if recordset_code.lower() in ["gg", "galapagateway"]:
                     species_group = GG.objects.filter(scientific_name__icontains=speciesName_filter)
                     serialized_data = [
                         {"recordset_id": r.recordset_id,
@@ -95,7 +173,7 @@ class CASrecordsetSpeciesList(APIView):
 
                     return Response(serialized_data, status=status.HTTP_200_OK)
 
-                elif recordset_code.lower() == ("herp" or "orn"):
+                elif recordset_code.lower() in ["herp","orn"]:
                     recordsets = Occurrence.objects.filter(collection_code=recordset_code, scientific_name__icontains=speciesName_filter)#.values()
                     #recordset_occurrences = recordset_group.values('occurrence_id')
                     # serializer_class = OccurrenceSerializer(recordset_group, many=True)
@@ -329,3 +407,19 @@ class GBIFrecordsetOccurrence(APIView):
         else:
             result = "No results from occurrence search. Retry with either taxonKey or species' scientific name."
         return Response(result)
+
+#
+# class LoginView(APIView):
+#     permission_classes = [AllowAny]  # Allow all users (authenticated or not) to access this view
+#
+#     def post(self, request, *args, **kwargs):
+#         username = request.data.get("username")
+#         password = request.data.get("password")
+#
+#         user = authenticate(request, username=username, password=password)
+#
+#         if user is not None:
+#             login(request, user)
+#             return Response({"message": "Login successful"}, status=status.HTTP_200_OK)
+#         else:
+#             return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)

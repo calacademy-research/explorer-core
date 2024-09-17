@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models_og import Images
-
-class ImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Images
-        fields = '__all__'
+# from .models_og import Images
+#
+# class ImageSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Images
+#         fields = '__all__'
 
 # class UserRegistrationSerializer(serializers.ModelSerializer):
 #     class Meta:

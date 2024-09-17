@@ -1,158 +1,129 @@
-import hmac
-import time
-from django.db import connections
-from django.conf import settings
-from rest_framework.response import Response
-from django.utils.decorators import wraps
+# middleware.py
+import logging
+from django.http import JsonResponse
+from django.utils.deprecation import MiddlewareMixin
+from django.contrib.auth import authenticate, login, logout
+from django.db import connection
+from django.urls import reverse
 
-class CheckDBMiddleware:
+
+logger = logging.getLogger(__name__)
+
+class CustomMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
+        logger.info("middleware __init__")
 
     def __call__(self, request):
-        # Check if info exists in the first database
-
-        with connections['default'].cursor() as cursor:
-            cursor.execute("SELECT * FROM botanydb.collectingtrip;")
-            result = cursor.fetchone()
-
-        if result is None:
-            # Fetch info from the second database
-            with connections['clusterdb'].cursor() as cursor:
-                cursor.execute("SHOW TABLES;")
-
-                #cursor.execute("SELECT * FROM clusterdb WHERE condition;")
-                result = cursor.fetchone()
-                print(type(result))
-
-
-        # Store the result in request for use in views
-        request.clutser_info = result
-
+        # Code to execute before the view is called
+        logger.info("middleware called")
         response = self.get_response(request)
+
+        # Code to execute after the view is called
+        logger.info("middleware after view")
+        response = self.process_response(request, response)
+
         return response
 
+    def process_request(self, request):
+        # Log the request path and method
+        logger.info(f"Request path: {request.path}, Method: {request.method}")
 
+        # Connect to MySQL database and obtain a cursor
+        with connection.cursor() as cursor:
+            # Checking specific paths
+            if request.path == '/admin':
+                logger.info("Landed on /admin page")
+                self.handle_admin(request, cursor)
+            elif request.path == '/login':
+                logger.info("Handling login attempt")
+                self.handle_login(request, cursor)
+            elif request.path == '/logout':
+                logger.info("Handling logout attempt")
+                self.handle_logout(request, cursor)
 
-def get_record_sql_parser(table, columns, condition=None, limit=None):
-    """used to parse sql SELECT statements for any table with optional
-      filter conditions
-      args:
-        table: the tablename you desire to get data from
-        columns: a list of column names to select if not, will default to "*"
-        condition: optional condition(s) to filter data by.
-    """
-    sql = "SELECT "
-    if columns:
-        sql += ", ".join(columns)
-    else:
-        sql += "*" + " "
+    def handle_admin(self, request, cursor):
+        # Example: Log admin access
+        print("Accessing /admin")
+        # Perform any admin-specific logic using the cursor if needed
+        # cursor.execute("SELECT * FROM some_table WHERE condition=%s", [value])
 
-    sql += " " + f"FROM {table}"
+    def handle_login(self, request, cursor):
+        # Example: Handle login logic
+        # if request.method == 'POST':
+        #     # Example: Validate login credentials using the cursor
+        #     username = request.POST.get('username')
+        #     password = request.POST.get('password')
+        #     cursor.execute("SELECT * FROM users WHERE username=%s AND password=%s", [username, password])
+        #     user = cursor.fetchone()
+        #
+        #     if user:
+        #         print("Login successful")
+        #         # Perform any additional login actions, like setting session data
+        #     else:
+        #         return JsonResponse({'error': 'Invalid credentials'}, status=401)
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
 
-    if condition:
-        sql += " " + condition
-    if limit:
-        sql += " " + f"LIMIT {limit}"
+            # Authenticate the user
+            user = authenticate(request, username=username, password=password)
 
-    sql += ";"
+            if user is not None:
+                # User is authenticated, log them in
+                login(request, user)
+                # Example of database interaction (optional)
+                cursor.execute("INSERT INTO user_logins (user_id, login_time) VALUES (%s, NOW())", [user.id])
+                print("Login successful")
+                return JsonResponse({'message': 'Login successful'}, status=200)
+            else:
+                # User authentication failed
+                return JsonResponse({'error': 'Invalid credentials'}, status=401)
+        else:
+            # Handle non-POST requests
+            return JsonResponse({'error': 'Invalid request method'}, status=405)
 
-    return sql
+    def handle_logout(self, request, cursor):
+        # Example: Handle logout logic
+        print("Accessing /api/logout")
+        # Perform any logout-specific logic using the cursor if needed
+        # For example, clear session data
+        if request.method == 'POST':
+            if request.user.is_authenticated:
+                # Log the user out
+                logout(request)
+                # Example: Log the logout action to the database (optional)
+                cursor.execute("INSERT INTO user_logouts (user_id, logout_time) VALUES (%s, NOW())", [request.user.id])
+                print("Logout successful, session cleared")
+                return JsonResponse({'message': 'Logout successful'}, status=200)
+            else:
+                # User is not logged in
+                return JsonResponse({'error': 'User not logged in'}, status=400)
+        else:
+            # Handle non-POST requests
+            return JsonResponse({'error': 'Invalid request method'}, status=405)
 
+    #@staticmethod
+    def process_response(self, request, response):
+        # Any additional logic to be applied to the response
+        # Example: Modify response headers
+        #logger.info("Processing response")
+        response['X-Custom-Header'] = 'CalAcademy Collections API'
 
-def generate_token(timestamp, filename):
-    """Generate the auth token for the given filename and timestamp.
-    This is for comparing to the client submited token.
-    """
-    timestamp = str(timestamp)
-    if timestamp is None:
-        print(f"Missing timestamp; token generation failure.")
-    if filename is None:
-        print(f"Missing filename, token generation failure.")
-    mac = hmac.new(settings.KEY.encode(), timestamp.encode() + filename.encode(), digestmod='md5')
-    return ':'.join((mac.hexdigest(), timestamp))
+        # Example: Log the response status code
+        logger.info(f"Response status code: {response.status_code}")
 
+        # Optionally handle specific path-based responses
+        if request.path == '/login' and response.status_code == 200:
+            response['X-Login-Success'] = 'True'
+        if request.path == '/api/recordset/' and response.status_code == 200:# and response.status_code == 200:
+            response['X-Custom-Header'] = 'Recordset API'
+            logger.info("landed on recordset page successfully")
 
-class TokenException(Exception):
-    """Raised when an auth token is invalid for some reason."""
-    pass
+        return response
 
+    def process_exception(self, request, exception):
+        # Handle exceptions globally
+        logger.error(f"Exception occurred: {exception}")
+        return JsonResponse({'error': 'Internal server error'}, status=500)
 
-def get_timestamp():
-    """Return an integer timestamp with one second resolution for
-    the current moment.
-    """
-    return int(time.time())
-
-
-def validate_token(token_in, filename):
-    """Validate the input token for given filename using the secret key
-    in settings. Checks that the token is within the time tolerance and
-    is valid.
-    """
-    if settings.KEY is None:
-        return
-    if token_in == '':
-        raise TokenException("Auth token is missing.")
-    if ':' not in token_in:
-        raise TokenException("Auth token is malformed.")
-
-    mac_in, timestr = token_in.split(':')
-    try:
-        timestamp = int(timestr)
-    except ValueError:
-        raise TokenException("Auth token is malformed.")
-
-    if settings.TIME_TOLERANCE is not None:
-        current_time = get_timestamp()
-        if not abs(current_time - timestamp) < settings.TIME_TOLERANCE:
-            raise TokenException("Auth token timestamp out of range: %s vs %s" % (timestamp, current_time))
-
-    if token_in != generate_token(timestamp, filename):
-        raise TokenException("Auth token is invalid.")
-    print(f"Valid token: {token_in} time: {timestr}")
-
-
-def include_timestamp(func):
-    """Decorate a view function to include the X-Timestamp header to help clients
-    maintain time synchronization.
-    """
-
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        result = func(*args, **kwargs)
-        if isinstance(result, Response):
-            result['X-Timestamp'] = str(get_timestamp())
-        return result
-
-    return wrapper
-
-def require_token(filename_param, always=False):
-    """Decorate a view function to require an auth token to be present for access.
-
-    filename_param defines the field in the request that contains the filename
-    against which the token should validate.
-
-    If REQUIRE_KEY_FOR_GET is False, validation will be skipped for GET and HEAD
-    requests.
-
-    Automatically adds the X-Timestamp header to responses to help clients stay
-    synchronized.
-    """
-
-    def decorator(func):
-        @include_timestamp
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            request = args[0]  # Assuming request is the first argument
-            if always or request.method not in ('GET', 'HEAD') or settings.REQUIRE_KEY_FOR_GET:
-                params = request.data if request.method == 'POST' else request.query_params
-                try:
-                    validate_token(params.get('token'), params.get(filename_param))
-                except TokenException as e:
-                    return Response({'detail': f"403 - Forbidden. Invalid token: '{params.get('token')}'"}, status=403)
-            return func(*args, **kwargs)
-
-        return wrapper
-
-    return decorator

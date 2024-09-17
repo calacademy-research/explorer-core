@@ -8,10 +8,10 @@ class CheckDBMiddleware:
     def __call__(self, request):
         # Check if info exists in the first database
 
-        with connections['collections'].cursor() as cursor:
+        with connections['default'].cursor() as cursor:
             cursor.execute("SELECT * FROM collectionsdb.collections_app_api_occurrence;")
             result = cursor.fetchone()
-
+            print("collectionsdb.collections_api_occurrence results: ", result)
         # with connections['default'].cursor() as cursor:
         #     cursor.execute("SELECT * FROM botanydb.collectingtrip;")
         #     result = cursor.fetchone()
@@ -24,7 +24,8 @@ class CheckDBMiddleware:
         #     result = cursor.fetchone()
         #     # print("botanydb.collectionobject results: ", result)
         #
-        # if result is None:
+            if result is None:
+             exit("Database connection error in middleware_test.py")
         #     # Fetch info from the second database
         #     with connections['clusterdb'].cursor() as cursor:
         #         cursor.execute("SHOW TABLES;")

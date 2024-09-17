@@ -21,3 +21,15 @@ class GalapagatewaySerializer(serializers.ModelSerializer):
     class Meta:
         model = GG
         fields = '__all__'
+
+class SpeciesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Species
+        fields = '__all__'
+
+class OrganizaztionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Org
+        fields = '__all__'
+
+

@@ -12,24 +12,43 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-_$glag1v^pd7j45)$49%)48ad*s(lwmr4zi)1ur3okz!%@o&=!"
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
+
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS').split(',')
 
 
-ALLOWED_HOSTS = ['0.0.0.0',
-                 #personal phone IP
-                 '10.1.13.39']
+    # SECURE_SSL_REDIRECT = True
+    # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    #
+    # CSRF_COOKIE_SECURE = True
+    # SESSION_COOKIE_SECURE = True
+    #
+    # # Recommended security settings
+    # SECURE_HSTS_SECONDS = 31536000  # Enforce HTTP Strict Transport Security (HSTS) for 1 year
+    # SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains
+    # SECURE_HSTS_PRELOAD = True  # Preload HSTS in browsers
+    #
+    # # Prevent browser from inferring MIME types
+    # SECURE_CONTENT_TYPE_NOSNIFF = True
+    #
+    # # X-Content-Type-Options header set to nosniff
+    # X_FRAME_OPTIONS = 'DENY'
+
+
+# INTERNAL_IPS = os.getenv('DJANGO_INTERNAL_IPS')
 
 # API Authentication
 REST_FRAMEWORK = {
@@ -42,9 +61,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
 }
 
@@ -73,7 +94,7 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
 ]
 
-#WSGI_APPLICATION = "explorer-core.wsgi.application"
+# WSGI_APPLICATION = "explorer-core.wsgi.application"
 
 # Application definition
 
@@ -85,6 +106,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "debug_toolbar",
     "collections_app_api",
     "corsheaders",
     "rest_framework",
@@ -101,8 +123,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "collections_app_api.middleware_test.CheckDBMiddleware",
-    #"explorer-core.middleware.CheckDBMiddleware"
+    "collections_app_api.middleware.CustomMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "explorer-core.urls"
@@ -130,21 +152,34 @@ TEMPLATES = [
 
 DATABASES = {
             # must have default database, will look into removing/setting up dummy default db
-            "default": {
+            # "default": {
+            #      'ENGINE': 'django.db.backends.mysql',
+            #      'NAME': os.getenv('MYSQL_DATABASE', 'collectionsdb'),
+            #      'USER': os.getenv('MYSQL_USER', 'django'),
+            #      'PASSWORD': os.getenv('MYSQL_PASSWORD', 'django@CAS!000'),
+            #      'HOST': os.getenv('MYSQL_HOST','db'),
+            #      'PORT': os.getenv('MYSQL_PORT', '3306'),
+            #  },
+            "default": dj_database_url.config(
+                default=os.environ.get('DATABASE_URL')),
+            "collections": {
                  'ENGINE': 'django.db.backends.mysql',
-                 'NAME': 'collectionsdb',
-                 'USER': 'django',
-                 'PASSWORD': 'django@CAS!000',
-                 'HOST': '127.0.0.1',
-                 'PORT': '3308',
+                 'NAME': os.getenv('MYSQL_DATABASE'),
+                 'USER': os.getenv('MYSQL_USER'),
+                 'PASSWORD': os.getenv('MYSQL_PASSWORD'),
+                 'HOST': os.getenv('DB_HOST'),
+                 'PORT': os.getenv('DB_PORT'),
+                'OPTIONS': {
+                    'connect_timeout': 10,
+                }
              },
-            "collections":  {
+            "db":  {
                  'ENGINE': 'django.db.backends.mysql',
                  'NAME': 'collectionsdb',
                  'USER': 'django',
                  'PASSWORD': 'django@CAS!000',
-                 'HOST': '127.0.0.1',
-                 'PORT': '3308',
+                 'HOST': '0.0.0.1',
+                 'PORT': '3306',
              },
             "botany": {
                 "ENGINE": "django.db.backends.mysql",
@@ -230,7 +265,12 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = '/static/'
+# STATIC_ROOT = '/collections_app_api/static/'
+# STATICFILES_DIRS = [
+#             os.path.join(BASE_DIR, 'collections_app_api', 'static'),
+#     ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
