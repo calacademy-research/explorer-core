@@ -4,9 +4,7 @@ Nginx depends on Django web, Django web relies on mySQL
 
 
 Docker Compose version v2.26.1-desktop.1
-Server: Docker Engine - Community
- Engine:
-  Version:          27.2.0
+Docker Engine - Community version 27.2.0
 
 
 
