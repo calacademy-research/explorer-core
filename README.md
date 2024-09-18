@@ -3,6 +3,13 @@ Docker compose of collections explorer core (Django API container, mySQL contain
 Nginx depends on Django web, Django web relies on mySQL
 
 
+Docker Compose version v2.26.1-desktop.1
+Server: Docker Engine - Community
+ Engine:
+  Version:          27.2.0
+
+
+
 $ _docker compose up --build_
 
 
