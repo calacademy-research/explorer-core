@@ -11,7 +11,7 @@ class CheckDBMiddleware:
         with connections['default'].cursor() as cursor:
             cursor.execute("SELECT * FROM collectionsdb.collections_app_api_occurrence;")
             result = cursor.fetchone()
-            print("collectionsdb.collections_api_occurrence results: ", result)
+            # print("collectionsdb.collections_api_occurrence results: ", result)
         # with connections['default'].cursor() as cursor:
         #     cursor.execute("SELECT * FROM botanydb.collectingtrip;")
         #     result = cursor.fetchone()

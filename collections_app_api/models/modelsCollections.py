@@ -100,7 +100,7 @@ class CollectionsAppApiGalapagateway(models.Model):
     galapagatewaykey = models.BigAutoField(db_column='galapagatewayKey', primary_key=True)  # Field name made lowercase.
     recordset_id = models.CharField(max_length=45, blank=True, null=True)
     recordsetName_id = models.CharField(db_column='recordsetName_id', max_length=32)  # Field name made lowercase.
-    occurrence_id = models.CharField(unique=True, max_length=45)
+    occurrence_id = models.CharField(db_column='occurrence_id', unique=True, max_length=45)
     scientific_name = models.CharField(max_length=235, blank=True, null=True)
     taxon_id = models.IntegerField(blank=True, null=True)
 

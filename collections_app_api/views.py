@@ -82,25 +82,24 @@ class CASrecordsetGroupList(APIView):
 
             if recordset_code.lower() in ["gg", "galapagateway"]:
                 if len(taxon_key) == 0:
-                    logger.info("hi")
+
                     # recordset_group = GG.objects.values('occurrence_id', 'taxon_id')
                     recordset_group = GG.objects.values()
                     serialized_data = GalapagatewaySerializer(recordset_group, many=True)
                 else:
                     # recordset_group = GG.objects.filter(taxon_id=taxon_key).values('occurrence_id', 'taxon_id')
                     recordset_group = GG.objects.filter(taxon_id=taxon_key).values()
-                    logger.info("Here")
+
                     serialized_data = GalapagatewaySerializer(recordset_group, many=True)
                 #print(recordset_group)
                 #return Response(recordset_group, status=status.HTTP_200_OK)
                 return Response(serialized_data.data, status=status.HTTP_200_OK)
-            elif recordset_code.lower() == "HERP" or recordset_code.lower() ==  "orn":
+            elif recordset_code.lower() in ["herp","orn"]:
                 if len(taxon_key) == 0:
-                    logger.info("occ")
+
                     # recordset_occurrences = Occurrence.objects.filter(collection_code=recordset_code).values('occurrence_id', 'taxon_id')
                     recordset_occurrences = Occurrence.objects.filter(collection_code=recordset_code).values()
                 else:
-                    logger.info("occurrrr")
                     # recordset_occurrences = Occurrence.objects.filter(collection_code=recordset_code,
                     #                                             taxon_id=taxon_key).values('occurrence_id', 'taxon_id')
                     recordset_occurrences = Occurrence.objects.filter(collection_code=recordset_code,
@@ -120,7 +119,8 @@ class CASrecordsetSpeciesList(APIView):
 
         if recordset_code.isalpha():
                 if recordset_code.lower() in ["gg","galapagateway"]:
-                    species_group = GG.objects.values()
+                    species_group = GG.objects
+
                     serialized_data = [
                         {"occurrence_id": r.occurrence_id,
                          "scientific_name": r.scientific_name,
@@ -136,7 +136,11 @@ class CASrecordsetSpeciesList(APIView):
                     # serializer_class = OccurrenceSerializer(recordset_group, many=True)
                     # return Response(serializer_class.data, status=status.HTTP_200_OK)
                     # Serialize the data if needed (assuming you have a serializer)
-                    #print(recordsets)
+
+                    # logger.info(recordsets)
+                    #
+                    # for every in recordsets:
+                    #     logger.info(every)
 
                     serialized_data = [
                         {"recordset_code": r.collection_code,
