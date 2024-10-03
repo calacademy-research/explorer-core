@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-_$glag1v^pd7j45)$49%)48ad*s(lwmr4zi)1ur3okz!%@o&=!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
 
 
 # Application definition
@@ -78,11 +78,11 @@ WSGI_APPLICATION = "explorer-core.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {"default": {"ENGINE": "django.db.backends.mysql",
-              "NAME": "botanydb",
-              "USER": "django-test",
-              "PASSWORD": "djangobot@CAS",
-              "HOST": "0.0.0.0",
-              "PORT": "3306"
+              "NAME": os.getenv('MYSQL_DATABASE', 'casbotany'),
+              "USER": os.getenv('MYSQL_USER', ''),
+              "PASSWORD": os.getenv('MYSQL_PASSWORD', ''),
+              "HOST": os.getenv('DB_HOST', '0.0.0.0'),
+              "PORT": os.getenv('DB_PORT', '3306')
              }#,
              # "Botany": {"ENGINE": "django.db.backends.mysql",
              # "NAME": "casbotany",

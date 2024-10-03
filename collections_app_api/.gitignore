@@ -1,0 +1,7 @@
+!static/.gitkeep
+static/*
+data/*
+collections_app_api/__pycache__/*
+migrations/*
+models/modelsTest.py
+models/modelsCollections_pre.py

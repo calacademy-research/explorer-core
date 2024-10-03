@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.11
+FROM python:3.10
 
 #Install Nginx and supervisor
 RUN apt-get update && apt-get install -y nginx netcat-openbsd && apt-get install iputils-ping && rm -rf /var/lib/apt/lists/*
@@ -42,7 +42,7 @@ RUN python manage.py collectstatic --noinput
 EXPOSE 8001
 
 # Define the command to run your application
-#CMD ["gunicorn", "explorer-core.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "explorer-core.wsgi:application", "--bind", "0.0.0.0:8000"]
 
 # Set the default command to use Gunicorn to run the app
  #CMD ["gunicorn", "explorer-core.wsgi:application", "--bind", "0.0.0.0:8001"]

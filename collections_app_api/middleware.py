@@ -12,15 +12,15 @@ logger = logging.getLogger(__name__)
 class CustomMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
-        logger.info("middleware __init__")
+        # logger.info("middleware __init__")
 
     def __call__(self, request):
         # Code to execute before the view is called
-        logger.info("middleware called")
+        # logger.info("middleware called")
         response = self.get_response(request)
 
         # Code to execute after the view is called
-        logger.info("middleware after view")
+        # logger.info("middleware after view")
         response = self.process_response(request, response)
 
         return response
@@ -74,7 +74,7 @@ class CustomMiddleware:
                 login(request, user)
                 # Example of database interaction (optional)
                 cursor.execute("INSERT INTO user_logins (user_id, login_time) VALUES (%s, NOW())", [user.id])
-                print("Login successful")
+                logger.info("Login successful")
                 return JsonResponse({'message': 'Login successful'}, status=200)
             else:
                 # User authentication failed
@@ -85,7 +85,7 @@ class CustomMiddleware:
 
     def handle_logout(self, request, cursor):
         # Example: Handle logout logic
-        print("Accessing /api/logout")
+        logger.info("Accessing /api/logout")
         # Perform any logout-specific logic using the cursor if needed
         # For example, clear session data
         if request.method == 'POST':
@@ -94,7 +94,7 @@ class CustomMiddleware:
                 logout(request)
                 # Example: Log the logout action to the database (optional)
                 cursor.execute("INSERT INTO user_logouts (user_id, logout_time) VALUES (%s, NOW())", [request.user.id])
-                print("Logout successful, session cleared")
+                logger.info("Logout successful, session cleared")
                 return JsonResponse({'message': 'Logout successful'}, status=200)
             else:
                 # User is not logged in
@@ -118,7 +118,7 @@ class CustomMiddleware:
             response['X-Login-Success'] = 'True'
         if request.path == '/api/recordset/' and response.status_code == 200:# and response.status_code == 200:
             response['X-Custom-Header'] = 'Recordset API'
-            logger.info("landed on recordset page successfully")
+            # logger.info("landed on recordset page successfully")
 
         return response
 
