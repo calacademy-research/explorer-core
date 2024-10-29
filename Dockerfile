@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.11
+FROM python:3.10
 
 #Install Nginx and supervisor
 RUN apt-get update && apt-get install -y nginx netcat-openbsd && apt-get install iputils-ping && rm -rf /var/lib/apt/lists/*
