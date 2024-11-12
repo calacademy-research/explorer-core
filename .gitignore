@@ -18,5 +18,6 @@ nginx/logs/*
 !nginx/logs/.gitkeep
 api_db_create/
 !collections_app_api/static/.gitkeep
+!collections_app_api/static/casxlogo.png
 env_gcr.yaml
 cloudbuild.yaml
