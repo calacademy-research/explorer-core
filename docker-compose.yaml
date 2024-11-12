@@ -3,7 +3,7 @@ services:
 #  django:
 #    build:
 #      context: .
-#      dockerfile: Dockerfile
+#      dockerfile: Dockerfile_gcr
 #    container_name: django
 #    volumes:
 #      - ".:/collections_app_api"
@@ -62,7 +62,9 @@ services:
 
   web:
     image: explorer-core
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile_nongcr
     volumes:
       - .:/collections_app
       #- /static

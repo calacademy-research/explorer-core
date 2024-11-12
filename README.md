@@ -2,31 +2,38 @@
 Docker compose of collections explorer core (Django API container, mySQL container, nginx container)
 Nginx depends on Django web, Django web relies on mySQL
 
-
 Docker Compose version v2.26.1-desktop.1
-
 Docker Engine - Community version 27.2.0
 
 
+>Things to modify before build:
+>
+>>_.env (Request from Jenna)_
+>>- add .env file to root of Django project folder (explorer-core/.env)
+>>- add your machine's IP address to the DJANGO_ALLOWED_HOSTS list variable in .env
+>
+>>_collections_app_api/static/_
+>>- create a static folder in "collections_app_api" add the static files (example file _casxlogo.png_ included)
 
-$ _docker compose up --build_
+---
+# Local Deployment
+There is a shell script _dc_start.sh_ to make building and starting more convenient:
+```bash
+./dc_start.sh up
+``` 
 
+The same shell script can be used to stop and remove the Docker containers:
+```bash
+./dc_start.sh down
+```
+API runs on _0.0.0.0_ after successful deployment.
 
+Visit _0.0.0.0/api/docs_ to view API document (_/collections_app_api/collections_schema.yaml_).
 
-Things to modify before build:
--
-.env
-- add .env file to root of Django project folder (explorer-core/.env)
-- add your machine's IP address to the DJANGO_ALLOWED_HOSTS list variable in .env
+Static files served through nginx on _0.0.0.0/static/_
 
-
-nginx.conf
-- change server_name variable value to your IP address
-
-collections_app_api/static/
-- create a static folder in "collections_app_api" add the static files of the 3D scans 
-
-# Deploy to GCP
+# GCP Deployment
+ 
 This api is hosted as Cloud Run container on Google Cloud Platform. The project is named `galapagateway`.
 After installing the gcloud cli and authenticating, you can build the docker image on remote:
 ```bash

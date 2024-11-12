@@ -1,0 +1,99 @@
+openapi: 3.0.3
+info:
+  title: Collections Explorer API
+  version: beta
+  description: This is the API for the explorer-core project of California Academy
+    of Sciences' Scientific Computing
+paths:
+  /api/occurrences/:
+    get:
+      operationId: occurrences_retrieve
+      tags:
+      - occurrences
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/recordset/:
+    get:
+      operationId: recordset_retrieve
+      tags:
+      - recordset
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/recordset/{recordset_code}/occurrences/:
+    get:
+      operationId: recordset_occurrences_retrieve
+      parameters:
+      - in: path
+        name: recordset_code
+        schema:
+          type: string
+        required: true
+      tags:
+      - recordset
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/recordset/{recordset_code}/species/:
+    get:
+      operationId: recordset_species_retrieve
+      parameters:
+      - in: path
+        name: recordset_code
+        schema:
+          type: string
+        required: true
+      tags:
+      - recordset
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/recordset/{recordset_code}/species/{speciesName_filter}:
+    get:
+      operationId: recordset_species_retrieve_2
+      parameters:
+      - in: path
+        name: recordset_code
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: speciesName_filter
+        schema:
+          type: string
+        required: true
+      tags:
+      - recordset
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

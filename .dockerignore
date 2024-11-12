@@ -1,0 +1,8 @@
+nginx/logs/*
+nginx/ssl/*
+nginx/nginx_gcp.conf
+collections_app_api/static/CAS/
+.env_gcr
+Dockerfile_gcr
+gcr_api.sh
+dc_start.sh

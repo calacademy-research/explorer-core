@@ -39,6 +39,7 @@ logger = logging.getLogger(__name__)
 class CASrecordsetList(APIView):
     # permission_classes = [IsAuthenticated]
     permission_classes = [AllowAny]
+    serializer = RecordsetSerializer
     # logger.info(permission_classes)
     # print(permission_classes)
     def get(self, request, *args, **kwargs):

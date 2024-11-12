@@ -4,6 +4,7 @@ from . import views
 from rest_framework.routers import DefaultRouter
 from .views import CASrecordsetList, CASoccurrencesList, CASrecordsetGroupList, CASrecordsetSpeciesList, \
     CASrecordsetSpeciesDetail
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 
 # collectionobj_router = routers.SimpleRouter()
 # collectionobj_router.register(
@@ -26,6 +27,9 @@ urlpatterns = [
     # path('idig/', views.iDigBioFetch, name='iDigBioFetch'),
     # path('raw/', views.view_rawData, name='view_rawData'),
     #path('pygbif/', pygbifTester.as_view(), name='pygbif'),
+    path('schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     path('recordset/', CASrecordsetList.as_view(), name='recordset-list'),
     path('occurrences/', CASoccurrencesList.as_view(), name='occurrences-list'),
     path('recordset/<str:recordset_code>/occurrences/', CASrecordsetGroupList.as_view(), name='recordset-groups-list'),

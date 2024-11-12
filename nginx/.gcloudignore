@@ -1,0 +1,6 @@
+logs/
+ssl/
+nginx.conf
+nginx_new.conf
+supervisord.conf
+*.tmp

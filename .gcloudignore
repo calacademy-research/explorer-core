@@ -1,0 +1,11 @@
+staticfiles/
+.venv/
+.env
+.env_gcr
+gcr_api.sh
+nginx/*
+docker-compose.yaml
+env_gcr.yaml
+cloudbuild.yaml
+wait-for-it.sh
+collections_app_api/static/CAS/*
