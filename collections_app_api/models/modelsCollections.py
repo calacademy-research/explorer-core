@@ -159,6 +159,7 @@ class CollectionsAppApiOccurrence(models.Model):
     locality = models.TextField(blank=True, null=True)
     verbatim_locality = models.TextField(blank=True, null=True)
     collection_code = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
     occurrence_remarks = models.TextField(blank=True, null=True)
     verbatim_elevation = models.CharField(max_length=255, blank=True, null=True)
     higher_classification = models.TextField(blank=True, null=True)
@@ -170,6 +171,13 @@ class CollectionsAppApiOccurrence(models.Model):
     class Meta:
         managed = False
         db_table = 'collections_app_api_occurrence'
+
+    # def __str__(self):
+    #     return self.occurrence_id
+    #
+    # def save(self, *args, **kwargs):
+    #     logger.info("Successfully saved changes to Occurrence table")
+    #     super().save(*args, **kwargs)
 
 
 class CollectionsAppApiOrganization(models.Model):

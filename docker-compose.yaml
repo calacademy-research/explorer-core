@@ -65,16 +65,18 @@ services:
     build:
       context: .
       dockerfile: Dockerfile_nongcr
+#    entrypoint: ./entrypoint.sh
     volumes:
       - .:/collections_app
       #- /static
     env_file:
       - .env
-    command: >
-      bash -c "
-      /wait-for-it.sh db:3306 -- /venv/bin/python manage.py migrate && 
-      /venv/bin/gunicorn explorer-core.wsgi:application --bind 0.0.0.0:8001 --timeout 30
-      "
+    command: ["./entrypoint.sh"]
+#    command: >
+#      bash -c "
+#      /wait-for-it.sh db:3306 -- /.venv/bin/python manage.py makemigrations && /.venv/bin/python manage.py showmigrations && /.venv/bin/python manage.py migrate &&
+#      /.venv/bin/gunicorn explorer-core.wsgi:application --bind 0.0.0.0:8001 --timeout 30
+#      "
     depends_on:
       - db
     ports:

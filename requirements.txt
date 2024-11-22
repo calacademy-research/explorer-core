@@ -19,9 +19,10 @@ dj_database_url
 django-debug-toolbar
 #django_plotly_dash==2.3.1
 django-cors-headers
+#django-jazzmin==3.0.1
 djangorestframework==3.14.0
 docutils
-drf-spectacular
+drf-spectacular==0.27.2
 environs==11.0.0
 filelock==3.13.4
 #gssapi==1.8.3

@@ -1,8 +1,8 @@
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import status, generics
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
+from rest_framework import status, generics, viewsets
 from rest_framework.views import APIView
+from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_403_FORBIDDEN, HTTP_405_METHOD_NOT_ALLOWED
 
 
 from django.conf import settings
@@ -15,11 +15,11 @@ from django.contrib.auth import authenticate, login
 import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-from .models import CollectionsAppApiCollectionsrecordset as Recordset
-from .models import CollectionsAppApiGalapagateway as GG
-from .models import CollectionsAppApiOccurrence as Occurrence
-from .models import CollectionsAppApiSpecies as Species
-from .models import CollectionsAppApiOrganization as Org
+from collections_app_api.models.modelsCollections import CollectionsAppApiCollectionsrecordset as Recordset
+from collections_app_api.models import CollectionsAppApiGalapagateway as GG
+from collections_app_api.models.modelsCollections import CollectionsAppApiOccurrence as Occurrence
+from collections_app_api.models import CollectionsAppApiSpecies as Species
+from collections_app_api.models import CollectionsAppApiOrganization as Org
 from .serializers import *
 
 import json
@@ -31,8 +31,27 @@ from pygbif import species as species
 from pygbif import occurrences as occ
 from pygbif import registry
 import logging
+import re
+
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 
 logger = logging.getLogger(__name__)
+
+def format_occurrenceID(occurrenceID_raw):
+    input_str = occurrenceID_raw.replace(" ", "")
+    # regex to match ORN1234, HERP12345, HERP 12345, etc.
+    match = re.match(r"([A-Za-z]{3,4})(\d{4,5})", occurrenceID_raw)
+    if match:
+        letters, numbers = match.groups()
+        return f"urn:catalog:CAS:{letters}:{numbers}"
+    else:
+        raise ValueError("occurrenceID string must contain letters followed by numbers (i.e. ORN1234, ORN 12345, etc.)")
+
+#
+# /api/occurrencesDB/
+# class OccurrenceViewSet(viewsets.ModelViewSet):
+#     queryset = Occurrence.objects.all()
+#     serializer_class = OccurrenceSerializer
 
 ### api/recordset/
 #class CASrecordsetList(generics.ListCreateAPIView):
@@ -48,7 +67,6 @@ class CASrecordsetList(APIView):
         #     data = Recordset.objects.values()
         #     cache.set('my_key', data, timeout=60 * 15)  # Cache for 15 minutes
         # return render(request, 'template.html', {'data': data})
-
         try:
             recordset_list = Recordset.objects.values()
             serializer = RecordsetSerializer(recordset_list, many=True)
@@ -58,13 +76,80 @@ class CASrecordsetList(APIView):
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class CASoccurrencesList(APIView):
-    permission_classes = [AllowAny]
-    def get(self, request, *args, **kwargs):
-        occurrences_list = Occurrence.objects.values()
-        #return Response(occurrences_list, status=status.HTTP_200_OK)
-        serializer = OccurrenceSerializer(occurrences_list, many=True)
-        #return Response(queryset, status=status.HTTP_200_OK)
-        return Response(serializer.data)
+    @extend_schema(
+        description='Retrieve a list of occurrences with optional filter by collection ID',
+        parameters=[
+            OpenApiParameter(
+                name='occurrence_id',
+                type=str,
+                location='body',
+                description="ID ({Collection code}{Catalog number}) of the species occurrence(s) to retrieve, no space (i.e. ORN001)."
+            ),
+        ]
+    )
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            # return [IsAuthenticated()]  # Allow authenticated users for GET requests
+            return [AllowAny()]
+        elif self.request.method == 'POST':
+            return [IsAdminUser()]  # Only allow admins for POST requests
+        return []
+
+    def get(self, request, occurrence_id=None):
+        if occurrence_id:
+            logger.info("raw: "+occurrence_id)
+            logger.info(occurrence_id[0:15])
+            if ":" not in occurrence_id or "urn:catalog:CAS:" not in occurrence_id[:15]:
+                logger.info("Need to format occurrence_id")
+                occurrence_id = format_occurrenceID(occurrence_id)
+                logger.info("clean: "+occurrence_id)
+                try:
+                    # get specific occurrence by occurrence id (i.e. HERP8141)
+                    logger.info(occurrence_id)
+                    occurrences_list = Occurrence.objects.filter(occurrence_id=occurrence_id)
+                    # return Response(occurrences_list, status=status.HTTP_200_OK)
+                    serializer = OccurrenceSerializer(occurrences_list, many=True)
+                    # return Response(queryset, status=status.HTTP_200_OK)
+                    return Response({"message": "Occurrence details retrieved successfully",
+                                     "data": serializer.data},
+                                    status=status.HTTP_200_OK)
+                except Occurrence.DoesNotExist:
+                    return Response({"error": "Occurrence not found"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            # list all occurrences
+            occurrences_list = Occurrence.objects.all()
+            # return Response(occurrences_list, status=status.HTTP_200_OK)
+            serializer = OccurrenceSerializer(occurrences_list, many=True)
+            # return Response(queryset, status=status.HTTP_200_OK)
+            # return Response(serializer.data)
+            return Response({"message": "Occurrence retrieved successfully",
+                                    "data": serializer.data},
+                                    status = status.HTTP_200_OK)
+        #
+        # # occurrences_list = Occurrence.objects.values()
+        # occurrences_list = Occurrences.objects.all()
+        # #return Response(occurrences_list, status=status.HTTP_200_OK)
+        # serializer = OccurrenceSerializer(occurrences_list, many=True)
+        # #return Response(queryset, status=status.HTTP_200_OK)
+        # return Response(serializer.data)
+
+    def post(self, request):
+
+        if not request.user.is_staff: # extra check for admin priv
+            return Response({"detail": "Forbidden"}, status=HTTP_403_FORBIDDEN)
+
+        serializer = OccurrenceSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": "New object created successfully",
+                             "data": serializer.data},
+                            status=status.HTTP_201_CREATED)
+        return Response({"message": "Validation failed",
+                         "errors": serializer.errors},
+                        status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 ### api/recordset/Galapagateway/occurrences/HERP8141
 # class CASrecordsetOccurrence(generics.ListCreateAPIView):
@@ -77,6 +162,20 @@ class CASoccurrencesList(APIView):
 #class CASrecordsetGroupList(generics.ListCreateAPIView):
 class CASrecordsetGroupList(APIView):
     permission_classes = [AllowAny]
+
+    @extend_schema(
+        description='Retrieve a list of occurrences by Recordset Code.',
+        request=RecordsetSerializer,
+        parameters=[
+            OpenApiParameter(
+                name='recordset_code',
+                type=str,
+                location='body',
+                description="For example, if you would like to see occurrences/species list of Herpetology, you would use HERP."
+            ),
+        ]
+    )
+
     def get(self, request, recordset_code, *args, **kwargs):
         if recordset_code.isalpha():
             taxon_key = request.GET.get('taxon', '')

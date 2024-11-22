@@ -1,0 +1,1 @@
+default_app_config = 'collections_app_api.apps.APIConfig'

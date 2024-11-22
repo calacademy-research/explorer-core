@@ -17,6 +17,50 @@ paths:
       responses:
         '200':
           description: No response body
+    post:
+      operationId: occurrences_create
+      tags:
+      - occurrences
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/occurrences/{occurrence_id}/details:
+    get:
+      operationId: occurrences_details_retrieve
+      parameters:
+      - in: path
+        name: occurrence_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - occurrences
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: occurrences_details_create
+      parameters:
+      - in: path
+        name: occurrence_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - occurrences
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          description: No response body
   /api/recordset/:
     get:
       operationId: recordset_retrieve
@@ -32,12 +76,19 @@ paths:
   /api/recordset/{recordset_code}/occurrences/:
     get:
       operationId: recordset_occurrences_retrieve
+      description: Retrieve a list of occurrences by Recordset Code.
       parameters:
       - in: path
         name: recordset_code
         schema:
           type: string
         required: true
+      - in: body
+        name: recordset_code
+        schema:
+          type: string
+        description: For example, if you would like to see occurrences/species list
+          of Herpetology, you would use HERP.
       tags:
       - recordset
       security:

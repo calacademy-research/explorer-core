@@ -9,8 +9,8 @@ def main():
 
     # # dotenv settings-- removed for GCR as variables are fed into with run deploy command
     dotenv.load_dotenv(
-        # os.path.join(os.path.dirname(__file__), '.env')
-        os.path.join(os.path.dirname(__file__), '.env_gcr')
+         os.path.join(os.path.dirname(__file__), '.env')
+        # os.path.join(os.path.dirname(__file__), '.env_gcr')
     )
 
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'explorer-core.settings_test')

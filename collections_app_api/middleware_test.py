@@ -1,4 +1,17 @@
 from django.db import connections
+import logging
+
+logger = logging.getLogger(__name__)
+
+class LogEndpointMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        # Log the status code and endpoint
+        logger.info(f"Response status code: {response.status_code} for endpoint: {request.path}")
+        return response
 
 
 class CheckDBMiddleware:

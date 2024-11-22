@@ -15,9 +15,11 @@ import os
 import dj_database_url
 from dotenv import load_dotenv
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(os.path.join(BASE_DIR, '.env'))
+# load_dotenv(os.path.join(BASE_DIR, '.env_gcr'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -26,9 +28,9 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
-
-ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',')
-
+# SECURITY WARNING: don't run with wildcard in production!
+# ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',')
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS').split(',')
 
     # SECURE_SSL_REDIRECT = True
     # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -67,6 +69,15 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
         # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Collections Explorer API',
+    'DESCRIPTION': 'This is the API for the explorer-core project of California Academy of Sciences\' Scientific Computing',
+    'VERSION': 'beta',
+    'SERVE_INCLUDE_SCHEMA': False,  # Set True if you want to include the schema in the UI
+    # Optional: customize URLs or other settings here
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -100,6 +111,7 @@ CORS_ALLOW_HEADERS = [
 
 INSTALLED_APPS = [
     "django_extensions",
+    # "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -110,7 +122,9 @@ INSTALLED_APPS = [
     "collections_app_api",
     "corsheaders",
     "rest_framework",
-    "rest_framework.authtoken"
+    "rest_framework.authtoken",
+    "drf_spectacular",
+    # 'collections_app_api.apps.APIConfig'
 ]
 
 
@@ -125,6 +139,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "collections_app_api.middleware.CustomMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "collections_app_api.middleware_test.LogEndpointMiddleware",
 ]
 
 ROOT_URLCONF = "explorer-core.urls"
@@ -144,7 +159,6 @@ TEMPLATES = [
         },
     },
 ]
-
 
 
 # Database
@@ -247,6 +261,41 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname}: {asctime} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'collections_app_api': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -270,7 +319,10 @@ STATIC_URL = '/static/'
 # STATICFILES_DIRS = [
 #             os.path.join(BASE_DIR, 'collections_app_api', 'static'),
 #     ]
+
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+###### The following line is configured to GCR nginx service
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
