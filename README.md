@@ -29,11 +29,12 @@ The same shell script can be used to stop and remove the Docker containers, volu
 
 ...And to occassionally, fully prune Docker resources and builder cache/layers tied to this project:
 ```bash
-./dc_start.sh clean
+./dc_start.sh prune
 ```
 * _Should_ only prune resources related to this project only. ***DO*** double-check before cleaning.....
+* Still tweaking "cleanup" part of dc_start.sh
 
-API runs on _0.0.0.0_ after successful deployment.
+* API runs on _0.0.0.0_ after successful deployment.
 
 Visit _0.0.0.0/api/docs_ to view API document (_/collections_app_api/collections_schema.yaml_).
 
