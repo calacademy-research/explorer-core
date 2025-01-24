@@ -17,8 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
+from django.http import HttpResponse
 
-urlpatterns = [path('api/', include("collections_app_api.urls")),
+urlpatterns = [path('', lambda request: HttpResponse("Collection Explorer Homepage"), name='home'),
+               path('api/', include("collections_app_api.urls")),
                path("admin/", admin.site.urls),
                path('accounts/', include("django.contrib.auth.urls")),
                # path('api-auth/', include('rest_framework.urls')),  # DRF's login/logout views

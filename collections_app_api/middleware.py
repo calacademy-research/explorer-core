@@ -27,28 +27,31 @@ class CustomMiddleware:
 
     def process_request(self, request):
         # Log the request path and method
-        logger.info(f"Request path: {request.path}, Method: {request.method}")
+        logger.info(f"middleware.py: Request path: {request.path}, Method: {request.method}")
 
         # Connect to MySQL database and obtain a cursor
         with connection.cursor() as cursor:
             # Checking specific paths
             if request.path == '/admin':
-                logger.info("Landed on /admin page")
+                logger.info("middleware.py: Landed on /admin page")
                 self.handle_admin(request, cursor)
             elif request.path == '/login':
-                logger.info("Handling login attempt")
+                logger.info("middleware.py: Handling login attempt")
                 self.handle_login(request, cursor)
             elif request.path == '/logout':
-                logger.info("Handling logout attempt")
+                logger.info("middleware.py: Handling logout attempt")
                 self.handle_logout(request, cursor)
 
     def handle_admin(self, request, cursor):
         # Example: Log admin access
-        print("Accessing /admin")
+        logger.info("middleware.py: Accessing /admin")
+        print("middleware.py: Accessing /admin")
         # Perform any admin-specific logic using the cursor if needed
         # cursor.execute("SELECT * FROM some_table WHERE condition=%s", [value])
 
     def handle_login(self, request, cursor):
+        logger.info("middleware.py: Handling /admin/login")
+        print("middleware.py: Handling /admin/login")
         # Example: Handle login logic
         # if request.method == 'POST':
         #     # Example: Validate login credentials using the cursor
@@ -85,7 +88,7 @@ class CustomMiddleware:
 
     def handle_logout(self, request, cursor):
         # Example: Handle logout logic
-        logger.info("Accessing /api/logout")
+        logger.info("middleware.py: Accessing /api/logout")
         # Perform any logout-specific logic using the cursor if needed
         # For example, clear session data
         if request.method == 'POST':
@@ -106,8 +109,8 @@ class CustomMiddleware:
     #@staticmethod
     def process_response(self, request, response):
         # Any additional logic to be applied to the response
-        # Example: Modify response headers
-        #logger.info("Processing response")
+
+        logger.info("middleware.py: Processing response")
         response['X-Custom-Header'] = 'CalAcademy Collections API'
 
         # Example: Log the response status code
@@ -117,13 +120,17 @@ class CustomMiddleware:
         if request.path == '/login' and response.status_code == 200:
             response['X-Login-Success'] = 'True'
         if request.path == '/api/recordset/' and response.status_code == 200:# and response.status_code == 200:
-            response['X-Custom-Header'] = 'Recordset API'
+            response['X-Custom-Header'] = 'API Recordsets'
             # logger.info("landed on recordset page successfully")
-
+        if request.path == '/api/occurrences/' and response.status_code == 200:
+            response['X-Custom-Header'] = 'API Occurrences'
+        if request.path == '/admin' and response.status_code == 200:
+            response['X-Custom-Header'] = 'Django Admin Panel'
         return response
 
     def process_exception(self, request, exception):
         # Handle exceptions globally
-        logger.error(f"Exception occurred: {exception}")
+        logger.error(f"middleware.py: Exception occurred: {exception}")
+        logger.error(request)
         return JsonResponse({'error': 'Internal server error'}, status=500)
 

@@ -2,6 +2,7 @@ test_api.py
 *.pyc
 *.xml
 *.iml
+*.log
 .idea/
 .venv/
 staticfiles/*

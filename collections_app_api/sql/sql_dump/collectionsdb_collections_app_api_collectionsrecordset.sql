@@ -2,7 +2,7 @@
 --
 -- Host: 0.0.0.0    Database: collectionsdb
 -- ------------------------------------------------------
--- Server version	8.0.36
+-- Server version	8.0.40
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,28 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `collections_app_api_organization`
+-- Table structure for table `collections_app_api_collectionsrecordset`
 --
 
-DROP TABLE IF EXISTS `collections_app_api_organization`;
+DROP TABLE IF EXISTS `collections_app_api_collectionsrecordset`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `collections_app_api_organization` (
-  `publishing_org` varchar(235) NOT NULL,
-  `organizationID` varchar(255) NOT NULL,
-  `organizationName` varchar(255) NOT NULL,
-  PRIMARY KEY (`publishing_org`)
+CREATE TABLE `collections_app_api_collectionsrecordset` (
+  `recordset_id` varchar(235) NOT NULL,
+  `recordsetName` varchar(255) NOT NULL,
+  PRIMARY KEY (`recordset_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `collections_app_api_organization`
+-- Dumping data for table `collections_app_api_collectionsrecordset`
 --
 
-LOCK TABLES `collections_app_api_organization` WRITE;
-/*!40000 ALTER TABLE `collections_app_api_organization` DISABLE KEYS */;
-INSERT INTO `collections_app_api_organization` VALUES ('66522820-055c-11d8-b84e-b8a03c50a862','CAS','California Academy of Science');
-/*!40000 ALTER TABLE `collections_app_api_organization` ENABLE KEYS */;
+LOCK TABLES `collections_app_api_collectionsrecordset` WRITE;
+/*!40000 ALTER TABLE `collections_app_api_collectionsrecordset` DISABLE KEYS */;
+INSERT INTO `collections_app_api_collectionsrecordset` VALUES ('4f29b6ab-20c0-4479-8795-4915bedcebd1','ORN'),('cece4fc2-1fec-4bb5-a335-7252548e3f0b','HERP');
+/*!40000 ALTER TABLE `collections_app_api_collectionsrecordset` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-19 14:34:35
+-- Dump completed on 2024-12-06 17:55:34

@@ -139,7 +139,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "collections_app_api.middleware.CustomMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
-    "collections_app_api.middleware_test.LogEndpointMiddleware",
+    # "collections_app_api.middleware_test.LogEndpointMiddleware",
 ]
 
 ROOT_URLCONF = "explorer-core.urls"
@@ -184,6 +184,7 @@ DATABASES = {
                  'HOST': os.getenv('DB_HOST'),
                  'PORT': os.getenv('DB_PORT'),
                 'OPTIONS': {
+                    'init_command': "SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED",
                     'connect_timeout': 10,
                 }
              },
@@ -276,6 +277,12 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
         },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'django.log'),
+            'formatter': 'verbose',
+        },
     },
     'root': {
         'handlers': ['console'],
@@ -283,14 +290,14 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
             'propagate': True,
         },
         'collections_app_api': {
             'handlers': ['console'],
             'level': 'DEBUG',
-            'propagate': True,
+            'propagate': False,
         },
     },
 }
@@ -316,12 +323,9 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 STATIC_URL = '/static/'
 # STATIC_ROOT = '/collections_app_api/static/'
-# STATICFILES_DIRS = [
-#             os.path.join(BASE_DIR, 'collections_app_api', 'static'),
-#     ]
+# STATICFILES_DIRS = [ BASE_DIR / 'collections_app_api' / 'static']
 
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 ###### The following line is configured to GCR nginx service
 
 # Default primary key field type

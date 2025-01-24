@@ -82,13 +82,9 @@ paths:
         name: recordset_code
         schema:
           type: string
+          example: /api/recordset/HERP/occurrences
         required: true
-      - in: body
-        name: recordset_code
-        schema:
-          type: string
-        description: For example, if you would like to see occurrences/species list
-          of Herpetology, you would use HERP.
+        description: API endpoint to display occurrences list of CAS Herpetology, for example
       tags:
       - recordset
       security:
@@ -101,6 +97,7 @@ paths:
   /api/recordset/{recordset_code}/species/:
     get:
       operationId: recordset_species_retrieve
+      description: Retrieve a list of species by Recordset Code
       parameters:
       - in: path
         name: recordset_code
@@ -118,7 +115,7 @@ paths:
           description: No response body
   /api/recordset/{recordset_code}/species/{speciesName_filter}:
     get:
-      operationId: recordset_species_retrieve_2
+      operationId: recordset_species_retrieve_filterName
       parameters:
       - in: path
         name: recordset_code

@@ -6,6 +6,8 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.contrib.auth.models import User
+from django.utils.timezone import now
 
 
 class AuthGroup(models.Model):
@@ -167,13 +169,16 @@ class CollectionsAppApiOccurrence(models.Model):
     publishing_org = models.CharField(max_length=235)
     recordsetName_id = models.CharField(db_column='recordsetName_id', max_length=235)  # Field name made lowercase.
     taxon_id = models.IntegerField()
+    model_url = models.TextField(blank=True, null=True)
+    #django_modified_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, editable=False)  # Tracks the admin user who made the modification
+    django_last_modified = models.DateTimeField(null=True, blank=True) # will automatically update and save if modified via admin panel (admin.py)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'collections_app_api_occurrence'
 
-    # def __str__(self):
-    #     return self.occurrence_id
+    def __str__(self):
+        return self.occurrence_id
     #
     # def save(self, *args, **kwargs):
     #     logger.info("Successfully saved changes to Occurrence table")
@@ -242,3 +247,4 @@ class DjangoSession(models.Model):
     class Meta:
         managed = False
         db_table = 'django_session'
+

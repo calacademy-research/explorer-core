@@ -43,14 +43,18 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      # change MYSQL_BIND_ADDRESS in .env when prod
+      MYSQL_BIND_ADDRESS: ${MYSQL_BIND_ADDRESS}
     #command: --host_cache_size=0
-    command: --bind-address=0.0.0.0  # Ensures MySQL listens on all interfaces
+    #command: --bind-address=0.0.0.0
     container_name: mysql_compose
     volumes:
       - mysql_data:/var/lib/mysql
+      # change my.cnf when prod
       - ./my.cnf:/etc/mysql/my.cnf
       #- /home/zhu/dumps/Dump20240827_new:/docker-entrypoint-initdb.d
-      - ./collections_app_api/sql_dump:/docker-entrypoint-initdb.d
+      - ./collections_app_api/sql/sql_dump:/docker-entrypoint-initdb.d
+      #- ./collections_app_api/sql/init/init.sql:/docker-entrypoint-initib.d/init.sql
     ports:
       - "3306:3306"
     networks:
@@ -72,13 +76,9 @@ services:
     env_file:
       - .env
     command: ["./entrypoint.sh"]
-#    command: >
-#      bash -c "
-#      /wait-for-it.sh db:3306 -- /.venv/bin/python manage.py makemigrations && /.venv/bin/python manage.py showmigrations && /.venv/bin/python manage.py migrate &&
-#      /.venv/bin/gunicorn explorer-core.wsgi:application --bind 0.0.0.0:8001 --timeout 30
-#      "
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "8001:8001"   #expose gunicorn port
     environment:

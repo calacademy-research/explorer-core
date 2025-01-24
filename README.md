@@ -20,16 +20,26 @@ There is a shell script _dc_start.sh_ to make building and starting more conveni
 ```bash
 ./dc_start.sh up
 ``` 
+This will build the project with project label _galapagateway_api_
 
-The same shell script can be used to stop and remove the Docker containers:
+The same shell script can be used to stop and remove the Docker containers, volumes, builder cache:
 ```bash
 ./dc_start.sh down
 ```
+
+...And to occassionally, fully prune Docker resources and builder cache/layers tied to this project:
+```bash
+./dc_start.sh clean
+```
+* _Should_ only prune resources related to this project only. ***DO*** double-check before cleaning.....
+
 API runs on _0.0.0.0_ after successful deployment.
 
 Visit _0.0.0.0/api/docs_ to view API document (_/collections_app_api/collections_schema.yaml_).
 
 Static files served through nginx on _0.0.0.0/static/_
+
+---
 
 # GCP Deployment
  
