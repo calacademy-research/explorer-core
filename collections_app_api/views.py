@@ -22,16 +22,13 @@ from collections_app_api.models import CollectionsAppApiSpecies as Species
 from collections_app_api.models import CollectionsAppApiOrganization as Org
 from .serializers import *
 
-import json
-import os
 import pandas as pd
-import math
 import urllib.parse
-from pygbif import species as species
-from pygbif import occurrences as occ
-from pygbif import registry
-import logging
-import re
+import logging, re, os, math, json
+from pygbif import species as gbif_spec
+from pygbif import occurrences as gbif_occ
+from pygbif import registry as gbif_reg
+
 
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 
@@ -416,37 +413,40 @@ def iDigBioFetch(request):
     return JsonResponse(json.dumps(galapa_list), safe=False)
 
 
-datasetKey_match = {
+datasetKey_GBIF = {
             'HERP': 'cece4fc2-1fec-4bb5-a335-7252548e3f0b',
             'ORN': '4f29b6ab-20c0-4479-8795-4915bedcebd1',
             'BOT': 'f934f8e2-32ca-46a7-b2f8-b032a4740454',
+            'SUR': 'cece4fc2-1fec-4bb5-a335-7252548e3f0b',
         }
 
 organizationKey_GBIF = {
     "CAS": "66522820-055c-11d8-b84e-b8a03c50a862",
 }
 
-GBIF_CAS_datasets = []
 
-class pygbifTester(APIView):
-    def get(selfself, request, *args, **kwargs):
+class pygbifLookup(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, *args, **kwargs):
 
-        GBIF_CAS_datasets = registry.dataset_suggest(publishingOrg='66522820-055c-11d8-b84e-b8a03c50a862')
+        # search through records published by California Academy of Sciences's only
+        GBIF_CAS_datasets = gbif_reg.dataset_suggest(publishingOrg='66522820-055c-11d8-b84e-b8a03c50a862')
         splist = ["Chelonoidis vandenburghi (Desola, 1930)", "Amblyrhynchus cristatus jeffreysi Miralles & Macleod"]
         taxonKeys = [species.name_backbone(x)['usageKey'] for x in splist]
-        print(taxonKeys)
-        out = [occ.search(taxonKey=x, limit=0)['count'] for x in taxonKeys]
-        print(out)
+        logger.info(taxonKeys)
+        out = [gbif_occ.search(taxonKey=x, limit=0)['count'] for x in taxonKeys]
+        logger.info(out)
         x = dict(zip(splist, out))
         sorted(x.items(), key=lambda z: z[1], reverse=True)
-        print(len(GBIF_CAS_datasets))
+        logger.info(len(GBIF_CAS_datasets))
         #return JsonResponse(x, safe=False)
         return Response(GBIF_CAS_datasets)
+
 
 class GBIFrecordsetSpeciesList(APIView):
     def get(self, request, species_name, *args, **kwargs):
         # print(species_name)
-        speciesinfo = species.name_backbone(species_name)
+        speciesinfo = gbif_spec.name_backbone(species_name)
 
         # print(speciesinfo)
         ## usageKey == taxonKey
@@ -486,7 +486,7 @@ class GBIFrecordsetGroupList(APIView):
 
         URL = 'http://api.gbif.org/v1/occurrence/search/?'
         paramsGroup = {
-            'dataset_key': datasetKey_match[datasetID.upper()],
+            'dataset_key': datasetKey_GBIF[datasetID.upper()],
         }
         response = requests.get(URL, params=paramsGroup)
         if response.status_code == 200:
@@ -495,22 +495,31 @@ class GBIFrecordsetGroupList(APIView):
             return Response(response.json(), status=response.status_code)
 
 class GBIFrecordsetOccurrence(APIView):
-    def get(self, request, datasetID, filter, *args, **kwargs):
+    permission_classes = [AllowAny]
+    def get(self, request, filter, *args, **kwargs):
 
-        print("GBIFrecordsetOccurrence search filter: ", filter)
-
-        if filter.isdigit():
-            taxonID = filter
-            result = occ.search(datasetKey=datasetID, taxonKey=taxonID)
-        elif filter[:4].isalpha():
-            speciesName = filter
-            result = occ.search(datasetKey=datasetID, scientificName=speciesName)
+        logger.info(f'GBIFrecordsetOccurrence search filter: {filter}')
+        # if filter.isdigit():
+        #     taxonID = filter
+        #     # result = occ.search(datasetKey=datasetID, taxonKey=taxonID)
+        #     logger.info(f'[[Searching GBIF records with taxon ID....]]')
+        #     result = gbif_occ.search(publishingOrgKey=organizationKey_GBIF['CAS'], taxonKey=taxonID)
+        if filter[:1].isalpha():
+            logger.info('[[Searching GBIF records with occurrence ID....]]')
+            if 'urn:catalog:' in filter:
+                occurrenceID = filter
+                # logger.info(f'Complete occurrenceID detected as filter')
+            else:
+                occurrenceID = format_occurrenceID(filter)
+                logger.info(f'Formatted occurrenceID: {occurrenceID}')
+            # result = occ.search(datasetKey=datasetID, occurrenceID=occurrenceID)
             #result = occ.search(scientificName=speciesName)
+            result_gbifocc = gbif_occ.search(publishingOrgKey=organizationKey_GBIF['CAS'], occurrenceID=occurrenceID)
         #result = occ.search()
         #return Response(":-)")
         else:
-            result = "No results from occurrence search. Retry with either taxonKey or species' scientific name."
-        return Response(result)
+            result_gbifocc = "No results from GBIF occurrence search. Retry with occurrence ID in full format (i.e. urn:catalog:CAS:HERP:1234) or shorthand (i.e. HERP1234)."
+        return Response(result_gbifocc)
 
 #
 # class LoginView(APIView):

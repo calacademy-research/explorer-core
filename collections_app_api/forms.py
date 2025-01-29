@@ -40,23 +40,58 @@ class CleanOccurrenceForm(forms.ModelForm):
                     logger.warning(f"Skipping validation for field {field_name} with non-string value or Nonetype: {type(field_value)}")
             except ValidationError as e:
                 self.add_error(field_name, e)
-        logger.info("Finished cleaning data for Edit:")
+        logger.info("Finished cleaning data for Edit Occurrence")
         logger.info(cleaned_edits)
         return cleaned_edits
 
     def clean_json(self, data_to_clean):
-        occurrence_json = data_to_clean.get('occurrence_json', "")
+        logger.info("within forms.py clean_json()")
+        logger.info(data_to_clean)
+        logger.info(type(data_to_clean))
+        cleaned_json = {}
+        # matching occurrence json into occurrence model db object fields/values
         try:
-            data = json.loads(occurrence_json)
-
-            for field, value in data.items():
-                if field in self.fields:
-                    self.check_for_injections(value)
-                    self.fields[field].initial = value
+            data_parsed = json.loads(data_to_clean['occurrence_json_input'])
+            logger.info(type(data_parsed))
+            logger.info(data_parsed)
+            model_fields = [field.name for field in CollectionsAppApiOccurrence._meta.get_fields() if not field.is_relation]
+            logger.info(type(model_fields))
+            logger.info(model_fields)
+            for field, value in data_parsed.items():
+                logger.info(f"data_parsed field: {field}")
+                logger.info(f"data_parsed value: {value}")
+                if field in model_fields:
+                    # self.check_for_injections(value)
+                    # self.fields[field].initial = value
+                    cleaned_json[field] = self.check_for_injections(value)
                 else:
-                    logger.warning(f"Field '{field}' is not part of the form and will be skipped.")
+                    logger.warning(f"Field '{field}' is not part of the Occurrence model and will be skipped.")
         except json.JSONDecodeError:
             raise forms.ValidationError("Invalid JSON format.")
+        logger.info("Finished cleaning data for Create Occurrence")
+        logger.info(cleaned_json.keys())
+        logger.info(cleaned_json['occurrence_id'])
+        return cleaned_json
+        # # occ_data = self.cleaned_data['occurrence_json_input']
+        # # logger.info(occ_data)
+        # # try:
+        # #     logger.info("parsing occurrence json")
+        # #     parsed_occ_json = json.loads(occ_data)
+        # # except json.JSONDecodeError:
+        # #     raise forms.ValidationError("Invalid JSON format. Please provide valid JSON.")
+        # # return parsed_occ_json
+        # occurrence_json = data_to_clean.get('occurrence_json_input', "")
+        # try:
+        #     data = json.loads(occurrence_json)
+        #
+        #     for field, value in data.items():
+        #         if field in self.fields:
+        #             self.check_for_injections(value)
+        #             self.fields[field].initial = value
+        #         else:
+        #             logger.warning(f"Field '{field}' is not part of the form and will be skipped.")
+        # except json.JSONDecodeError:
+        #     raise forms.ValidationError("Invalid JSON format.")
 
     def check_for_injections(self, value):
         if not isinstance(value, str):
@@ -114,27 +149,51 @@ class CleanOccurrenceForm(forms.ModelForm):
 
 
 class CreateOccurrenceForm(CleanOccurrenceForm):
-    occurrence_json = forms.CharField(required=True,
+    occurrence_json_input = forms.CharField(required=True,
                                       widget=forms.Textarea,
                                       help_text="Provide GBIF Occurrence JSON to populate fields.")
     class Meta:
         model = CollectionsAppApiOccurrence
         #fields = ['key', 'collection_code', 'scientific_name', 'description', 'model_url']
-        fields = ['occurrence_json', 'collection_code', 'scientific_name']
+        fields = ['occurrence_json_input', 'scientific_name', 'occurrence_id']
         # widgets = {
         #     'occurrence_json': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
         # }
+
+    # def clean_json(self):
+    #     logger.info("within forms.py clean_json()")
+    #     data = self.cleaned_data['occurrence_json_input']
+    #     logger.info(data)
+    #     # occ_data = self.cleaned_data['occurrence_json_input']
+    #     # logger.info(occ_data)
+    #     # try:
+    #     #     logger.info("parsing occurrence json")
+    #     #     parsed_occ_json = json.loads(occ_data)
+    #     # except json.JSONDecodeError:
+    #     #     raise forms.ValidationError("Invalid JSON format. Please provide valid JSON.")
+    #     # return parsed_occ_json
+    #     try:
+    #         data_parsed = json.loads(occurrence_json)
+    #         logger.info(data_parsed)
+    #         model_fields = [field.name for field in CollectionsAppApiOccurrence._meta.get_fields() if not field.is_relation]
+    #         logger.info(type(model_fields))
+    #         logger.info(model_fields)
+    #         for field, value in data_parsed.items():
+    #             if field in model_fields:
+    #                 self.check_for_injections(value)
+    #                 self.fields[field].initial = value
+    #             else:
+    #                 logger.warning(f"Field '{field}' is not part of the form and will be skipped.")
+    #     except json.JSONDecodeError:
+    #         raise forms.ValidationError("Invalid JSON format.")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # set the read-only fields
         #self.fields['key'].disabled = True
-        self.fields['collection_code'].disabled = True
         self.fields['scientific_name'].disabled = True
-    #     # If there's JSON data to parse
-    #     if 'occurrence_json' in kwargs:
-    #         occurrence_json = kwargs.pop('occurrence_json')
-    #         self.parse_json(occurrence_json)
+        self.fields['occurrence_id'].disabled = True
+
 
 class EditOccurrenceForm(CleanOccurrenceForm):
     class Meta:

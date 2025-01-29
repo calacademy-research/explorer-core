@@ -42,7 +42,7 @@ Static files served through nginx on _0.0.0.0/static/_
 
 ---
 
-# GCP Deployment
+# GCP Deployment *(WIP)*
  
 This api is hosted as Cloud Run container on Google Cloud Platform. The project is named `galapagateway`.
 After installing the gcloud cli and authenticating, you can build the docker image on remote:
@@ -60,6 +60,6 @@ Note the container region is `us-central1`. The public endpoint is https://api-s
 ----
 
 # Django Admin Panel / Occurrences Data Modification
-Pre-existing _Occurrences_ records of _collectionsdb_ can be changed/modified, or new occurrences can be added, through the Django admin panel, `0.0.0.0/admin`. 
+Pre-existing _Occurrences_ records of _collectionsdb_ can be changed/modified, or new occurrences can be created and added *(WIP)*, through the Django admin panel, `0.0.0.0/admin`. 
 
 Contact [@zhucchininoodles](https://github.com/zhucchininoodles) for API admin login credentials.

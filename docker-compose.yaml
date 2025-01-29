@@ -17,7 +17,7 @@ services:
   nginx:
     image: nginx:latest
     restart: unless-stopped
-    container_name: nginx_compose
+    container_name: galapagateway_nginx
     ports:
       - "80:80"   #expose nginx HTTP port
       #- "443:443" #HTTPS port
@@ -47,7 +47,7 @@ services:
       MYSQL_BIND_ADDRESS: ${MYSQL_BIND_ADDRESS}
     #command: --host_cache_size=0
     #command: --bind-address=0.0.0.0
-    container_name: mysql_compose
+    container_name: galapagateway_mysql
     volumes:
       - mysql_data:/var/lib/mysql
       # change my.cnf when prod
@@ -66,6 +66,7 @@ services:
 
   web:
     image: explorer-core
+    container_name: galapagateway_web
     build:
       context: .
       dockerfile: Dockerfile_nongcr

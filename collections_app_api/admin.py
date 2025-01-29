@@ -45,7 +45,7 @@ class OccurrenceAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         logger.info("Called admin save_model()")
         # logger.info(form.is_valid())
-
+        logger.info(form)
         if form.is_valid() and (self.form == EditOccurrenceForm):
         #if kwargs['form'].is_valid() and (kwargs['form'] == EditOccurrenceForm):
             # logger.info(f"save_model(): Saving Occurrence edits with Admin Panel changes for: {obj.occurrence_id}")
@@ -68,9 +68,13 @@ class OccurrenceAdmin(admin.ModelAdmin):
                 # logger.info(f"obj.model_url INPUT: {obj.model_url}")
                 super().save_model(request, obj, form, change)
             #obj.save()
+
         elif form.is_valid() and (self.form == CreateOccurrenceForm):
         #elif kwargs['form'].is_valid() and (kwargs['form'] == CreateOccurrenceForm):
             logger.info(f"save_model(): Saving new Occurrence with Admin Panel changes for: {form.cleaned_data.get('occurrence_id')}")
+            parsed_json = form.cleaned_data.get('occurrence_json_input')
+            if parsed_json:
+                logger.info(parsed_json)
             # obj.django_modified_by = request.user
             obj.django_last_modified = datetime.datetime.now()
             occurrence_input = form.cleaned_data.get('occurrence_id')
@@ -86,6 +90,9 @@ class OccurrenceAdmin(admin.ModelAdmin):
     def add_view(self, request, form_url='', extra_context=None):
         if request.method == 'POST':  # Only modify behavior for POST requests (form submission)
             form = self.get_form(request)(request.POST, request.FILES)
+            logger.info(form)
+            logger.info("admin.py, form.is_valid():")
+            logger.info(form.is_valid())
             if form.is_valid():
                 try:
                     # Custom logic to check the form data before saving, including JSON parsing and injection checks

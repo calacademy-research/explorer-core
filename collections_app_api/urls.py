@@ -3,7 +3,7 @@ from django.conf import settings
 from . import views
 from rest_framework.routers import DefaultRouter, SimpleRouter
 from .views import CASrecordsetList, CASoccurrencesList, CASrecordsetGroupList, CASrecordsetSpeciesList, \
-    CASrecordsetSpeciesDetail
+    CASrecordsetSpeciesDetail, GBIFrecordsetOccurrence
 #from .views import OccurrenceViewSet
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 
@@ -40,6 +40,10 @@ urlpatterns = [
     path('occurrences/<str:occurrence_id>/details', CASoccurrencesList.as_view(), name='occurrences-detail'),
     ##path('api/recordset/<str:recordsetID>/occurrence/<str:filter>/', CASrecordsetOccurrence.as_view(), name='recordset-occurrence'),
     ##path('api/recordset/<str:recordsetID>/occurrence/<str:filter>/media/', CASrecordsetOccurrenceMedia.as_view(), name='recordset-occurrence-media'),
+
+    # path('gbif/', pygbifLookup.as_view(), name='gbif-lookup'),
+    path('gbif/<str:filter>/', GBIFrecordsetOccurrence.as_view(), name='gbif-occurrence-lookup'),
+
 
     #path('api/', include(collectionobj_router.urls))
 ]
