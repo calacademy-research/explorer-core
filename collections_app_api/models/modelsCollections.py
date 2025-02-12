@@ -9,6 +9,16 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.timezone import now
 
+#
+# def generate_model_url_default(instance):
+#     # generate default model_url of Occurrence obj
+#     match = re.search(r"CAS:([A-Z]+:[0-9]+)", instance.occurrence_id)
+#     if match:
+#         parsed_id = match.group(1).replace(":", "")
+#         # logger.info(f"parsed_id: {parsed_id}")
+#         model_url_default = f"{request.get_host()}/static/{parsed_id}"
+#         logger.info(model_url_default)
+#     return f"{model_url_default}"
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -113,6 +123,7 @@ class CollectionsAppApiGalapagateway(models.Model):
 
 class CollectionsAppApiOccurrence(models.Model):
     key = models.BigIntegerField(primary_key=True)
+    # maybe look into changing this to ForeignKey with OccurrenceGBIF occurrenceID
     occurrence_id = models.CharField(max_length=255)
     publishing_country = models.CharField(max_length=2)
     protocol = models.CharField(max_length=50)
@@ -170,6 +181,7 @@ class CollectionsAppApiOccurrence(models.Model):
     recordsetName_id = models.CharField(db_column='recordsetName_id', max_length=235)  # Field name made lowercase.
     taxon_id = models.IntegerField()
     model_url = models.TextField(blank=True, null=True)
+    # model_url = models.TextField(default=generate_model_url_default)
     #django_modified_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, editable=False)  # Tracks the admin user who made the modification
     django_last_modified = models.DateTimeField(null=True, blank=True) # will automatically update and save if modified via admin panel (admin.py)
 
@@ -184,6 +196,157 @@ class CollectionsAppApiOccurrence(models.Model):
     #     logger.info("Successfully saved changes to Occurrence table")
     #     super().save(*args, **kwargs)
 
+class OccurrenceGBIF(models.Model):
+    raw_json = models.JSONField() # raw GBIF json of occurrence
+    # key = models.BigIntegerField(unique=True)
+    # occurrenceID = models.CharField(max_length=255, null=True, blank=True)
+    # publishingCountry = models.CharField(max_length=10, null=True, blank=True)
+    # protocol = models.CharField(max_length=50, null=True, blank=True)
+    # lastCrawled = models.DateTimeField(null=True, blank=True)
+    # lastParsed = models.DateTimeField(null=True, blank=True)
+    # crawlId = models.IntegerField(null=True, blank=True)
+    # basisOfRecord = models.CharField(max_length=100, null=True, blank=True)
+    # occurrenceStatus = models.CharField(max_length=50, null=True, blank=True)
+    # scientificName = models.CharField(max_length=255, null=True, blank=True)
+    # decimalLatitude = models.FloatField(null=True, blank=True)
+    # decimalLongitude = models.FloatField(null=True, blank=True)
+    # continent = models.CharField(max_length=100, null=True, blank=True)
+    # stateProvince = models.CharField(max_length=100, null=True, blank=True)
+    # waterBody = models.CharField(max_length=255, null=True, blank=True)
+    # higherGeography = models.CharField(max_length=255, null=True, blank=True)
+    # year = models.IntegerField(null=True, blank=True)
+    # month = models.IntegerField(null=True, blank=True)
+    # day = models.IntegerField(null=True, blank=True)
+    # eventDate = models.DateField(null=True, blank=True)
+    # startDayOfYear = models.IntegerField(null=True, blank=True)
+    # endDayOfYear = models.IntegerField(null=True, blank=True)
+    # issues = models.TextField(null=True, blank=True)
+    # modified = models.DateTimeField(null=True, blank=True)
+    # lastInterpreted = models.DateTimeField(null=True, blank=True)
+    # license = models.URLField(null=True, blank=True)
+    # isSequenced = models.BooleanField(null=True, blank=True)
+    # identifiers = models.JSONField(null=True, blank=True)
+    # # media = models.JSONField(null=True, blank=True)
+    # relations = models.JSONField(null=True, blank=True)
+    # institutionKey = models.CharField(max_length=36, null=True, blank=True)
+    # collectionKey = models.CharField(max_length=36, null=True, blank=True)
+    # isInCluster = models.BooleanField(null=True, blank=True)
+    # recordedBy = models.CharField(max_length=255, null=True, blank=True)
+    # preparations = models.TextField(null=True, blank=True)
+    # geodeticDatum = models.CharField(max_length=50, null=True, blank=True)
+    # verbatimEventDate = models.CharField(max_length=255, null=True, blank=True)
+    # islandGroup = models.CharField(max_length=255, null=True, blank=True)
+    # island = models.CharField(max_length=255, null=True, blank=True)
+    # verbatimLocality = models.CharField(max_length=255, null=True, blank=True)
+    # collectionCode = models.CharField(max_length=255, null=True, blank=True)
+    # higherClassification = models.TextField(null=True, blank=True)
+    # georeferenceSources = models.TextField(null=True, blank=True)
+    # publishingOrgKey = models.CharField(max_length=36, null=True, blank=True)
+    # datasetKey = models.CharField(max_length=36, null=True, blank=True)
+    # taxonKey = models.IntegerField(null=True, blank=True)
+    key = models.BigIntegerField(primary_key=True)
+    datasetKey = models.CharField(max_length=36, null=True, blank=True)
+    publishingOrgKey = models.CharField(max_length=36, null=True, blank=True)
+    networkKeys = models.JSONField(blank=True, null=True)  # Using JSONField for list of keys
+    installationKey = models.CharField(max_length=36, null=True, blank=True)
+    hostingOrganizationKey = models.CharField(max_length=36, null=True, blank=True)
+    publishingCountry = models.CharField(max_length=2, null=True, blank=True)
+    protocol = models.CharField(max_length=10, null=True, blank=True)
+    lastCrawled = models.DateTimeField(null=True, blank=True)
+    lastParsed = models.DateTimeField(null=True, blank=True)
+    crawlId = models.IntegerField(null=True, blank=True)
+
+    extensions = models.JSONField(blank=True, null=True)  # Store extensions as JSON
+    basisOfRecord = models.CharField(max_length=50, null=True, blank=True)
+    occurrenceStatus = models.CharField(max_length=20, null=True, blank=True)
+    taxonKey = models.IntegerField(null=True, blank=True)
+    kingdomKey = models.IntegerField(null=True, blank=True)
+    phylumKey = models.IntegerField(null=True, blank=True)
+    classKey = models.IntegerField(null=True, blank=True)
+    familyKey = models.IntegerField(null=True, blank=True)
+    genusKey = models.IntegerField(null=True, blank=True)
+    speciesKey = models.IntegerField(null=True, blank=True)
+    acceptedTaxonKey = models.IntegerField(null=True, blank=True)
+    scientificName = models.CharField(max_length=255, null=True, blank=True)
+    acceptedScientificName = models.CharField(max_length=255, null=True, blank=True)
+    kingdom = models.CharField(max_length=255, null=True, blank=True)
+    phylum = models.CharField(max_length=255, null=True, blank=True)
+    family = models.CharField(max_length=255, null=True, blank=True)
+    genus = models.CharField(max_length=255, null=True, blank=True)
+    species = models.CharField(max_length=255, null=True, blank=True)
+    genericName = models.CharField(max_length=255, null=True, blank=True)
+    specificEpithet = models.CharField(max_length=255, null=True, blank=True)
+    taxonRank = models.CharField(max_length=50, null=True, blank=True)
+    taxonomicStatus = models.CharField(max_length=50, null=True, blank=True)
+    iucnRedListCategory = models.CharField(max_length=50, null=True, blank=True)
+    decimalLatitude = models.FloatField(null=True, blank=True)
+    decimalLongitude = models.FloatField(null=True, blank=True)
+    continent = models.CharField(max_length=50, null=True, blank=True)
+    stateProvince = models.CharField(max_length=255, null=True, blank=True)
+
+    gadm = models.JSONField(blank=True, null=True)  # Store nested structure in JSON
+    waterBody = models.CharField(max_length=255, null=True, blank=True)
+    higherGeography = models.CharField(max_length=255, null=True, blank=True)
+    year = models.IntegerField(null=True, blank=True)
+    month = models.IntegerField(null=True, blank=True)
+    day = models.IntegerField(null=True, blank=True)
+    eventDate = models.DateField(null=True, blank=True)
+    startDayOfYear = models.IntegerField(null=True, blank=True)
+    endDayOfYear = models.IntegerField(null=True, blank=True)
+    issues = models.JSONField(blank=True, null=True)  # List of issues
+    modified = models.DateTimeField(null=True, blank=True)
+    lastInterpreted = models.DateTimeField(null=True, blank=True)
+    license = models.URLField(null=True, blank=True)
+    isSequenced = models.BooleanField(default=False)
+    identifiers = models.JSONField(blank=True, null=True)  # Store list of identifiers
+    media = models.JSONField(blank=True, null=True)  # Store list of media objects
+    facts = models.JSONField(blank=True, null=True)  # Store list of facts
+    relations = models.JSONField(blank=True, null=True)  # Store relations in JSON
+    institutionKey = models.CharField(max_length=255, null=True, blank=True)
+    collectionKey = models.CharField(max_length=255, null=True, blank=True)
+    isInCluster = models.BooleanField(default=False)
+    recordedBy = models.CharField(max_length=255, null=True, blank=True)
+    preparations = models.CharField(max_length=255, null=True, blank=True)
+    geodeticDatum = models.CharField(max_length=50, null=True, blank=True)
+    classField = models.CharField(max_length=255, null=True, blank=True)  # renamed 'class' to 'classField'
+    countryCode = models.CharField(max_length=2, null=True, blank=True)
+    recordedByIDs = models.JSONField(blank=True, null=True)
+    identifiedByIDs = models.JSONField(blank=True, null=True)
+    country = models.CharField(max_length=255, null=True, blank=True)
+    gbifRegion = models.CharField(max_length=255, null=True, blank=True)
+    publishedByGbifRegion = models.CharField(max_length=255, null=True, blank=True)
+    identifier = models.CharField(max_length=255, null=True, blank=True)
+    institutionID = models.URLField(null=True, blank=True)
+    verbatimEventDate = models.CharField(max_length=255, null=True, blank=True)
+    island = models.CharField(max_length=255, null=True, blank=True)
+    islandGroup = models.CharField(max_length=255, null=True, blank=True)
+    verbatimLocality = models.CharField(max_length=255, null=True, blank=True)
+    collectionCode = models.CharField(max_length=255, null=True, blank=True)
+    gbifID = models.CharField(max_length=255, null=True, blank=True)
+    occurrenceID = models.CharField(max_length=255, null=True, blank=True)
+    catalogNumber = models.CharField(max_length=255, null=True, blank=True)
+    institutionCode = models.CharField(max_length=255, null=True, blank=True)
+    collectionID = models.URLField(null=True, blank=True)
+    higherClassification = models.CharField(max_length=255, null=True, blank=True)
+    georeferenceSources = models.CharField(max_length=255, null=True, blank=True)
+
+    sex = models.CharField(max_length=50, blank=True, null=True)
+    lifeStage = models.CharField(max_length=50, blank=True, null=True)
+    elevation = models.FloatField(blank=True, null=True)
+    typeStatus = models.CharField(max_length=255, blank=True, null=True)
+    identifiedBy = models.CharField(max_length=255, blank=True, null=True)
+    recordNumber = models.CharField(max_length=255, blank=True, null=True)
+    locality = models.TextField(blank=True, null=True)
+    occurrenceRemarks = models.TextField(blank=True, null=True)
+    verbatimElevation = models.CharField(max_length=255, blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)  # Timestamp
+
+    def __str__(self):
+        return f"OccurrenceGBIF - {self.key}"
+
+    class Meta:
+        db_table = 'occurrence_gbif'
 
 class CollectionsAppApiOrganization(models.Model):
     publishing_org = models.CharField(primary_key=True, max_length=235)

@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.40, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.41, for Linux (x86_64)
 --
 -- Host: 0.0.0.0    Database: collectionsdb
 -- ------------------------------------------------------
--- Server version	8.0.40
+-- Server version	8.0.41
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -45,7 +45,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$600000$x29yZOGydYKOIDGL367jfO$tljJHF5JfiJUE2H2M3kjbpY2AguxB2nUxMSIceKIX0w=',NULL,1,'superexplorer','','','jzhu@calacademy.org',1,1,'2024-08-20 21:31:10.403056'),(2,'pbkdf2_sha256$600000$1gSRsVUIv6LeapLYbYIGFz$+JrQKya0TmuyWWwyMzj/j2RwuGexZ/JsKiebPBekZVI=','2024-12-06 21:38:03.969462',1,'supercollector','','','jzhu@calacademy.org',1,1,'2024-08-20 21:39:02.078031');
+INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$600000$x29yZOGydYKOIDGL367jfO$tljJHF5JfiJUE2H2M3kjbpY2AguxB2nUxMSIceKIX0w=',NULL,1,'superexplorer','','','jzhu@calacademy.org',1,1,'2024-08-20 21:31:10.403056'),(2,'pbkdf2_sha256$600000$1gSRsVUIv6LeapLYbYIGFz$+JrQKya0TmuyWWwyMzj/j2RwuGexZ/JsKiebPBekZVI=','2025-01-30 23:15:06.187397',1,'supercollector','','','jzhu@calacademy.org',1,1,'2024-08-20 21:39:02.078031');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -58,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-06 17:55:33
+-- Dump completed on 2025-02-12 14:02:42

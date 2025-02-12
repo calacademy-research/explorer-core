@@ -519,7 +519,7 @@ class GBIFrecordsetOccurrence(APIView):
         #return Response(":-)")
         else:
             result_gbifocc = "No results from GBIF occurrence search. Retry with occurrence ID in full format (i.e. urn:catalog:CAS:HERP:1234) or shorthand (i.e. HERP1234)."
-        return Response(result_gbifocc)
+        return Response(result_gbifocc['results'][0])
 
 #
 # class LoginView(APIView):

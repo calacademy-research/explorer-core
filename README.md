@@ -60,6 +60,6 @@ Note the container region is `us-central1`. The public endpoint is https://api-s
 ----
 
 # Django Admin Panel / Occurrences Data Modification
-Pre-existing _Occurrences_ records of _collectionsdb_ can be changed/modified, or new occurrences can be created and added *(WIP)*, through the Django admin panel, `0.0.0.0/admin`. 
+Pre-existing _Occurrences_ records of _collectionsdb_ can be changed/modified, or new occurrences can be created and added from JSON derived from GBIF (/api/gbif/{_collectionCode_}{_catalogNumber_}, e.g. /api/gbif/HERP8141), through the Django admin panel, `0.0.0.0/admin`. 
 
 Contact [@zhucchininoodles](https://github.com/zhucchininoodles) for API admin login credentials.

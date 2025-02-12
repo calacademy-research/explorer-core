@@ -22,3 +22,6 @@ api_db_create/
 !collections_app_api/static/casxlogo.png
 env_gcr.yaml
 cloudbuild.yaml
+requirements_og.txt
+collections_app_api/migrations/*
+!collections_app_api/migrations/__init__.py

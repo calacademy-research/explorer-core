@@ -38,8 +38,10 @@ elif [ "$1" == "prune" ]; then
   docker compose -p $PROJECT_NAME down
   docker container prune --filter "label=com.docker.compose.project=$PROJECT_NAME" -f
   docker volume prune --filter "label=com.docker.compose.project=$PROJECT_NAME" -f
+#  docker volume prune --filter "label=project=$PROJECT_NAME" -f
   docker image prune --filter "label=com.docker.compose.project=$PROJECT_NAME" -f
-  docker builder prune --filter "label=project=$PROJECT_NAME" -f
+#  docker builder prune --filter "label=project=$PROJECT_NAME" -f
+  docker builder prune
   echo "Docker environment for $PROJECT_NAME cleaned. Ready for a fresh build."
   exit 0
 elif [ "$1" == "cleanup" ]; then
