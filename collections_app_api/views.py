@@ -29,8 +29,7 @@ from pygbif import species as gbif_spec
 from pygbif import occurrences as gbif_occ
 from pygbif import registry as gbif_reg
 
-
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
 
 logger = logging.getLogger(__name__)
 
@@ -56,6 +55,27 @@ class CASrecordsetList(APIView):
     # permission_classes = [IsAuthenticated]
     permission_classes = [AllowAny]
     serializer = RecordsetSerializer
+    @extend_schema(
+        description='Retrieve a list of recordsets available in Collection Explorer database',
+        request=RecordsetSerializer,
+        # parameters=[
+        #     OpenApiParameter(
+        #         name='occurrence_id',
+        #         description="Optional: Search by {Collection code}{Catalog number} of the species occurrence(s) to retrieve.",
+        #         location=OpenApiParameter.PATH,
+        #         # required=False,
+        #         type=str,
+        #         examples=[
+        #             OpenApiExample(
+        #                 name="urn:catalog:CAS:ORN:2920",
+        #                 description="List occurrence info related to urn:catalog:CAS:ORN:2920",
+        #                 value="ORN2920",
+        #             )
+        #         ]
+        #     ),
+        # ],
+        responses={200: "Retrieve recordset list"}
+    )
     # logger.info(permission_classes)
     # print(permission_classes)
     def get(self, request, *args, **kwargs):
@@ -72,28 +92,41 @@ class CASrecordsetList(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+### api/occurrences/
+# ### api/occurrences/HERP8141
 class CASoccurrencesList(APIView):
+    serializer_class = OccurrenceSerializer
     @extend_schema(
-        description='Retrieve a list of occurrences with optional filter by collection ID',
+        description='Retrieve a list of occurrences from the Collection Explorer database',
+        request=OccurrenceSerializer,
         parameters=[
             OpenApiParameter(
                 name='occurrence_id',
+                description="Optional: Search by {Collection code}{Catalog number} of the species occurrence(s) to retrieve.",
+                location=OpenApiParameter.PATH,
+                required=False,
                 type=str,
-                location='body',
-                description="ID ({Collection code}{Catalog number}) of the species occurrence(s) to retrieve, no space (i.e. ORN001)."
+                examples=[
+                    OpenApiExample(
+                        name="urn:catalog:CAS:ORN:2920",
+                        description="List occurrence info related to urn:catalog:CAS:ORN:2920",
+                        value="ORN2920",
+                    )
+                ]
             ),
-        ]
+        ],
+        responses={200: "Retrieve occurrences list"}
     )
 
     def get_permissions(self):
         if self.request.method == 'GET':
             # return [IsAuthenticated()]  # Allow authenticated users for GET requests
             return [AllowAny()]
-        elif self.request.method == 'POST':
-            return [IsAdminUser()]  # Only allow admins for POST requests
+        # elif self.request.method == 'POST':
+        #     return [IsAdminUser()]  # Only allow admins for POST requests
         return []
 
-    def get(self, request, occurrence_id=None):
+    def get(self, request, occurrence_id=None):#, *args, **kwargs):
         if occurrence_id:
             logger.info("raw: "+occurrence_id)
             logger.info(occurrence_id[0:15])
@@ -120,7 +153,7 @@ class CASoccurrencesList(APIView):
             serializer = OccurrenceSerializer(occurrences_list, many=True)
             # return Response(queryset, status=status.HTTP_200_OK)
             # return Response(serializer.data)
-            return Response({"message": "Occurrence retrieved successfully",
+            return Response({"message": "Occurrences retrieved successfully",
                                     "data": serializer.data},
                                     status = status.HTTP_200_OK)
         #
@@ -131,76 +164,105 @@ class CASoccurrencesList(APIView):
         # #return Response(queryset, status=status.HTTP_200_OK)
         # return Response(serializer.data)
 
-    def post(self, request):
-
-        if not request.user.is_staff: # extra check for admin priv
-            return Response({"detail": "Forbidden"}, status=HTTP_403_FORBIDDEN)
-
-        serializer = OccurrenceSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
-        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            return Response({"message": "New object created successfully",
-                             "data": serializer.data},
-                            status=status.HTTP_201_CREATED)
-        return Response({"message": "Validation failed",
-                         "errors": serializer.errors},
-                        status=status.HTTP_405_METHOD_NOT_ALLOWED)
-
-### api/recordset/Galapagateway/occurrences/HERP8141
-# class CASrecordsetOccurrence(generics.ListCreateAPIView):
-# class CASrecordsetOccurrence(APIView):
-#     def get(self, request, recordset_id, occurrence_id, *args, **kwargs):
+    # def post(self, request):
+    #
+    #     if not request.user.is_staff: # extra check for admin priv
+    #         return Response({"detail": "Forbidden"}, status=HTTP_403_FORBIDDEN)
+    #
+    #     serializer = OccurrenceSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #     #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #         return Response({"message": "New Occurrence object created successfully",
+    #                          "data": serializer.data},
+    #                         status=status.HTTP_201_CREATED)
+    #     return Response({"message": "Validation failed",
+    #                      "errors": serializer.errors},
+    #                     status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-### api/recordset/Galapagateway/occurrence/
-### api/recordset/Galapagateway/occurrence?taxon=
+### api/recordset/Galapagateway/occurrences/
+### api/recordset/Galapagateway/occurrences?taxon=
 #class CASrecordsetGroupList(generics.ListCreateAPIView):
 class CASrecordsetGroupList(APIView):
     permission_classes = [AllowAny]
-
+    serializer=OccurrenceSerializer
     @extend_schema(
-        description='Retrieve a list of occurrences by Recordset Code.',
+        description='Retrieve a list of a recordset\'s occurrences within the Collection Explorer database.',
         request=RecordsetSerializer,
         parameters=[
+            # path parameter for recordset_code
             OpenApiParameter(
                 name='recordset_code',
+                description="Search for occurrences by {recordset_code} (not case sensitive).",
                 type=str,
-                location='body',
-                description="For example, if you would like to see occurrences/species list of Herpetology, you would use HERP."
+                # location='body',
+                location=OpenApiParameter.PATH,
+                # examples=[
+                #
+                #     OpenApiExample(
+                #         name="/api/recordset/Herpetology/occurrences/",
+                #         description="Search for occurrences of Herpetology",
+                #         value="HERP"
+                #     ),
+                #     OpenApiExample(
+                #         name="/api/recordset/GalapaGateway/occurrences/",
+                #         description="Search for occurrences of GalapaGateway",
+                #         value="GG"
+                #     )
+                # ]
             ),
-        ]
+            # query parameter for ?taxon=
+            OpenApiParameter(
+                name="taxon",
+                description="Narrow down search results with Taxon ID",
+                required=False,
+                type=int,
+                location=OpenApiParameter.QUERY,
+                # examples=[
+                #     # {"value": "/api/recordset/HERP/occurrence?taxon=12345", "summary": "Search for occurrences of Herpetology with Taxon ID 12345"}
+                #     OpenApiExample(
+                #         # name="Herpetology occurrence of Taxon ID 12345",
+                #         name="/api/recordset/Herpetology/occurrences?taxon=10857641",
+                #         description="Search for Herpetology occurrences related to Taxon ID 10857641",
+                #         value="10857641"
+                #     ),
+                # ]
+            )
+        ],
+        responses={200: "Retrieve recordset occurrence details"}
     )
 
     def get(self, request, recordset_code, *args, **kwargs):
         if recordset_code.isalpha():
-            taxon_key = request.GET.get('taxon', '')
+            # taxon_key = request.GET.get('taxon', '')
+            taxon_key = next((request.GET[key] for key in request.GET if key.lower() == "taxon"), None)
+            if taxon_key:
+                logger.info(f"Taxon filter detected: {taxon_key}")
 
             if recordset_code.lower() in ["gg", "galapagateway"]:
-                if len(taxon_key) == 0:
-
-                    # recordset_group = GG.objects.values('occurrence_id', 'taxon_id')
-                    recordset_group = GG.objects.values()
+                if taxon_key:
+                    recordset_group = GG.objects.filter(taxon_id=taxon_key).values()
                     serialized_data = GalapagatewaySerializer(recordset_group, many=True)
+                    # recordset_group = GG.objects.values('occurrence_id', 'taxon_id')
+
                 else:
                     # recordset_group = GG.objects.filter(taxon_id=taxon_key).values('occurrence_id', 'taxon_id')
-                    recordset_group = GG.objects.filter(taxon_id=taxon_key).values()
-
+                    recordset_group = GG.objects.values()
                     serialized_data = GalapagatewaySerializer(recordset_group, many=True)
                 #print(recordset_group)
                 #return Response(recordset_group, status=status.HTTP_200_OK)
                 return Response(serialized_data.data, status=status.HTTP_200_OK)
             elif recordset_code.lower() in ["herp","orn"]:
-                if len(taxon_key) == 0:
-
+                if taxon_key:
                     # recordset_occurrences = Occurrence.objects.filter(collection_code=recordset_code).values('occurrence_id', 'taxon_id')
-                    recordset_occurrences = Occurrence.objects.filter(collection_code=recordset_code).values()
+                    recordset_occurrences = Occurrence.objects.filter(collection_code=recordset_code,
+                                                                      taxon_id=taxon_key).values()
                 else:
                     # recordset_occurrences = Occurrence.objects.filter(collection_code=recordset_code,
                     #                                             taxon_id=taxon_key).values('occurrence_id', 'taxon_id')
-                    recordset_occurrences = Occurrence.objects.filter(collection_code=recordset_code,
-                                                                      taxon_id=taxon_key).values()
+                    recordset_occurrences = Occurrence.objects.filter(collection_code=recordset_code).values()
                 serializer_occ = OccurrenceSerializer(recordset_occurrences, many=True)
                 return Response(serializer_occ.data, status=status.HTTP_200_OK)
                 #return Response(recordset_occurrences, status=status.HTTP_200_OK)
@@ -212,45 +274,85 @@ class CASrecordsetGroupList(APIView):
 
 class CASrecordsetSpeciesList(APIView):
     permission_classes = [AllowAny]
+    serializer = SpeciesSerializer
+    @extend_schema(
+        description='Retrieve a list of a recordset\'s occurrences within the Collection Explorer database.',
+        request=SpeciesSerializer,
+        parameters=[
+            # path parameter for recordset_code
+            OpenApiParameter(
+                name='recordset_code',
+                description="Search for species within Collection Explorer database by {recordset_code} (not case sensitive).",
+                type=str,
+                # location='body',
+                location=OpenApiParameter.PATH,
+                # examples=[
+                #     {"value": "HERP", "summary": "Search for species of Herpetology"},
+                #     {"value": "galapagateway", "summary": "Search for species of GalapaGateway"},
+                # ]
+                # examples = [
+                #     OpenApiExample(
+                #         name='/api/recordset/HERP/species/',
+                #         description='Search for species of Herpetology',
+                #         value='HERP',
+                #     ),
+                #     OpenApiExample
+                # ]
+            ),
+            # query parameter for ?name=
+            OpenApiParameter(
+                name="name",
+                description="Narrow down search results with species\' Scientific Name",
+                required=False,
+                type=str,
+                location=OpenApiParameter.QUERY,
+                # examples=[
+                #     {"value": "/api/recordset/HERP/species?name=Ambl",
+                #      "summary": "Search for species of Herpetology with scientific name containing \"Ambl\""}
+                # ]
+            )
+        ],
+        responses={200: "Retrieve recordset species details"}
+    )
+
     def get(self, request, recordset_code, *args, **kwargs):
 
         if recordset_code.isalpha():
-                if recordset_code.lower() in ["gg","galapagateway"]:
+            speciesName_filter = next((request.GET[key] for key in request.GET if key.lower() == "name"), None)
+
+            if recordset_code.lower() in ["gg","galapagateway"]:
+                if speciesName_filter:
+                    logger.info(f"Species scientific name filter detected: {speciesName_filter}")
+                    species_group = GG.objects.filter(scientific_name__icontains=speciesName_filter)
+                else:
                     species_group = GG.objects
 
-                    serialized_data = [
-                        {"occurrence_id": r.occurrence_id,
-                         "scientific_name": r.scientific_name,
-                         "taxon": r.taxon_id}
-                        for r in species_group]
-                    # serialized_data = SpeciesSerializer(species_group, many=True)
+                serialized_data = [
+                    {"occurrence_id": r.occurrence_id,
+                     "scientific_name": r.scientific_name,
+                     "taxon": r.taxon_id}
+                    for r in species_group]
+                # serialized_data = SpeciesSerializer(species_group, many=True)
 
-                    return Response(serialized_data, status=status.HTTP_200_OK)
-
-                elif recordset_code.lower() in ["herp", "orn"]:
-                    recordsets = Occurrence.objects.filter(collection_code=recordset_code)#.values()
-                    #recordset_occurrences = recordset_group.values('occurrence_id')
-                    # serializer_class = OccurrenceSerializer(recordset_group, many=True)
-                    # return Response(serializer_class.data, status=status.HTTP_200_OK)
-                    # Serialize the data if needed (assuming you have a serializer)
-
-                    # logger.info(recordsets)
-                    #
-                    # for every in recordsets:
-                    #     logger.info(every)
-
-                    serialized_data = [
-                        {"recordset_code": r.collection_code,
-                         "occurrence_id": r.occurrence_id,
-                         "scientific_name": r.scientific_name,
-                         "taxon": r.taxon_id}
-                        for r in recordsets]
-                    # serialized_data = recordsets
-
-                    return Response(serialized_data, status=status.HTTP_200_OK)
-
+                return Response(serialized_data, status=status.HTTP_200_OK)
+            elif recordset_code.lower() in ["herp", "orn"]:
+                if speciesName_filter:
+                    logger.info(f"Species scientific name filter detected: {speciesName_filter}")
+                    recordsets_species = Occurrence.objects.filter(collection_code=recordset_code,
+                                                                   scientific_name__icontains=speciesName_filter)
                 else:
-                    return Response(f"404: No occurrences in the {recordset_code} collection to display, for now.", status=status.HTTP_400_BAD_REQUEST)
+                    recordsets_species = Occurrence.objects.filter(collection_code=recordset_code)#.values()
+
+                serialized_data = [
+                    {"recordset_code": r.collection_code,
+                     "occurrence_id": r.occurrence_id,
+                     "scientific_name": r.scientific_name,
+                     "taxon": r.taxon_id}
+                    for r in recordsets_species]
+                # serialized_data = recordsets
+                return Response(serialized_data, status=status.HTTP_200_OK)
+            else:
+                return Response(f"404: No occurrences in the {recordset_code} collection to display, for now.", status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response("404: Invalid recordset ID filter", status=status.HTTP_400_BAD_REQUEST)
 
@@ -275,7 +377,8 @@ class CASrecordsetSpeciesDetail(APIView):
                     return Response(serialized_data, status=status.HTTP_200_OK)
 
                 elif recordset_code.lower() in ["herp","orn"]:
-                    recordsets = Occurrence.objects.filter(collection_code=recordset_code, scientific_name__icontains=speciesName_filter)#.values()
+                    recordsets = Occurrence.objects.filter(collection_code=recordset_code,
+                                                           scientific_name__icontains=speciesName_filter)#.values()
                     #recordset_occurrences = recordset_group.values('occurrence_id')
                     # serializer_class = OccurrenceSerializer(recordset_group, many=True)
                     # return Response(serializer_class.data, status=status.HTTP_200_OK)
@@ -494,8 +597,33 @@ class GBIFrecordsetGroupList(APIView):
         else:
             return Response(response.json(), status=response.status_code)
 
+
+#### /api/gbif/<filter>
 class GBIFrecordsetOccurrence(APIView):
     permission_classes = [AllowAny]
+    @extend_schema(
+        description='Retrieve GBIF JSON data for an occurrence to help import into Collections Explorer db.',
+        request=SpeciesSerializer,
+        parameters=[
+            # path parameter for filter (occurrenceID)
+            OpenApiParameter(
+                name='filter',
+                description="Get occurrence JSON from GBIF using occurrence ID for {filter} (not case sensitive).",
+                type=str,
+                required=True,
+                # location='body',
+                location=OpenApiParameter.PATH,
+                # examples=[
+                #     OpenApiExample(
+                #         name="/api/gbif/HERP8141",
+                #         value="HERP8141",
+                #         description="Get GBIF JSON for occurrence HERP8141 (i.e. CAS:HERP:8141)."
+                #     )
+                # ]
+            ),
+        ],
+        responses={200: "Retrieved GBIF JSON"}
+    )
     def get(self, request, filter, *args, **kwargs):
 
         logger.info(f'GBIFrecordsetOccurrence search filter: {filter}')

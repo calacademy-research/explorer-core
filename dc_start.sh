@@ -36,11 +36,15 @@ elif [ "$1" == "up" ]; then
 elif [ "$1" == "prune" ]; then
   echo "Pruning unused Docker resources for $PROJECT_NAME...."
   docker compose -p $PROJECT_NAME down
+  echo "Pruning containers...."
   docker container prune --filter "label=com.docker.compose.project=$PROJECT_NAME" -f
+  echo "Pruning volumes...."
   docker volume prune --filter "label=com.docker.compose.project=$PROJECT_NAME" -f
 #  docker volume prune --filter "label=project=$PROJECT_NAME" -f
+  echo "Pruning images...."
   docker image prune --filter "label=com.docker.compose.project=$PROJECT_NAME" -f
 #  docker builder prune --filter "label=project=$PROJECT_NAME" -f
+  echo "Pruning builder cache...."
   docker builder prune
   echo "Docker environment for $PROJECT_NAME cleaned. Ready for a fresh build."
   exit 0

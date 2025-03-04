@@ -35,9 +35,9 @@ urlpatterns = [
     path('recordset/', CASrecordsetList.as_view(), name='recordset-list'),
     path('recordset/<str:recordset_code>/occurrences/', CASrecordsetGroupList.as_view(), name='recordset-occurrences'),
     path('recordset/<str:recordset_code>/species/', CASrecordsetSpeciesList.as_view(), name="recordset-species"),
-    path('recordset/<str:recordset_code>/species/<str:speciesName_filter>', CASrecordsetSpeciesDetail.as_view(), name="species-detail"),
+    #path('recordset/<str:recordset_code>/species/<str:speciesName_filter>', CASrecordsetSpeciesDetail.as_view(), name="species-detail"),
     path('occurrences/', CASoccurrencesList.as_view(), name='occurrences-list'),
-    path('occurrences/<str:occurrence_id>/details', CASoccurrencesList.as_view(), name='occurrences-detail'),
+    # path('occurrences/<str:occurrence_id>/', CASoccurrencesList.as_view(), name='occurrences-detail'),
     ##path('api/recordset/<str:recordsetID>/occurrence/<str:filter>/', CASrecordsetOccurrence.as_view(), name='recordset-occurrence'),
     ##path('api/recordset/<str:recordsetID>/occurrence/<str:filter>/media/', CASrecordsetOccurrenceMedia.as_view(), name='recordset-occurrence-media'),
 
