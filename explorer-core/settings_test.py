@@ -188,43 +188,6 @@ DATABASES = {
                     'connect_timeout': 10,
                 }
              },
-            "db":  {
-                 'ENGINE': 'django.db.backends.mysql',
-                 'NAME': 'collectionsdb',
-                 'USER': 'django',
-                 'PASSWORD': 'django@CAS!000',
-                 'HOST': '0.0.0.1',
-                 'PORT': '3306',
-             },
-            "botany": {
-                "ENGINE": "django.db.backends.mysql",
-                "NAME": "botanydb",
-                "USER": "django-test",
-                "PASSWORD": "djangobot@CAS",
-                "HOST": "0.0.0.0",
-                "PORT": "3306"
-             },
-             # 'clusterdb': {
-             #     'ENGINE': 'django.db.backends.mysql',
-             #     'NAME': 'clusterdb',
-             #     'USER': 'zhu',
-             #     'PASSWORD': 'clustertester9000',
-             #     'HOST': '0.0.0.0',
-             #     'PORT': '3307',
-             # },
-             "casbotany": {
-                 "ENGINE": "django.db.backends.mysql",
-                 "NAME": "casbotany",
-                 "USER": "root",
-                 "PASSWORD": "clostridium",
-                 "HOST": "192.168.97.35",
-                 "PORT": "3306",
-                 'OPTIONS': {
-                    'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-                    'charset': 'utf8mb4',
-                    'collation': 'utf8mb4_unicode_ci',
-                    },
-             }
 }
 
 DATABASE_ROUTERS = ['collections_app_api.routers.CollectionsDatabaseRouter']

@@ -39,6 +39,7 @@ The same shell script can be used to stop and remove the Docker containers, volu
 Visit _0.0.0.0/api/docs_ to view API document (_/collections_app_api/collections_schema.yaml_).
 
 Static files served through nginx on _0.0.0.0/static/_
+Add scan files under /collections_app_api/static/ within a subfolder. e.g. If you want to add scan files of HERP8141, path would look like: /collections_app_api/static/HERP8141/scanfile1.GLB  
 
 ---
 
