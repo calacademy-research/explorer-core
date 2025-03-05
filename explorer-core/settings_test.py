@@ -21,9 +21,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 # load_dotenv(os.path.join(BASE_DIR, '.env_gcr'))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -277,7 +274,6 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = '/collections_app_api/static/'
 # STATICFILES_DIRS = [ BASE_DIR / 'collections_app_api' / 'static']
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
