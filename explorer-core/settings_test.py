@@ -166,14 +166,6 @@ TEMPLATES = [
 
 DATABASES = {
             # must have default database, will look into removing/setting up dummy default db
-            # "default": {
-            #      'ENGINE': 'django.db.backends.mysql',
-            #      'NAME': os.getenv('MYSQL_DATABASE', 'collectionsdb'),
-            #      'USER': os.getenv('MYSQL_USER', 'django'),
-            #      'PASSWORD': os.getenv('MYSQL_PASSWORD', 'django@CAS!000'),
-            #      'HOST': os.getenv('MYSQL_HOST','db'),
-            #      'PORT': os.getenv('MYSQL_PORT', '3306'),
-            #  },
             "default": dj_database_url.config(
                 default=os.environ.get('DATABASE_URL')),
             "collections": {
